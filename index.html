@@ -20,8 +20,8 @@
             background-size: cover; background-position: center; background-attachment: fixed;
         }
         
-        header { border-bottom: 8px solid #ff0000; padding: 30px 10px; text-align: center; background: rgba(0,0,0,0.95); }
-        .logo { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: #ff0000; letter-spacing: 2px; line-height: 0.8; text-shadow: 2px 2px 0px #fff; }
+        header { border-bottom: 8px solid #ff0000; padding: 20px 10px; text-align: center; background: rgba(0,0,0,0.95); }
+        .logo-img { max-height: 150px; width: auto; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); }
 
         .page { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .page.active { display: block; }
@@ -76,7 +76,9 @@
 </head>
 <body>
 
-    <header><div class="logo">OFICINA<br>DE SKATE</div></header>
+    <header>
+        <img src="https://i.ibb.co/C3mH0mN6/logofinal.png" alt="Oficina de Skate" class="logo-img">
+    </header>
 
     <div id="zoom-modal" onclick="this.style.display='none'">
         <span class="close-zoom">&times;</span>
@@ -276,7 +278,8 @@
             msg += `------------------------------\n\n`;
             carrinho.forEach(i => msg += `• ${i.nome} - R$ ${i.preco.toFixed(2)}\n`);
             msg += `\n------------------------------\n`;
-            msg += `*TOTAL: R$ ${document.getElementById('total-val').innerText}*`;
+            msg += `*TOTAL: R$ ${document.getElementById('total-val').innerText}*\n\n`;
+            msg += `🛒 LOJA: https://bit.ly/Oficinask8`;
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`, '_blank');
         }
         carregarProdutosDaNuvem();
