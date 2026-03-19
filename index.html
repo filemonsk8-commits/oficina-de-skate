@@ -28,8 +28,8 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .filters { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 900; border-bottom: 2px solid #333; scrollbar-width: none; }
-        .filter-btn { background: #111; color: #fff; border: 2px solid #fff; padding: 10px 15px; font-size: 0.6rem; flex-shrink: 0; cursor: pointer; font-family: 'Archivo Black'; }
-        .filter-btn.active { background: #ff0000; }
+        .filter-btn { background: #111; color: #fff; border: 2px solid #fff; padding: 10px 15px; font-size: 0.6rem; flex-shrink: 0; cursor: pointer; font-family: 'Archivo Black'; transition: 0.3s; }
+        .filter-btn.active { background: #fbff00; color: #000; border-color: #fbff00; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .card { border: 2px solid #fff; background: rgba(10,10,10,0.95); position: relative; display: flex; flex-direction: column; overflow: hidden; }
@@ -40,61 +40,33 @@
         .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; margin-top: 8px; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
         .btn-remove-vitrine { width: 100%; background: #333; color: #fff; border: 1px solid #ff0000; padding: 12px; margin-top: 8px; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
         
-        /* MODAL DE ZOOM - CSS NOVO */
-        #zoom-modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.95); 
-            z-index: 3000; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-            touch-action: none; /* Melhora a experiência em mobile */
-        }
-        #zoom-img { 
-            max-width: 95vw; 
-            max-height: 85vh; 
-            border: 3px solid #fff; 
-            box-shadow: 0 0 30px rgba(255,0,0,0.5); 
-            transition: transform 0.2s; /* Suavidade no zoom */
-        }
-        .close-zoom { 
-            position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            font-size: 3rem; 
-            color: #fff; 
-            cursor: pointer; 
-            font-family: 'Archivo Black'; 
-            z-index: 3001; /* Garante que fique por cima */
-        }
+        #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 4000; justify-content: center; align-items: center; padding: 10px; }
+        #zoom-img { max-width: 100%; max-height: 90vh; border: 2px solid #fff; }
+        .close-zoom { position: absolute; top: 20px; right: 20px; font-size: 3rem; color: #fff; cursor: pointer; }
 
-        /* OUTROS ESTILOS (MANTIDOS) */
-        .admin-tabs { display: flex; gap: 5px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { background: #222; color: #fff; border: 1px solid #555; padding: 12px; font-size: 0.55rem; cursor: pointer; flex-shrink: 0; font-family: 'Archivo Black'; }
-        .tab-btn.active { background: #ff0000; border-color: #fff; }
-        .admin-box { background: rgba(17,17,17,0.98); border: 3px solid #ff0000; padding: 20px; margin-bottom: 30px; }
-        input { width: 100%; background: #000; border: 2px solid #fff; color: #fff; padding: 12px; margin-bottom: 10px; font-family: 'Archivo Black'; }
-        .btn-save { width: 100%; background: #ff0000; color: #000; border: none; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Archivo Black'; }
+        .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid #333; }
+        .tab-btn { background: #222; color: #fff; border: 1px solid #555; padding: 15px; font-size: 0.6rem; cursor: pointer; flex-shrink: 0; font-family: 'Archivo Black'; transition: 0.3s; }
+        .tab-btn.active { background: #fbff00; color: #000; border-color: #fff; transform: scale(1.05); }
         
-        .admin-item { display: flex; align-items: center; background: #111; border: 1px solid #333; margin-bottom: 8px; padding: 5px; position: relative; height: 60px; }
-        .admin-item img { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border: 1px solid #555; }
+        .admin-box { background: rgba(17,17,17,0.98); border: 3px solid #ff0000; padding: 20px; margin-bottom: 30px; }
+        .admin-box h3 { color: #fbff00; margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 1px; }
+        
+        input { width: 100%; background: #000; border: 2px solid #fff; color: #fff; padding: 12px; margin-bottom: 10px; font-family: 'Archivo Black'; }
+        .btn-save { width: 100%; background: #ff0000; color: #fff; border: none; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Archivo Black'; }
+        
+        .admin-item { display: flex; align-items: center; background: #111; border: 1px solid #333; margin-bottom: 8px; padding: 5px; position: relative; height: 65px; }
+        .admin-item img { width: 55px; height: 55px; object-fit: cover; margin-right: 10px; border: 1px solid #555; }
         .admin-item-info { flex-grow: 1; font-size: 0.6rem; color: #fff; }
-        .btn-del-admin { background: #ff0000; color: #fff; border: none; width: 60px; height: 100%; position: absolute; right: 0; top: 0; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.6rem; }
+        .btn-del-admin { background: #ff0000; color: #fff; border: none; width: 65px; height: 100%; position: absolute; right: 0; top: 0; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.6rem; }
 
         #cart-sidebar { 
             position: fixed; top: 0; right: -100%; width: 100%; height: 100%; 
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 20px; 
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.pexels.com/photos/1769553/pexels-photo-1769553.jpeg?auto=compress&cs=tinysrgb&w=1000');
-            background-size: cover; background-position: center; border-left: 10px solid #ff0000; overflow-y: auto; 
+            background: #000; border-left: 10px solid #ff0000; overflow-y: auto; 
         }
         .cart-open { right: 0 !important; }
         #cart-list { display: flex; gap: 10px; overflow-x: auto; padding: 20px 0; }
-        .cart-item { flex: 0 0 165px; border: 2px solid #fff; padding: 10px; background: #000; text-align: center; }
+        .cart-item { flex: 0 0 165px; border: 2px solid #fff; padding: 10px; background: #111; text-align: center; }
 
         .float-btn { position: fixed; bottom: 25px; border-radius: 50%; border: 4px solid #fff; z-index: 1500; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
         #cart-trigger { right: 20px; background: #ff0000; color: #fff; width: 75px; height: 75px; font-size: 1.8rem; }
@@ -106,21 +78,21 @@
 
     <header><div class="logo">OFICINA<br>DE SKATE</div></header>
 
-    <div id="zoom-modal" onclick="closeZoom()">
+    <div id="zoom-modal" onclick="this.style.display='none'">
         <span class="close-zoom">&times;</span>
-        <img id="zoom-img" src="" alt="Zoom">
+        <img id="zoom-img" src="">
     </div>
 
     <section id="page-loja" class="page active">
-        <div class="filters">
-            <button class="filter-btn active" onclick="filtrar('TUDO')">TUDO</button>
-            <button class="filter-btn" onclick="filtrar('SHAPES')">SHAPES</button>
-            <button class="filter-btn" onclick="filtrar('RODAS')">RODAS</button>
-            <button class="filter-btn" onclick="filtrar('CAMISETA')">CAMISETAS</button>
-            <button class="filter-btn" onclick="filtrar('CAL&Ccedil;A')">CAL&Ccedil;AS</button>
-            <button class="filter-btn" onclick="filtrar('BERMUDA')">BERMUDAS</button>
-            <button class="filter-btn" onclick="filtrar('T&Ecirc;NIS')">T&Ecirc;NIS</button>
-            <button class="filter-btn" onclick="filtrar('ACESS&Oacute;RIOS')">ACESS&Oacute;RIOS</button>
+        <div class="filters" id="cat-filters">
+            <button class="filter-btn active" onclick="filtrar('TUDO', this)">TUDO</button>
+            <button class="filter-btn" onclick="filtrar('SHAPES', this)">SHAPES</button>
+            <button class="filter-btn" onclick="filtrar('RODAS', this)">RODAS</button>
+            <button class="filter-btn" onclick="filtrar('CAMISETA', this)">CAMISETAS</button>
+            <button class="filter-btn" onclick="filtrar('CAL&Ccedil;A', this)">CAL&Ccedil;AS</button>
+            <button class="filter-btn" onclick="filtrar('BERMUDA', this)">BERMUDAS</button>
+            <button class="filter-btn" onclick="filtrar('T&Ecirc;NIS', this)">T&Ecirc;NIS</button>
+            <button class="filter-btn" onclick="filtrar('ACESS&Oacute;RIOS', this)">ACESS&Oacute;RIOS</button>
         </div>
         <div class="grid" id="vitrine"></div>
     </section>
@@ -130,19 +102,23 @@
             <h2 style="color:#ff0000; font-family:'Bebas Neue'; font-size: 2rem;">ESTOQUE</h2>
             <button onclick="switchPage('loja')" style="background:#fff; border:none; padding:8px 15px; font-family:'Archivo Black'; font-size:0.6rem; cursor:pointer; color:#000;">VOLTAR</button>
         </div>
-        <div class="admin-tabs">
-            <button class="tab-btn active" onclick="setAdminTab('SHAPES')">SHAPES</button>
-            <button class="tab-btn" onclick="setAdminTab('RODAS')">RODAS</button>
-            <button class="tab-btn" onclick="setAdminTab('ROUPAS')">VESTU&Aacute;RIO</button>
-            <button class="tab-btn" onclick="setAdminTab('T&Ecirc;NIS')">T&Ecirc;NIS</button>
-            <button class="tab-btn" onclick="setAdminTab('ACESS&Oacute;RIOS')">ACESS&Oacute;RIOS</button>
+
+        <div class="admin-tabs" id="admin-tabs-list">
+            <button class="tab-btn active" onclick="setAdminTab('SHAPES', this)">SHAPES</button>
+            <button class="tab-btn" onclick="setAdminTab('RODAS', this)">RODAS</button>
+            <button class="tab-btn" onclick="setAdminTab('CAMISETA', this)">CAMISETAS</button>
+            <button class="tab-btn" onclick="setAdminTab('CAL&Ccedil;A', this)">CAL&Ccedil;AS</button>
+            <button class="tab-btn" onclick="setAdminTab('BERMUDA', this)">BERMUDAS</button>
+            <button class="tab-btn" onclick="setAdminTab('T&Ecirc;NIS', this)">T&Ecirc;NIS</button>
+            <button class="tab-btn" onclick="setAdminTab('ACESS&Oacute;RIOS', this)">ACESS&Oacute;RIOS</button>
         </div>
+
         <div class="admin-box">
-            <h3 id="label-cadastro" style="margin-bottom:15px; color:#fff; font-size:0.7rem;">CADASTRO</h3>
-            <input type="text" id="p-nome" placeholder="NOME DO PRODUTO">
-            <input type="number" id="p-preco" placeholder="PRE&Ccedil;O R$">
+            <h3 id="label-cadastro">LAN&Ccedil;AR EM: SHAPES</h3>
+            <input type="text" id="p-nome" placeholder="NOME DO MODELO">
+            <input type="number" id="p-preco" placeholder="VALOR R$">
             <input type="file" id="p-foto-file" accept="image/*">
-            <button class="btn-save" id="btn-cadastrar" onclick="salvarProduto()">LAN&Ccedil;AR DROP</button>
+            <button class="btn-save" id="btn-cadastrar" onclick="salvarProduto()">CONFIRMAR DROP</button>
         </div>
         <div id="vitrine-admin"></div>
     </section>
@@ -155,14 +131,14 @@
 
     <div id="cart-sidebar">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fff; padding-bottom: 10px;">
-            <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:#fff;">PEDIDO</h2>
-            <div style="color:#fff; background: #ff0000; padding: 5px 10px; cursor:pointer; font-size:0.7rem;" onclick="toggleCart()">FECHAR</div>
+            <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:#fff;">MEU DROP</h2>
+            <div style="color:#000; background: #fbff00; padding: 8px 15px; cursor:pointer; font-size:0.7rem;" onclick="toggleCart()">FECHAR</div>
         </div>
         <div id="cart-list"></div>
-        <div style="margin-top:30px; background: rgba(0,0,0,0.7); padding: 20px; border: 2px solid #ff0000;">
-            <p style="font-size:1.2rem; color: #fff;">TOTAL:</p>
-            <p style="font-size:2rem; color: #fff;">R$ <span id="total-val" style="color:#25D366">0.00</span></p>
-            <button onclick="enviarWhatsApp()" style="background:#25D366; color:#000; width:100%; padding:20px; border:none; font-family:'Archivo Black'; margin-top:15px; font-size:1rem; cursor:pointer;">WHATSAPP</button>
+        <div style="margin-top:30px; background: rgba(30,30,30,0.9); padding: 20px; border: 2px solid #fbff00;">
+            <p style="font-size:1.2rem; color: #fff;">SUBTOTAL:</p>
+            <p style="font-size:2.5rem; color: #fbff00;">R$ <span id="total-val">0.00</span></p>
+            <button onclick="enviarWhatsApp()" style="background:#25D366; color:#000; width:100%; padding:20px; border:none; font-family:'Archivo Black'; margin-top:15px; font-size:1.1rem; cursor:pointer;">FECHAR PEDIDO</button>
         </div>
     </div>
 
@@ -192,16 +168,10 @@
             });
         }
 
-        // FUNÇÕES DO ZOOM (JavaScript)
         function openZoom(src) {
-            const modal = document.getElementById('zoom-modal');
-            const img = document.getElementById('zoom-img');
-            img.src = src;
-            modal.style.display = 'flex';
-        }
-
-        function closeZoom() {
-            document.getElementById('zoom-modal').style.display = 'none';
+            if(!src) return;
+            document.getElementById('zoom-img').src = src;
+            document.getElementById('zoom-modal').style.display = 'flex';
         }
 
         function renderizarVitrine() {
@@ -209,9 +179,8 @@
             const lista = filtroAtual === 'TUDO' ? produtos : produtos.filter(p => p.cat === filtroAtual);
             v.innerHTML = lista.map(p => {
                 const noCarrinho = carrinho.some(item => item.id === p.id);
-                // O clique agora chama openZoom
                 return `
-                <div class="card" style="border-color: ${noCarrinho ? '#25D366' : '#fff'}">
+                <div class="card" style="border-color: ${noCarrinho ? '#fbff00' : '#fff'}">
                     <img src="${p.img || 'https://via.placeholder.com/160'}" class="card-img" onclick="openZoom('${p.img}')">
                     <div class="card-info">
                         <div style="font-size:0.5rem; color:#ff0000">${p.cat.replace('&Ccedil;','\u00C7')}</div>
@@ -226,7 +195,20 @@
             }).join('');
         }
 
-        // OUTRAS FUNÇÕES (IGUAIS)
+        function filtrar(cat, btn) {
+            filtroAtual = cat;
+            document.querySelectorAll('#cat-filters .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderizarVitrine();
+        }
+
+        function setAdminTab(cat, btn) {
+            categoriaAdmin = cat;
+            document.querySelectorAll('#admin-tabs-list .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('label-cadastro').innerText = "LAN\u00C7AR EM: " + cat.replace('&Ccedil;','\u00C7');
+        }
+
         function addToCart(id) { 
             const prod = produtos.find(p => p.id === id);
             if(prod) { carrinho.push(prod); atualizarInterfaceCarrinho(); renderizarVitrine(); }
@@ -258,15 +240,15 @@
             va.innerHTML = produtos.map(p => `
                 <div class="admin-item">
                     <img src="${p.img || 'https://via.placeholder.com/160'}">
-                    <div class="admin-item-info"><b>${p.nome}</b></div>
+                    <div class="admin-item-info"><b>${p.nome}</b><br><small>${p.cat}</small></div>
                     <button class="btn-del-admin" onclick="apagarItem('${p.id}')">APAGAR</button>
                 </div>`).join('');
         }
 
         async function salvarProduto() {
             const n = document.getElementById('p-nome'), p = document.getElementById('p-preco'), f = document.getElementById('p-foto-file'), btn = document.getElementById('btn-cadastrar');
-            if(!n.value || !p.value) return alert("PREENCHA!");
-            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            if(!n.value || !p.value) return alert("PREENCHA NOME E PRE\u00C7O!");
+            btn.innerText = "SUBINDO DROP..."; btn.disabled = true;
             const reader = new FileReader();
             const enviar = async (foto) => {
                 try {
@@ -274,22 +256,27 @@
                         nome: n.value.toUpperCase(), preco: parseFloat(p.value),
                         img: foto, cat: categoriaAdmin, dataCriacao: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    n.value = ''; p.value = ''; f.value = ''; alert("SALVO!");
-                } catch (e) { alert("ERRO!"); } finally { btn.innerText = "LAN\u00C7AR DROP"; btn.disabled = false; }
+                    n.value = ''; p.value = ''; f.value = ''; alert("ITEM LAN\u00C7ADO!");
+                } catch (e) { alert("ERRO AO SALVAR!"); } finally { btn.innerText = "CONFIRMAR DROP"; btn.disabled = false; }
             };
             if (f.files[0]) { reader.readAsDataURL(f.files[0]); reader.onload = () => enviar(reader.result); } else { enviar(null); }
         }
 
-        async function apagarItem(id) { if(confirm("APAGAR?")) await db.collection("produtos_oficina").doc(id).delete(); }
-        function acessoAdmin() { if(prompt("SENHA:") === '2203') switchPage('admin'); }
+        async function apagarItem(id) { if(confirm("DESEJA APAGAR ESSE ITEM?")) await db.collection("produtos_oficina").doc(id).delete(); }
+        function acessoAdmin() { if(prompt("SENHA DE ACESSO:") === '2203') switchPage('admin'); }
         function switchPage(dest) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('page-' + dest).classList.add('active'); window.scrollTo(0,0); }
-        function filtrar(cat) { filtroAtual = cat; renderizarVitrine(); }
-        function setAdminTab(cat) { categoriaAdmin = cat; document.getElementById('label-cadastro').innerText = "CADASTRO: " + cat; }
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
+        
         function enviarWhatsApp() {
-            let msg = "*PEDIDO OFICINA DE SKATE*\n\n";
+            if (carrinho.length === 0) return alert("CARRINHO VAZIO!");
+            const nomeCliente = prompt("QUAL O SEU NOME?");
+            if (!nomeCliente || nomeCliente.trim() === "") return alert("POR FAVOR, DIGITE SEU NOME PARA FECHAR O PEDIDO!");
+            let msg = `*PEDIDO - OFICINA DE SKATE*\n`;
+            msg += `*CLIENTE:* ${nomeCliente.toUpperCase()}\n`;
+            msg += `------------------------------\n\n`;
             carrinho.forEach(i => msg += `• ${i.nome} - R$ ${i.preco.toFixed(2)}\n`);
-            msg += `\n*TOTAL: R$ ${document.getElementById('total-val').innerText}*`;
+            msg += `\n------------------------------\n`;
+            msg += `*TOTAL: R$ ${document.getElementById('total-val').innerText}*`;
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`, '_blank');
         }
         carregarProdutosDaNuvem();
