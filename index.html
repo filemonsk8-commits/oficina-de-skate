@@ -2,28 +2,122 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Oficina de Skate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina de Skate - Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
+    
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
-        input, select, button { display: block; width: 100%; padding: 10px; margin: 10px 0; }
-        .card-adm { border: 1px solid #ff0000; padding: 15px; margin-bottom: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            color: #fff; font-family: 'Archivo Black', sans-serif; text-transform: uppercase; padding-bottom: 120px; 
+            background-color: #000;
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.pexels.com/photos/1018484/pexels-photo-1018484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+
+        /* TOPO TURBINADO - LOGO E ESCRITA MAIORES */
+        header { 
+            border-bottom: 8px solid #ff0000; 
+            padding: 40px 10px; 
+            background: rgba(0,0,0,0.95); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 25px; 
+            flex-wrap: wrap;
+        }
+
+        .header-text { 
+            font-family: 'Bebas Neue', cursive; 
+            font-size: 5rem; /* Aumentei de 3.2 para 5.0 */
+            color: #fff; 
+            letter-spacing: 4px; 
+            line-height: 0.9; 
+            text-shadow: 3px 3px 0px #ff0000;
+        }
+
+        .logo-img { 
+            max-height: 220px; /* Aumentei de 140 para 220 */
+            width: auto; 
+            display: block; 
+            filter: drop-shadow(0px 0px 10px rgba(255, 0, 0, 0.5)); 
+        }
+
+        /* FILTROS E VITRINE */
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 900; border-bottom: 2px solid #333; scrollbar-width: none; }
+        .filter-btn { background: #111; color: #fff; border: 2px solid #fff; padding: 10px 15px; font-size: 0.65rem; flex-shrink: 0; cursor: pointer; font-family: 'Archivo Black'; }
+        .filter-btn.active { background: #fbff00; color: #000; border-color: #fbff00; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .card { border: 2px solid #fff; background: rgba(10,10,10,0.95); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .card-img { width: 100%; height: 160px; object-fit: cover; border-bottom: 2px solid #fff; cursor: zoom-in; }
+        .price-tag { background: #fff; color: #000; padding: 4px 8px; margin-top: 5px; font-size: 0.9rem; width: fit-content; }
+        .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 15px; margin-top: auto; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.75rem; }
+
+        /* MODAL DE ZOOM */
+        #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; justify-content: center; align-items: center; }
+        #zoom-img { max-width: 95%; max-height: 85%; border: 4px solid #fff; box-shadow: 0 0 30px #ff0000; }
+
+        /* CARRINHO */
+        #cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; transition: 0.4s; z-index: 2000; padding: 20px; background: #000; border-left: 10px solid #ff0000; overflow-y: auto; }
+        .cart-open { right: 0 !important; }
+
+        /* BOTÕES FLUTUANTES */
+        .float-btn { position: fixed; bottom: 25px; border-radius: 50%; border: 4px solid #fff; z-index: 1500; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        #cart-trigger { right: 20px; background: #ff0000; color: #fff; width: 80px; height: 80px; font-size: 2rem; }
+        #admin-trigger { left: 20px; background: #222; color: #fff; width: 60px; height: 60px; font-size: 1.5rem; }
+        .badge { position: absolute; top: -5px; right: -5px; background: #fff; color: #000; padding: 5px 10px; border-radius: 50%; font-size: 0.9rem; border: 2px solid #ff0000; }
+
+        /* Responsividade para telas pequenas */
+        @media (max-width: 600px) {
+            .header-text { font-size: 3.5rem; }
+            .logo-img { max-height: 140px; }
+        }
     </style>
 </head>
 <body>
-    <h2>PAINEL DE CONTROLE - OFICINA</h2>
-    <div class="card-adm">
-        <input type="text" id="nome" placeholder="Nome do Produto (Ex: Shape Maple)">
-        <input type="number" id="preco" placeholder="Preço (Ex: 199.90)">
-        <input type="text" id="img" placeholder="Link da Imagem">
-        <select id="cat">
-            <option value="SHAPES">SHAPES</option>
-            <option value="RODAS">RODAS</option>
-            <option value="CAMISETA">CAMISETAS</option>
-        </select>
-        <button onclick="salvar()" style="background: #ff0000; color: #fff; font-weight: bold;">CADASTRAR PRODUTO</button>
+
+    <audio id="som-clique" src="click.mpeg" preload="auto"></audio>
+
+    <header>
+        <p class="header-text">OFICINA</p>
+        <img src="logo.png" alt="Oficina de Skate" class="logo-img">
+        <p class="header-text">SKATE</p>
+    </header>
+
+    <div id="zoom-modal" onclick="this.style.display='none'">
+        <img id="zoom-img" src="">
     </div>
 
-    <div id="lista-admin"></div>
+    <div class="filters" id="cat-filters">
+        <button class="filter-btn active" onclick="filtrar('TUDO', this)">TUDO</button>
+        <button class="filter-btn" onclick="filtrar('SHAPES', this)">SHAPES</button>
+        <button class="filter-btn" onclick="filtrar('RODAS', this)">RODAS</button>
+        <button class="filter-btn" onclick="filtrar('CAMISETA', this)">CAMISETAS</button>
+    </div>
+
+    <div class="grid" id="vitrine"></div>
+
+    <div id="cart-sidebar">
+        <h2 style="font-family:'Bebas Neue'; font-size:3rem;">MEU DROP</h2>
+        <p style="color: #fbff00; text-align: center; border: 1px dashed #fbff00; padding: 15px; margin: 20px 0;">SEU DROP ESTÁ QUASE PRONTO!</p>
+        <div id="cart-list"></div>
+        <div style="margin-top:20px; background: #111; padding: 20px; border: 2px solid #fbff00;">
+            <p style="font-size: 1.2rem;">TOTAL: R$ <span id="total-val">0.00</span></p>
+            <button onclick="enviarWhatsApp()" style="background:#25D366; width:100%; padding:18px; margin-top:15px; font-family:'Archivo Black'; border:none; color:#000; cursor:pointer; font-size: 1rem;">FECHAR PEDIDO</button>
+            <button onclick="toggleCart()" style="background:#555; width:100%; padding:12px; margin-top:10px; color:#fff; border:none; cursor:pointer;">VOLTAR</button>
+        </div>
+    </div>
+
+    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()">
+        <i class="fa-solid fa-gear"></i>
+    </div>
+    
+    <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count" class="badge">0</span>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -39,31 +133,87 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        
+        let produtos = [], carrinho = [], filtroAtual = 'TUDO';
 
-        function salvar() {
-            const nome = document.getElementById('nome').value;
-            const preco = parseFloat(document.getElementById('preco').value);
-            const img = document.getElementById('img').value;
-            const cat = document.getElementById('cat').value;
+        function carregarProdutos() {
+            db.collection("produtos_oficina").onSnapshot(snap => {
+                produtos = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
+                renderizar();
+            });
+        }
 
-            if(nome && preco && img) {
-                db.collection("produtos_oficina").add({ nome, preco, img, cat })
-                .then(() => { alert("Produto Lançado!"); location.reload(); });
+        function renderizar() {
+            const v = document.getElementById('vitrine');
+            const lista = filtroAtual === 'TUDO' ? produtos : produtos.filter(p => p.cat === filtroAtual);
+            v.innerHTML = lista.map(p => `
+                <div class="card">
+                    <img src="${p.img}" class="card-img" onclick="abrirZoom('${p.img}')">
+                    <div style="padding:10px; flex-grow: 1; display: flex; flex-direction: column;">
+                        <p style="font-size:0.75rem; min-height: 40px;">${p.nome}</p>
+                        <div class="price-tag">R$ ${p.preco.toFixed(2)}</div>
+                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function abrirZoom(src) {
+            document.getElementById('zoom-img').src = src;
+            document.getElementById('zoom-modal').style.display = 'flex';
+        }
+
+        function addToCart(id) {
+            const p = produtos.find(item => item.id === id);
+            if(p) {
+                const s = document.getElementById('som-clique');
+                s.currentTime = 0;
+                s.play().catch(e => {});
+                carrinho.push(p);
+                atualizarCarrinho();
             }
         }
 
-        db.collection("produtos_oficina").onSnapshot(snap => {
-            document.getElementById('lista-admin').innerHTML = snap.docs.map(doc => `
-                <div class="card-adm">
-                    ${doc.data().nome} - R$ ${doc.data().preco}
-                    <button onclick="deletar('${doc.id}')" style="background:grey; width: auto; display: inline;">Apagar</button>
-                </div>
-            `).join('');
-        });
-
-        function deletar(id) {
-            if(confirm("Remover esse item?")) db.collection("produtos_oficina").doc(id).delete();
+        function atualizarCarrinho() {
+            document.getElementById('cart-count').innerText = carrinho.length;
+            let tot = 0;
+            document.getElementById('cart-list').innerHTML = carrinho.map((it, idx) => {
+                tot += it.preco;
+                return `<div style="border-bottom:1px solid #333; padding:12px; font-size:0.85rem; display:flex; justify-content:space-between;">
+                            <span>${it.nome}</span>
+                            <span>R$ ${it.preco.toFixed(2)}</span>
+                        </div>`;
+            }).join('');
+            document.getElementById('total-val').innerText = tot.toFixed(2);
         }
+
+        function enviarWhatsApp() {
+            if(carrinho.length === 0) return alert("CARRINHO VAZIO!");
+            const nome = prompt("QUAL SEU NOME?");
+            if(!nome) return;
+            let msg = `*PEDIDO OFICINA MAIS:* ${nome.toUpperCase()}\n\n`;
+            carrinho.forEach(i => msg += `- ${i.nome}\n`);
+            msg += `\n*TOTAL: R$ ${document.getElementById('total-val').innerText}*`;
+            window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`);
+        }
+
+        function acessoAdmin() { 
+            const senha = prompt("SENHA DO ADMINISTRADOR:");
+            if(senha === '2203') {
+                window.location.href = "admin.html"; 
+            } else {
+                alert("SENHA INCORRETA!");
+            }
+        }
+
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
+        function filtrar(c, b) { 
+            filtroAtual = c; 
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            b.classList.add('active');
+            renderizar();
+        }
+        
+        carregarProdutos();
     </script>
 </body>
 </html>
