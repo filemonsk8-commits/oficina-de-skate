@@ -15,22 +15,41 @@
             background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.pexels.com/photos/1018484/pexels-photo-1018484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
             background-size: cover; background-position: center; background-attachment: fixed;
         }
-        header { border-bottom: 8px solid #ff0000; padding: 20px 10px; text-align: center; background: rgba(0,0,0,0.95); }
-        .logo-img { max-height: 150px; width: auto; display: block; margin: 0 auto; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); }
 
+        /* TOPO ESTILIZADO COM TEXTO E LOGO */
+        header { 
+            border-bottom: 8px solid #ff0000; 
+            padding: 30px 10px; 
+            background: rgba(0,0,0,0.95); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .header-text { font-family: 'Bebas Neue', cursive; font-size: 3.5rem; color: #fff; letter-spacing: 2px; line-height: 1; }
+        .logo-img { max-height: 160px; width: auto; display: block; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); }
+
+        /* FILTROS E GRID */
         .filters { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 900; border-bottom: 2px solid #333; scrollbar-width: none; }
         .filter-btn { background: #111; color: #fff; border: 2px solid #fff; padding: 10px 15px; font-size: 0.6rem; flex-shrink: 0; cursor: pointer; font-family: 'Archivo Black'; }
         .filter-btn.active { background: #fbff00; color: #000; border-color: #fbff00; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
         .card { border: 2px solid #fff; background: rgba(10,10,10,0.95); display: flex; flex-direction: column; overflow: hidden; }
-        .card-img { width: 100%; height: 140px; object-fit: cover; border-bottom: 2px solid #fff; }
+        .card-img { width: 100%; height: 140px; object-fit: cover; border-bottom: 2px solid #fff; cursor: zoom-in; }
         .price-tag { background: #fff; color: #000; padding: 3px 6px; margin-top: 5px; font-size: 0.85rem; width: fit-content; }
         .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; margin-top: 8px; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
 
+        /* ZOOM MODAL */
+        #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; }
+        #zoom-img { max-width: 90%; max-height: 80%; border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,0,0,0.5); }
+
+        /* CARRINHO */
         #cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; transition: 0.4s; z-index: 2000; padding: 20px; background: #000; border-left: 10px solid #ff0000; overflow-y: auto; }
         .cart-open { right: 0 !important; }
 
+        /* BOTÕES FLUTUANTES */
         .float-btn { position: fixed; bottom: 25px; border-radius: 50%; border: 4px solid #fff; z-index: 1500; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         #cart-trigger { right: 20px; background: #ff0000; color: #fff; width: 75px; height: 75px; font-size: 1.8rem; }
         #admin-trigger { left: 20px; background: #222; color: #fff; width: 55px; height: 55px; font-size: 1.2rem; }
@@ -42,15 +61,20 @@
     <audio id="som-clique" src="click.mpeg" preload="auto"></audio>
 
     <header>
+        <p class="header-text">OFICINA</p>
         <img src="logo.png" alt="Oficina de Skate" class="logo-img">
+        <p class="header-text">SKATE</p>
     </header>
+
+    <div id="zoom-modal" onclick="this.style.display='none'">
+        <img id="zoom-img" src="">
+    </div>
 
     <div class="filters" id="cat-filters">
         <button class="filter-btn active" onclick="filtrar('TUDO', this)">TUDO</button>
         <button class="filter-btn" onclick="filtrar('SHAPES', this)">SHAPES</button>
         <button class="filter-btn" onclick="filtrar('RODAS', this)">RODAS</button>
         <button class="filter-btn" onclick="filtrar('CAMISETA', this)">CAMISETAS</button>
-        <button class="filter-btn" onclick="filtrar('TÊNIS', this)">TÊNIS</button>
     </div>
 
     <div class="grid" id="vitrine"></div>
@@ -60,15 +84,17 @@
         <p style="color: #fbff00; text-align: center; border: 1px dashed #fbff00; padding: 10px; margin: 15px 0;">
             SEU DROP ESTÁ QUASE PRONTO! SÓ OS FORTES AVANÇAM.
         </p>
-        <div id="cart-list" style="margin-bottom: 20px;"></div>
-        <div style="background: #111; padding: 15px; border: 2px solid #fbff00;">
-            <p style="font-size: 1.2rem;">TOTAL: R$ <span id="total-val">0.00</span></p>
-            <button onclick="enviarWhatsApp()" style="background:#25D366; color: #000; border: none; width:100%; padding:15px; margin-top:10px; font-family:'Archivo Black'; cursor: pointer;">FECHAR PEDIDO</button>
-            <button onclick="toggleCart()" style="background:#555; width:100%; padding:10px; margin-top:5px; color:#fff; border:none; cursor: pointer;">VOLTAR</button>
+        <div id="cart-list"></div>
+        <div style="margin-top:20px; background: #111; padding: 15px; border: 2px solid #fbff00;">
+            <p>TOTAL: R$ <span id="total-val">0.00</span></p>
+            <button onclick="enviarWhatsApp()" style="background:#25D366; width:100%; padding:15px; margin-top:10px; font-family:'Archivo Black'; border:none; color:#000; cursor:pointer;">FECHAR PEDIDO</button>
+            <button onclick="toggleCart()" style="background:#555; width:100%; padding:10px; margin-top:5px; color:#fff; border:none; cursor:pointer;">VOLTAR</button>
         </div>
     </div>
 
-    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()"><i class="fa-solid fa-gear"></i></div>
+    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()">
+        <i class="fa-solid fa-gear"></i>
+    </div>
     
     <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
         <i class="fa-solid fa-cart-shopping"></i>
@@ -104,7 +130,7 @@
             const lista = filtroAtual === 'TUDO' ? produtos : produtos.filter(p => p.cat === filtroAtual);
             v.innerHTML = lista.map(p => `
                 <div class="card">
-                    <img src="${p.img}" class="card-img">
+                    <img src="${p.img}" class="card-img" onclick="abrirZoom('${p.img}')">
                     <div style="padding:10px;">
                         <p style="font-size:0.7rem;">${p.nome}</p>
                         <div class="price-tag">R$ ${p.preco.toFixed(2)}</div>
@@ -113,12 +139,17 @@
                 </div>`).join('');
         }
 
+        function abrirZoom(src) {
+            document.getElementById('zoom-img').src = src;
+            document.getElementById('zoom-modal').style.display = 'flex';
+        }
+
         function addToCart(id) {
             const p = produtos.find(item => item.id === id);
             if(p) {
                 const s = document.getElementById('som-clique');
                 s.currentTime = 0;
-                s.play().catch(e => console.log("Som ativado após primeiro clique"));
+                s.play().catch(e => console.log("Interaja com a página para ativar o som"));
                 carrinho.push(p);
                 atualizarCarrinho();
             }
@@ -129,7 +160,7 @@
             let tot = 0;
             document.getElementById('cart-list').innerHTML = carrinho.map((it, idx) => {
                 tot += it.preco;
-                return `<div style="border-bottom:1px solid #333; padding:10px; font-size: 0.8rem;">${it.nome} - R$ ${it.preco.toFixed(2)}</div>`;
+                return `<div style="border-bottom:1px solid #333; padding:10px; font-size:0.8rem;">${it.nome} - R$ ${it.preco.toFixed(2)}</div>`;
             }).join('');
             document.getElementById('total-val').innerText = tot.toFixed(2);
         }
@@ -145,7 +176,15 @@
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`);
         }
 
-        function acessoAdmin() { if(prompt("SENHA:") === '2203') window.location.href = "admin.html"; }
+        function acessoAdmin() { 
+            const senha = prompt("SENHA DO ADMINISTRADOR:");
+            if(senha === '2203') {
+                window.location.href = "admin.html"; 
+            } else {
+                alert("SENHA INCORRETA!");
+            }
+        }
+
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
         function filtrar(c, b) { 
             filtroAtual = c; 
