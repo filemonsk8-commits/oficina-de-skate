@@ -38,15 +38,6 @@
         .price-tag { background: #fff; color: #000; display: inline-block; padding: 3px 6px; margin-top: 5px; font-size: 0.85rem; width: fit-content; }
         
         .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; margin-top: 8px; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
-        .btn-remove-vitrine { width: 100%; background: #333; color: #fff; border: 1px solid #ff0000; padding: 12px; margin-top: 8px; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
-        
-        #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 4000; justify-content: center; align-items: center; padding: 10px; }
-        #zoom-img { max-width: 100%; max-height: 90vh; border: 2px solid #fff; }
-        .close-zoom { position: absolute; top: 20px; right: 20px; font-size: 3rem; color: #fff; cursor: pointer; }
-
-        .admin-box { background: rgba(17,17,17,0.98); border: 3px solid #ff0000; padding: 20px; margin-bottom: 30px; }
-        input { width: 100%; background: #000; border: 2px solid #fff; color: #fff; padding: 12px; margin-bottom: 10px; font-family: 'Archivo Black'; }
-        .btn-save { width: 100%; background: #ff0000; color: #fff; border: none; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Archivo Black'; }
 
         #cart-sidebar { 
             position: fixed; top: 0; right: -100%; width: 100%; height: 100%; 
@@ -66,11 +57,10 @@
 <body>
 
     <header>
-        <img src="https://i.ibb.co/60pLp1Z4/oficina-skate-logo.jpg" alt="Oficina de Skate" class="logo-img">
+        <img src="logo.jpeg" alt="Oficina de Skate" class="logo-img">
     </header>
 
     <div id="zoom-modal" onclick="this.style.display='none'">
-        <span class="close-zoom">&times;</span>
         <img id="zoom-img" src="">
     </div>
 
@@ -87,26 +77,6 @@
         </div>
         <div class="grid" id="vitrine"></div>
     </section>
-
-    <section id="page-admin" class="page">
-        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="color:#ff0000; font-family:'Bebas Neue'; font-size: 2rem;">ESTOQUE</h2>
-            <button onclick="switchPage('loja')" style="background:#fff; border:none; padding:8px 15px; font-family:'Archivo Black'; font-size:0.6rem; cursor:pointer; color:#000;">VOLTAR</button>
-        </div>
-        <div class="admin-box">
-            <input type="text" id="p-nome" placeholder="NOME DO MODELO">
-            <input type="number" id="p-preco" placeholder="VALOR R$">
-            <input type="file" id="p-foto-file" accept="image/*">
-            <button class="btn-save" id="btn-cadastrar" onclick="salvarProduto()">CONFIRMAR DROP</button>
-        </div>
-        <div id="vitrine-admin"></div>
-    </section>
-
-    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()"><i class="fa-solid fa-gear"></i></div>
-    <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span id="cart-count" class="badge">0</span>
-    </div>
 
     <div id="cart-sidebar">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fff; padding-bottom: 10px;">
@@ -125,6 +95,12 @@
             <p style="font-size:2.5rem; color: #fbff00;">R$ <span id="total-val">0.00</span></p>
             <button onclick="enviarWhatsApp()" style="background:#25D366; color:#000; width:100%; padding:20px; border:none; font-family:'Archivo Black'; margin-top:15px; font-size:1.1rem; cursor:pointer;">FECHAR PEDIDO</button>
         </div>
+    </div>
+
+    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()"><i class="fa-solid fa-gear"></i></div>
+    <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count" class="badge">0</span>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -148,7 +124,6 @@
             db.collection("produtos_oficina").orderBy("dataCriacao", "desc").onSnapshot((snapshot) => {
                 produtos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderizarVitrine();
-                renderizarAdmin();
             });
         }
 
@@ -175,7 +150,10 @@
 
         function addToCart(id) { 
             const prod = produtos.find(p => p.id === id);
-            if(prod) { carrinho.push(prod); atualizarInterfaceCarrinho(); }
+            if(prod) { 
+                carrinho.push(prod); 
+                atualizarInterfaceCarrinho(); 
+            }
         }
 
         function atualizarInterfaceCarrinho() {
@@ -197,7 +175,7 @@
             const nomeCliente = prompt("QUAL O SEU NOME?");
             if (!nomeCliente) return;
 
-            // Mensagem de confirmação na hora de fechar pedido pedida pelo Eduardo
+            // Mensagem de confirmação solicitada pelo Eduardo
             alert("MANOBRA CONCLUÍDA! ESTAMOS TE LEVANDO PARA O WHATSAPP PARA FINALIZAR O PEDIDO.");
 
             let msg = `*PEDIDO - OFICINA DE SKATE*\n*CLIENTE:* ${nomeCliente.toUpperCase()}\n\n`;
@@ -206,8 +184,7 @@
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function acessoAdmin() { if(prompt("SENHA:") === '2203') switchPage('admin'); }
-        function switchPage(dest) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('page-' + dest).classList.add('active'); }
+        function acessoAdmin() { if(prompt("SENHA:") === '2203') window.location.href = "admin.html"; }
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
         
         carregarProdutosDaNuvem();
