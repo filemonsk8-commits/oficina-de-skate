@@ -3,56 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - Oficina de Skate</title>
+    <title>Admin - Oficina de Skate</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; 
-            padding: 15px; text-transform: uppercase; 
-        }
-        
-        .container { 
-            max-width: 500px; margin: 0 auto; border: 4px solid #ff0000; 
-            padding: 20px; background: #111; 
-            box-shadow: 0 0 20px rgba(255,0,0,0.2);
-        }
-
-        h2 { text-align: center; color: #fbff00; margin-bottom: 20px; font-size: 1.2rem; border-bottom: 2px solid #ff0000; padding-bottom: 10px; }
-        
+        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; text-transform: uppercase; }
+        .container { max-width: 500px; margin: 0 auto; border: 4px solid #ff0000; padding: 20px; background: #111; }
+        h2 { text-align: center; color: #fbff00; margin-bottom: 20px; font-size: 1.1rem; border-bottom: 2px solid #ff0000; padding-bottom: 10px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-size: 0.7rem; color: #ccc; }
-        
-        input, select { 
-            width: 100%; padding: 12px; background: #000; border: 2px solid #fff; 
-            color: #fff; font-family: 'Archivo Black'; font-size: 0.8rem;
-        }
-
-        input[type="file"] { padding: 10px; background: #222; font-size: 0.7rem; cursor: pointer; }
-
+        input, select { width: 100%; padding: 12px; background: #000; border: 2px solid #fff; color: #fff; font-family: 'Archivo Black'; font-size: 0.8rem; }
+        input[type="file"] { background: #222; padding: 10px; }
         .btn-lancar { width: 100%; padding: 15px; background: #ff0000; color: #fff; border: none; cursor: pointer; font-family: 'Archivo Black'; font-size: 1rem; margin-top: 10px; }
         .btn-lancar:disabled { background: #555; cursor: not-allowed; }
-        
         .btn-voltar { width: 100%; padding: 12px; background: #444; color: #fff; border: none; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.8rem; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
-
         #status-upload { font-size: 0.7rem; color: #fbff00; text-align: center; margin-top: 10px; font-weight: bold; }
-
-        /* LISTA DE ITENS NO ESTOQUE */
-        .lista-container { margin-top: 40px; border-top: 2px solid #333; padding-top: 20px; }
-        .item-lista { 
-            border: 2px solid #fff; padding: 10px; margin-bottom: 10px; 
-            display: flex; align-items: center; gap: 12px; background: #000;
-        }
+        .item-lista { border: 2px solid #fff; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #000; }
         .img-preview { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ff0000; }
-        .info-produto { flex-grow: 1; font-size: 0.65rem; line-height: 1.4; }
-        
+        .info-produto { flex-grow: 1; font-size: 0.65rem; }
         .btn-delete { background: #ff0000; color: #fff; border: none; padding: 10px; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.7rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>LANÇAR NOVO PRODUTO</h2>
+    <h2>LANÇAR PRODUTO (GRÁTIS)</h2>
     
     <div class="form-group">
         <label>NOME DO ITEM</label>
@@ -65,7 +40,7 @@
     </div>
 
     <div class="form-group">
-        <label>FOTO DO PRODUTO (UPLOAD)</label>
+        <label>ESCOLHER FOTO (DIRETO DA GALERIA)</label>
         <input type="file" id="arquivo-foto" accept="image/*">
         <div id="status-upload"></div>
     </div>
@@ -85,31 +60,31 @@
     </div>
     
     <button class="btn-lancar" id="btn-salvar" onclick="subirEFinalizar()">CADASTRAR NO SITE</button>
-    <a href="index.html" class="btn-voltar">SAIR / VOLTAR PARA A LOJA</a>
+    <a href="index.html" class="btn-voltar">VOLTAR PARA A LOJA</a>
 
-    <div class="lista-container">
-        <h2 style="border:none; font-size: 1rem; color: #fff;">ESTOQUE ATUAL</h2>
+    <div style="margin-top: 30px; border-top: 2px solid #333; padding-top: 20px;">
+        <h3 style="font-size: 0.8rem; margin-bottom: 10px;">ITENS NO SITE:</h3>
         <div id="lista-produtos"></div>
     </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
 <script>
-    // CONFIGURAÇÃO DO SEU PROJETO
+    // CHAVE API IMGBB CONFIGURADA
+    const API_KEY_IMGBB = "a499de8c197f35e80312d4fa507c3b29"; 
+
     const firebaseConfig = {
         apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
         authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
         projectId: "oficina-de-skate-9c49b",
-        storageBucket: "oficina-de-skate-9c49b.firebasestorage.app", 
+        storageBucket: "oficina-de-skate-9c49b.firebasestorage.app",
         messagingSenderId: "905657745716",
         appId: "1:905657745716:web:d1f3b3bff6a26bada1e561"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const storage = firebase.storage();
 
     async function subirEFinalizar() {
         const nome = document.getElementById('nome').value.toUpperCase();
@@ -120,24 +95,26 @@
         const status = document.getElementById('status-upload');
 
         if(!nome || isNaN(preco) || !fotoInput.files[0]) {
-            alert("ERRO: PREENCHA O NOME, PREÇO E ESCOLHA UMA FOTO!");
+            alert("PREENCHA TUDO E ESCOLHA A FOTO!");
             return;
         }
 
         btn.disabled = true;
         status.innerText = "SUBINDO FOTO... AGUARDE";
 
-        try {
-            const arquivo = fotoInput.files[0];
-            const nomeArquivo = Date.now() + "_" + arquivo.name;
-            const refStorage = storage.ref().child('produtos/' + nomeArquivo);
-            
-            // Faz o upload para o Storage
-            const snapshot = await refStorage.put(arquivo);
-            // Pega o link da imagem
-            const urlFinal = await snapshot.ref.getDownloadURL();
+        // 1. Enviar para ImgBB
+        const formData = new FormData();
+        formData.append("image", fotoInput.files[0]);
 
-            // Salva os dados no banco
+        try {
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY_IMGBB}`, {
+                method: "POST",
+                body: formData
+            });
+            const resData = await res.json();
+            const urlFinal = resData.data.url;
+
+            // 2. Salvar no Firebase Firestore
             await db.collection("produtos_oficina").add({
                 nome: nome,
                 preco: preco,
@@ -145,42 +122,31 @@
                 cat: cat
             });
 
-            alert("MANOBRA CONCLUÍDA! ITEM CADASTRADO.");
+            alert("SUCESSO! PRODUTO LANÇADO.");
             location.reload();
+
         } catch (error) {
             console.error(error);
-            alert("ERRO! Verifique se você ativou o STORAGE nas regras do Firebase.");
+            alert("ERRO NO UPLOAD! TENTE NOVAMENTE.");
             btn.disabled = false;
             status.innerText = "";
         }
     }
 
-    // LISTA AUTOMÁTICA DOS PRODUTOS
-    db.collection("produtos_oficina").onSnapshot((querySnapshot) => {
+    // LISTAR PRODUTOS DO BANCO
+    db.collection("produtos_oficina").onSnapshot((snap) => {
         const lista = document.getElementById('lista-produtos');
         lista.innerHTML = "";
-        querySnapshot.forEach((doc) => {
+        snap.forEach((doc) => {
             const p = doc.data();
             lista.innerHTML += `
                 <div class="item-lista">
-                    <img src="${p.img}" class="img-preview">
-                    <div class="info-produto">
-                        <strong>${p.nome}</strong><br>
-                        <span style="color:#fbff00">R$ ${p.preco.toFixed(2)}</span><br>
-                        <small>${p.cat}</small>
-                    </div>
-                    <button class="btn-delete" onclick="apagarProduto('${doc.id}')">X</button>
-                </div>
-            `;
+                    <img src="${p.img}" class="img-preview" onerror="this.src='https://via.placeholder.com/60'">
+                    <div class="info-produto"><strong>${p.nome}</strong><br>R$ ${p.preco.toFixed(2)}</div>
+                    <button class="btn-delete" onclick="db.collection('produtos_oficina').doc('${doc.id}').delete()">X</button>
+                </div>`;
         });
     });
-
-    function apagarProduto(id) {
-        if(confirm("REMOVER ESTE ITEM DO SITE?")) {
-            db.collection("produtos_oficina").doc(id).delete();
-        }
-    }
 </script>
-
 </body>
 </html>
