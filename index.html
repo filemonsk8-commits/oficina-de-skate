@@ -97,7 +97,6 @@
         </div>
     </div>
 
-    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()"><i class="fa-solid fa-gear"></i></div>
     <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cart-count" class="badge">0</span>
@@ -175,7 +174,6 @@
             const nomeCliente = prompt("QUAL O SEU NOME?");
             if (!nomeCliente) return;
 
-            // Mensagem de confirmação solicitada pelo Eduardo
             alert("MANOBRA CONCLUÍDA! ESTAMOS TE LEVANDO PARA O WHATSAPP PARA FINALIZAR O PEDIDO.");
 
             let msg = `*PEDIDO - OFICINA DE SKATE*\n*CLIENTE:* ${nomeCliente.toUpperCase()}\n\n`;
@@ -184,7 +182,6 @@
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function acessoAdmin() { if(prompt("SENHA:") === '2203') window.location.href = "admin.html"; }
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
         
         carregarProdutosDaNuvem();
