@@ -16,120 +16,46 @@
             background-size: cover; background-position: center; background-attachment: fixed;
         }
 
-        /* HEADER SLIM MANTIDO */
+        /* HEADER SLIM */
         header { 
-            border-bottom: 6px solid #ff0000; 
-            padding: 15px 10px;
-            background: rgba(0,0,0,0.95); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 15px; 
-            flex-wrap: nowrap;
-            position: relative; /* Para posicionar o ícone do menu */
+            border-bottom: 6px solid #ff0000; padding: 15px 10px; background: rgba(0,0,0,0.95); 
+            display: flex; justify-content: center; align-items: center; gap: 15px; position: relative;
         }
-
-        .header-text { 
-            font-family: 'Bebas Neue', cursive; 
-            font-size: 3.5rem; 
-            color: #fff; 
-            letter-spacing: 2px; 
-            line-height: 1; 
-            text-shadow: 2px 2px 0px #ff0000;
-        }
-
-        .logo-img { 
-            max-height: 100px; 
-            width: auto; 
-            display: block; 
-            filter: drop-shadow(0px 0px 8px rgba(255, 0, 0, 0.4)); 
-        }
-
-        /* ÍCONE DO MENU NO HEADER */
-        .btn-menu-topo {
-            position: absolute;
-            left: 15px;
-            font-size: 1.8rem;
-            color: #fff;
-            cursor: pointer;
-            z-index: 10;
-        }
+        .btn-menu-topo { position: absolute; left: 15px; font-size: 1.8rem; color: #fff; cursor: pointer; }
+        .header-text { font-family: 'Bebas Neue'; font-size: 3.5rem; color: #fff; text-shadow: 2px 2px 0px #ff0000; line-height: 1; }
+        .logo-img { max-height: 100px; filter: drop-shadow(0px 0px 8px rgba(255, 0, 0, 0.4)); }
 
         /* MENU LATERAL */
-        #menu-lateral {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 280px;
-            height: 100%;
-            background: #000;
-            border-right: 6px solid #ff0000;
-            transition: 0.4s;
-            z-index: 3000;
-            padding: 30px 20px;
-        }
+        #menu-lateral { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #000; border-right: 6px solid #ff0000; transition: 0.4s; z-index: 3000; padding: 30px 20px; }
         .menu-lateral-open { left: 0 !important; }
-        
-        .menu-item {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 15px 0;
-            border-bottom: 1px solid #222;
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
+        .menu-item { display: block; color: #fff; text-decoration: none; padding: 15px 0; border-bottom: 1px solid #222; font-size: 1rem; cursor: pointer; }
+        #menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2500; }
 
-        /* OVERLAY PARA O MENU */
-        #menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2500;
-        }
-
-        /* FILTROS ORIGINAIS */
-        .filters { 
-            display: flex; gap: 8px; overflow-x: auto; padding: 12px; 
-            background: rgba(0,0,0,0.9); position: sticky; top: 0; 
-            z-index: 900; border-bottom: 2px solid #333; 
-            scrollbar-width: none;
-        }
+        /* FILTROS */
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding: 12px; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 900; border-bottom: 2px solid #333; scrollbar-width: none; }
         .filters::-webkit-scrollbar { display: none; }
-
-        .filter-btn { 
-            background: #111; color: #fff; border: 2px solid #fff; 
-            padding: 8px 16px; font-size: 0.65rem; flex-shrink: 0; 
-            cursor: pointer; font-family: 'Archivo Black'; 
-        }
+        .filter-btn { background: #111; color: #fff; border: 2px solid #fff; padding: 8px 16px; font-size: 0.65rem; flex-shrink: 0; cursor: pointer; font-family: 'Archivo Black'; }
         .filter-btn.active { background: #fbff00; color: #000; border-color: #fbff00; }
 
-        /* GRID E CARDS ORIGINAIS */
+        /* VITRINE */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
         .card { border: 2px solid #fff; background: rgba(10,10,10,0.95); display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .card-img { width: 100%; height: 150px; object-fit: cover; border-bottom: 2px solid #fff; cursor: zoom-in; }
-        .price-tag { background: #fff; color: #000; padding: 4px 8px; margin-top: 5px; font-size: 0.85rem; width: fit-content; }
-        .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; margin-top: auto; font-family: 'Archivo Black'; cursor: pointer; font-size: 0.7rem; }
+        .price-tag { background: #fff; color: #000; padding: 4px 8px; margin: 5px; font-size: 0.85rem; width: fit-content; }
+        .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; cursor: pointer; font-size: 0.7rem; font-family: 'Archivo Black'; }
 
-        #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; justify-content: center; align-items: center; }
-        #zoom-img { max-width: 95%; max-height: 85%; border: 3px solid #fff; }
-
+        /* CARRINHO */
         #cart-sidebar { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; transition: 0.4s; z-index: 2000; padding: 20px; background: #000; border-left: 10px solid #ff0000; overflow-y: auto; }
         .cart-open { right: 0 !important; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #333; }
+        .btn-remove-item { color: #ff0000; background: none; border: none; font-size: 1.2rem; cursor: pointer; }
 
+        /* BOTÃO FLUTUANTE */
         .float-btn { position: fixed; bottom: 25px; border-radius: 50%; border: 4px solid #fff; z-index: 1500; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         #cart-trigger { right: 20px; background: #ff0000; color: #fff; width: 70px; height: 70px; font-size: 1.6rem; }
-        #admin-trigger { left: 20px; background: #222; color: #fff; width: 50px; height: 50px; font-size: 1.2rem; }
         .badge { position: absolute; top: -5px; right: -5px; background: #fff; color: #000; padding: 4px 8px; border-radius: 50%; font-size: 0.8rem; border: 2px solid #ff0000; }
 
-        @media (max-width: 600px) {
-            .header-text { font-size: 2.2rem; }
-            .logo-img { max-height: 70px; }
-        }
+        @media (max-width: 600px) { .header-text { font-size: 2.2rem; } .logo-img { max-height: 70px; } }
     </style>
 </head>
 <body>
@@ -138,54 +64,43 @@
 
     <div id="menu-overlay" onclick="toggleMenu()"></div>
     <div id="menu-lateral">
-        <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:#ff0000; margin-bottom:20px;">MENU</h2>
-        <div class="menu-item" onclick="toggleMenu()">HOME</div>
-        <div class="menu-item" onclick="toggleMenu()">PROMOÇÕES</div>
-        <div class="menu-item" onclick="toggleMenu()">CONTATO</div>
-        <div class="menu-item" onclick="acessoAdmin()" style="color:#fbff00; border-top: 1px solid #333; margin-top:20px;">PAINEL ADMIN</div>
+        <h2 style="font-family:'Bebas Neue'; color:#ff0000; font-size:2.5rem; margin-bottom: 20px;">OFICINA</h2>
+        <div class="menu-item" onclick="mostrarMissao()">NOSSA MISSÃO</div>
+        <div class="menu-item" onclick="verVideos()">LANÇAMENTOS (VÍDEOS)</div>
+        <div class="menu-item" onclick="toggleMenu()">VOLTAR À LOJA</div>
+        <div class="menu-item" onclick="acessoAdmin()" style="color:#fbff00; margin-top:30px; border-top: 1px solid #333;">PAINEL DO CHEFE</div>
     </div>
 
     <header>
-        <div class="btn-menu-topo" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
+        <div class="btn-menu-topo" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <p class="header-text">OFICINA</p>
-        <img src="logo.png" alt="Oficina de Skate" class="logo-img">
+        <img src="logo.png" alt="Logo" class="logo-img">
         <p class="header-text">SKATE</p>
     </header>
 
-    <div id="zoom-modal" onclick="this.style.display='none'">
-        <img id="zoom-img" src="">
-    </div>
-
-    <div class="filters" id="cat-filters">
+    <div class="filters">
         <button class="filter-btn active" onclick="filtrar('TUDO', this)">TUDO</button>
         <button class="filter-btn" onclick="filtrar('SHAPES', this)">SHAPES</button>
         <button class="filter-btn" onclick="filtrar('RODAS', this)">RODAS</button>
         <button class="filter-btn" onclick="filtrar('TRUCK', this)">TRUCK</button>
-        <button class="filter-btn" onclick="filtrar('ROLAMENTOS', this)">ROLAMENTOS</button>
         <button class="filter-btn" onclick="filtrar('TÊNIS', this)">TÊNIS</button>
+        <button class="filter-btn" onclick="filtrar('HOOKAH THUG', this)" style="border-color:#fbff00;">HOOKAH THUG</button>
         <button class="filter-btn" onclick="filtrar('BERMUDAS', this)">BERMUDAS</button>
-        <button class="filter-btn" onclick="filtrar('CALÇAS', this)">CALÇAS</button>
-        <button class="filter-btn" onclick="filtrar('ACESSÓRIOS', this)">ACESSÓRIOS</button>
+        <button class="filter-btn" onclick="filtrar('PROMOÇÕES', this)" style="background:#ff0000; border-color:#ff0000;">PROMOÇÕES</button>
     </div>
 
     <div class="grid" id="vitrine"></div>
 
     <div id="cart-sidebar">
-        <h2 style="font-family:'Bebas Neue'; font-size:2.5rem;">MEU DROP</h2>
+        <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:#ff0000;">MEU DROP</h2>
         <div id="cart-list"></div>
         <div style="margin-top:20px; background: #111; padding: 15px; border: 2px solid #fbff00;">
-            <p>TOTAL: R$ <span id="total-val">0.00</span></p>
-            <button onclick="enviarWhatsApp()" style="background:#25D366; width:100%; padding:15px; margin-top:10px; font-family:'Archivo Black'; border:none; color:#000; cursor:pointer;">FECHAR PEDIDO</button>
-            <button onclick="toggleCart()" style="background:#555; width:100%; padding:10px; margin-top:5px; color:#fff; border:none; cursor:pointer;">VOLTAR</button>
+            <p style="font-size: 1.2rem;">TOTAL: R$ <span id="total-val">0.00</span></p>
+            <button onclick="enviarWhatsApp()" style="background:#25D366; width:100%; padding:15px; margin-top:10px; color:#000; font-family:'Archivo Black'; border:none; cursor:pointer;">FECHAR PEDIDO</button>
+            <button onclick="toggleCart()" style="width:100%; margin-top:5px; padding:10px; background:#444; border:none; color:#fff; cursor:pointer;">CONTINUAR VENDO</button>
         </div>
     </div>
 
-    <div id="admin-trigger" class="float-btn" onclick="acessoAdmin()">
-        <i class="fa-solid fa-gear"></i>
-    </div>
-    
     <div id="cart-trigger" class="float-btn" onclick="toggleCart()">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cart-count" class="badge">0</span>
@@ -222,61 +137,74 @@
                 <div class="card">
                     <img src="${p.img}" class="card-img" onclick="abrirZoom('${p.img}')">
                     <div style="padding:10px; flex-grow: 1; display: flex; flex-direction: column;">
-                        <p style="font-size:0.7rem; min-height: 35px;">${p.nome}</p>
+                        <p style="font-size:0.65rem; min-height: 30px;">${p.nome}</p>
                         <div class="price-tag">R$ ${p.preco.toFixed(2)}</div>
-                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
+                        <button class="btn-add" onclick="addToCart('${p.id}')">ADD AO CARRINHO</button>
                     </div>
                 </div>`).join('');
-        }
-
-        function abrirZoom(src) {
-            document.getElementById('zoom-img').src = src;
-            document.getElementById('zoom-modal').style.display = 'flex';
         }
 
         function addToCart(id) {
             const p = produtos.find(item => item.id === id);
             if(p) {
-                const s = document.getElementById('som-clique');
-                s.currentTime = 0;
-                s.play().catch(e => {});
-                carrinho.push(p);
+                document.getElementById('som-clique').play().catch(()=>{});
+                carrinho.push({...p, cartId: Date.now() + Math.random()});
                 atualizarCarrinho();
             }
+        }
+
+        function removerItem(cartId) {
+            carrinho = carrinho.filter(item => item.cartId !== cartId);
+            atualizarCarrinho();
         }
 
         function atualizarCarrinho() {
             document.getElementById('cart-count').innerText = carrinho.length;
             let tot = 0;
-            document.getElementById('cart-list').innerHTML = carrinho.map((it, idx) => {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = carrinho.map(it => {
                 tot += it.preco;
-                return `<div style="border-bottom:1px solid #333; padding:10px; font-size:0.8rem; display:flex; justify-content:space-between;">
-                    <span>${it.nome}</span>
-                    <span>R$ ${it.preco.toFixed(2)}</span>
+                return `
+                <div class="cart-item">
+                    <span style="font-size:0.7rem; max-width: 60%;">${it.nome}</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 0.8rem;">R$ ${it.preco.toFixed(2)}</span>
+                        <button class="btn-remove-item" onclick="removerItem(${it.cartId})"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
                 </div>`;
             }).join('');
             document.getElementById('total-val').innerText = tot.toFixed(2);
+        }
+
+        async function mostrarMissao() {
+            const doc = await db.collection("configuracoes_loja").doc("oficial").get();
+            alert(doc.exists ? "NOSSA MISSÃO:\n\n" + doc.data().missao : "Missão em breve!");
+            toggleMenu();
+        }
+
+        async function verVideos() {
+            const doc = await db.collection("configuracoes_loja").doc("oficial").get();
+            if (doc.exists && doc.data().video) { window.open(doc.data().video, '_blank'); }
+            else { alert("Nenhum vídeo novo no momento!"); }
+            toggleMenu();
         }
 
         function enviarWhatsApp() {
             if(carrinho.length === 0) return alert("CARRINHO VAZIO!");
             const nome = prompt("QUAL SEU NOME?");
             if(!nome) return;
-            let msg = `*PEDIDO OFICINA:* ${nome.toUpperCase()}\n\n`;
-            carrinho.forEach(i => msg += `- ${i.nome}\n`);
+            let msg = `*PEDIDO OFICINA SKATE:* ${nome.toUpperCase()}\n\n`;
+            carrinho.forEach(i => msg += `- ${i.nome} (R$ ${i.preco.toFixed(2)})\n`);
             msg += `\n*TOTAL: R$ ${document.getElementById('total-val').innerText}*`;
             window.open(`https://wa.me/5562997021174?text=${encodeURIComponent(msg)}`);
         }
 
-        function acessoAdmin() { 
-            const senha = prompt("SENHA DO ADMINISTRADOR:");
-            if(senha === '2203') { window.location.href = "admin.html"; } 
+        function acessoAdmin() {
+            const senha = prompt("SENHA ADMIN:");
+            if(senha === '2203') { window.location.href = "admin.html"; }
             else { alert("SENHA INCORRETA!"); }
         }
 
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
-
-        // FUNÇÃO PARA ABRIR/FECHAR O MENU LATERAL
         function toggleMenu() {
             const menu = document.getElementById('menu-lateral');
             const overlay = document.getElementById('menu-overlay');
@@ -284,13 +212,15 @@
             overlay.style.display = menu.classList.contains('menu-lateral-open') ? 'block' : 'none';
         }
 
-        function filtrar(c, b) { 
-            filtroAtual = c; 
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('cart-open'); }
+        
+        function filtrar(c, b) {
+            filtroAtual = c;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             b.classList.add('active');
             renderizar();
         }
-        
+
         carregarProdutos();
     </script>
 </body>
