@@ -10,7 +10,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; overflow-x: hidden; }
 
-        /* HEADER E LOGO ESTILIZADA */
+        /* HEADER */
         header { 
             background: #000; padding: 25px 15px; display: flex; align-items: center; 
             justify-content: space-between; border-bottom: 5px solid #ff0000; position: sticky; top: 0; z-index: 1000;
@@ -18,57 +18,46 @@
         .btn-menu { color: #ff0000; font-size: 2.2rem; cursor: pointer; }
         .logo-container { display: flex; align-items: center; gap: 10px; }
         .logo-texto { font-family: 'Bebas Neue'; font-size: 2.8rem; color: #ff0000; text-shadow: 2px 2px #fbff00; }
-        .logo-img-centro { height: 70px; width: auto; filter: drop-shadow(0 0 5px #fbff00); }
+        .logo-img-centro { height: 70px; width: auto; }
 
-        /* SIDEBAR (MENU LATERAL) */
+        /* SIDEBAR */
         .sidebar {
             position: fixed; top: 0; left: -100%; width: 300px; height: 100%;
             background: #111; z-index: 3000; transition: 0.4s; padding: 25px; border-right: 4px solid #ff0000;
             display: flex; flex-direction: column;
         }
         .sidebar.active { left: 0; }
-        .sidebar h2 { font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 20px; border-bottom: 2px solid #ff0000; font-size: 2rem; }
         .sidebar-link { 
             display: block; color: #fff; text-decoration: none; padding: 12px 10px; 
             font-size: 1.3rem; border-bottom: 1px solid #222; font-family: 'Bebas Neue'; cursor: pointer;
         }
         .sidebar-link i { margin-right: 10px; color: #ff0000; }
-        .sidebar-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #333; }
-
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2500; }
         .overlay.active { display: block; }
 
-        /* SEÇÃO DE PROMOÇÕES (DESTAQUE NO TOPO) */
-        #section-promo { display: none; background: #fbff00; color: #000; padding: 15px 0; }
-        .promo-title { font-family: 'Bebas Neue'; text-align: center; font-size: 1.8rem; margin-bottom: 10px; color: #ff0000; }
+        /* PROMOÇÕES NO TOPO */
+        #section-promo { display: none; background: #fbff00; color: #000; padding: 15px 0; border-bottom: 3px solid #ff0000; }
         .promo-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 0 15px; }
-        .card-promo { min-width: 140px; background: #000; padding: 10px; border-radius: 8px; border: 2px solid #ff0000; text-align: center; }
+        .card-promo { min-width: 140px; background: #000; padding: 10px; border-radius: 8px; border: 2px solid #ff0000; text-align: center; cursor: pointer; }
         .card-promo img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
-        .card-promo span { display: block; color: #fff; font-size: 0.6rem; margin: 5px 0; }
-        .card-promo b { color: #fbff00; font-size: 0.9rem; }
-
-        /* MISSÃO */
-        .missao-box { background: #111; padding: 15px; text-align: center; border-bottom: 2px solid #333; }
-        #missao-texto { font-size: 0.8rem; color: #fbff00; text-transform: uppercase; }
 
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
         @media (min-width: 768px) { .vitrine { grid-template-columns: repeat(4, 1fr); } }
         .produto-card { background: #111; border: 1px solid #333; padding: 12px; border-radius: 10px; text-align: center; }
         .produto-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .produto-nome { font-size: 0.7rem; height: 35px; overflow: hidden; margin-bottom: 5px; }
-        .produto-preco { color: #fbff00; font-size: 1.2rem; margin-bottom: 10px; }
         .btn-add { background: #ff0000; color: #fff; border: none; width: 100%; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 5px; }
 
-        /* CARRINHO */
-        #carrinho-fixo { position: fixed; bottom: 25px; right: 25px; background: #fbff00; color: #000; padding: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 100; box-shadow: 0 5px 25px rgba(255, 0, 0, 0.4); }
+        /* SEÇÃO DE VÍDEOS */
+        #container-videos { display: none; padding: 20px; grid-template-columns: 1fr; gap: 20px; }
+        .video-box { width: 100%; border: 2px solid #ff0000; border-radius: 10px; overflow: hidden; background: #111; }
+        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
 
-        /* MODAL CARRINHO */
+        /* CARRINHO */
+        #carrinho-fixo { position: fixed; bottom: 25px; right: 25px; background: #fbff00; color: #000; padding: 18px; border-radius: 50px; cursor: pointer; z-index: 100; font-weight: bold; }
         #modal-cart { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 4000; align-items: center; justify-content: center; }
         .cart-content { background: #111; border: 3px solid #ff0000; padding: 25px; width: 92%; max-width: 450px; border-radius: 15px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
-        .btn-remove { color: #ff0000; background: none; border: none; cursor: pointer; font-size: 1.2rem; }
-        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 18px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -85,35 +74,25 @@
 
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 <div class="sidebar" id="sidebar">
-    <h2>OFICINA MENU</h2>
-    <span class="sidebar-link" onclick="carregarPromoNoGeral()"><i class="fa-solid fa-fire"></i> PROMOÇÕES</span>
-    <span class="sidebar-link" onclick="filtrar('TODOS')">TODOS OS PRODUTOS</span>
-    <span class="sidebar-link" onclick="filtrar('SHAPES')">SHAPES</span>
-    <span class="sidebar-link" onclick="filtrar('TRUCKS')">TRUCKS</span>
-    <span class="sidebar-link" onclick="filtrar('RODAS')">RODAS</span>
-    <span class="sidebar-link" onclick="filtrar('ROLAMENTOS')">ROLAMENTOS</span>
-    <span class="sidebar-link" onclick="filtrar('ACESSÓRIOS')">ACESSÓRIOS</span>
-    <span class="sidebar-link" onclick="filtrar('TÊNIS')">TÊNIS</span>
-    <span class="sidebar-link" onclick="filtrar('BERMUDAS')">BERMUDAS</span>
-    <span class="sidebar-link" onclick="filtrar('CALÇAS')">CALÇAS</span>
-    
-    <div class="sidebar-footer">
-        <a href="#" class="sidebar-link"><i class="fa-solid fa-play"></i> VÍDEO</a>
-        <a href="https://wa.me/5511999999999" class="sidebar-link"><i class="fa-solid fa-phone"></i> CONTATO</a>
-        <a href="admin.html" class="sidebar-link" style="color:#fbff00;"><i class="fa-solid fa-key"></i> ADMINISTRADOR</a>
-    </div>
+    <h2 style="font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 20px;">MENU</h2>
+    <span class="sidebar-link" onclick="mostrarProdutos('PROMOÇÕES')"><i class="fa-solid fa-fire"></i> PROMOÇÕES</span>
+    <span class="sidebar-link" onclick="mostrarProdutos('TODOS')">TODOS OS PRODUTOS</span>
+    <span class="sidebar-link" onclick="mostrarProdutos('SHAPES')">SHAPES</span>
+    <span class="sidebar-link" onclick="mostrarProdutos('TRUCKS')">TRUCKS</span>
+    <span class="sidebar-link" onclick="mostrarProdutos('RODAS')">RODAS</span>
+    <span class="sidebar-link" onclick="mostrarProdutos('ACESSÓRIOS')">ACESSÓRIOS</span>
+    <span class="sidebar-link" onclick="mostrarVideos()"><i class="fa-solid fa-play"></i> VÍDEOS</span>
+    <a href="https://wa.me/5511999999999" class="sidebar-link"><i class="fa-solid fa-phone"></i> CONTATO</a>
+    <a href="admin.html" class="sidebar-link" style="color:#fbff00;"><i class="fa-solid fa-key"></i> ADMIN</a>
 </div>
 
 <div id="section-promo">
-    <h2 class="promo-title">DROPS EM OFERTA 🔥</h2>
+    <h2 style="text-align: center; font-family: 'Bebas Neue'; color: #ff0000; margin-bottom: 10px;">DROPS EM OFERTA 🔥</h2>
     <div class="promo-scroll" id="lista-promo"></div>
 </div>
 
-<div class="missao-box">
-    <p id="missao-texto">CARREGANDO MISSÃO DA OFICINA...</p>
-</div>
-
 <div class="vitrine" id="vitrine-produtos"></div>
+<div id="container-videos"></div>
 
 <div id="carrinho-fixo" onclick="abrirCarrinho()">
     <i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
@@ -121,11 +100,11 @@
 
 <div id="modal-cart">
     <div class="cart-content">
-        <h2 style="font-family: 'Bebas Neue'; color: #fbff00; font-size: 2rem;">MEU PEDIDO</h2>
+        <h2 style="font-family: 'Bebas Neue'; color: #fbff00; font-size: 2rem;">MEU CARRINHO</h2>
         <div id="itens-no-carrinho" style="max-height: 350px; overflow-y: auto;"></div>
-        <h3 id="total-carrinho" style="text-align: right; color: #fbff00; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">TOTAL: R$ 0,00</h3>
-        <button class="btn-finalizar" onclick="enviarPedidoWhatsApp()">FECHAR PEDIDO NO ZAP</button>
-        <button onclick="fecharCarrinho()" style="background:none; color:#777; border:none; width:100%; margin-top:20px; cursor:pointer;">VOLTAR</button>
+        <h3 id="total-carrinho" style="text-align: right; color: #fbff00; margin-top: 15px;">TOTAL: R$ 0,00</h3>
+        <button onclick="enviarWhatsApp()" style="background:#25d366; color:#fff; border:none; width:100%; padding:18px; margin-top:20px; border-radius:8px; font-weight:bold;">PEDIR NO ZAP</button>
+        <button onclick="fecharCarrinho()" style="background:none; color:#777; border:none; width:100%; margin-top:15px; cursor:pointer;">FECHAR</button>
     </div>
 </div>
 
@@ -145,25 +124,12 @@
     const db = firebase.firestore();
 
     let carrinho = [];
-    const somClick = new Audio('click.mpeg');
-
-    function toggleMenu() {
-        document.getElementById('sidebar').classList.toggle('active');
-        document.getElementById('overlay').classList.toggle('active');
-    }
-
-    // CARREGA MISSÃO
-    db.collection("config").doc("site_data").onSnapshot(doc => {
-        if(doc.exists && doc.data().missao) {
-            document.getElementById('missao-texto').innerText = doc.data().missao;
-        }
-    });
 
     // CARREGA PROMOÇÕES NO TOPO
     db.collection("promocoes_oficina").onSnapshot(snap => {
         const lista = document.getElementById('lista-promo');
         const section = document.getElementById('section-promo');
-        lista.innerHTML = '';
+        lista.innerHTML = "";
         if(snap.empty) { section.style.display = 'none'; return; }
         section.style.display = 'block';
         snap.forEach(doc => {
@@ -171,81 +137,74 @@
             lista.innerHTML += `
                 <div class="card-promo" onclick="addCart('${p.nome}', ${p.preco})">
                     <img src="${p.img}">
-                    <span>${p.nome}</span>
-                    <b>R$ ${p.preco.toFixed(2)}</b>
+                    <b style="color:#fbff00; font-size:0.8rem">R$ ${p.preco.toFixed(2)}</b>
                 </div>`;
         });
     });
 
-    // CARREGA PRODUTOS NA VITRINE
-    function carregarProdutos(filtro = 'TODOS') {
-        db.collection("produtos_oficina").onSnapshot(snap => {
+    function mostrarProdutos(filtro) {
+        document.getElementById('container-videos').style.display = 'none';
+        document.getElementById('vitrine-produtos').style.display = 'grid';
+        
+        const colecao = (filtro === "PROMOÇÕES") ? "promocoes_oficina" : "produtos_oficina";
+        
+        db.collection(colecao).onSnapshot(snap => {
             const vitrine = document.getElementById('vitrine-produtos');
-            vitrine.innerHTML = '';
+            vitrine.innerHTML = "";
             snap.forEach(doc => {
                 const p = doc.data();
-                if(filtro === 'TODOS' || p.cat === filtro) {
+                if(filtro === "TODOS" || filtro === "PROMOÇÕES" || p.cat === filtro) {
                     vitrine.innerHTML += `
                         <div class="produto-card">
                             <img src="${p.img}">
-                            <div class="produto-nome">${p.nome}</div>
-                            <div class="produto-preco">R$ ${p.preco.toFixed(2)}</div>
+                            <div style="font-size:0.7rem; height:30px">${p.nome}</div>
+                            <div style="color:#fbff00; margin:10px 0">R$ ${p.preco.toFixed(2)}</div>
                             <button class="btn-add" onclick="addCart('${p.nome}', ${p.preco})">COMPRAR</button>
                         </div>`;
                 }
             });
         });
-        if(document.getElementById('sidebar').classList.contains('active')) toggleMenu();
+        toggleMenu();
     }
 
-    // VER PROMOÇÕES COMO CATEGORIA
-    function carregarPromoNoGeral() {
-        db.collection("promocoes_oficina").onSnapshot(snap => {
-            const vitrine = document.getElementById('vitrine-produtos');
-            vitrine.innerHTML = '';
+    function mostrarVideos() {
+        document.getElementById('vitrine-produtos').style.display = 'none';
+        document.getElementById('section-promo').style.display = 'none';
+        document.getElementById('container-videos').style.display = 'grid';
+        
+        db.collection("videos_oficina").onSnapshot(snap => {
+            const container = document.getElementById('container-videos');
+            container.innerHTML = "";
             snap.forEach(doc => {
-                const p = doc.data();
-                vitrine.innerHTML += `
-                    <div class="produto-card" style="border-color:#fbff00">
-                        <img src="${p.img}">
-                        <div class="produto-nome">${p.nome} (PROMO)</div>
-                        <div class="produto-preco">R$ ${p.preco.toFixed(2)}</div>
-                        <button class="btn-add" onclick="addCart('${p.nome}', ${p.preco})">COMPRAR</button>
-                    </div>`;
+                const url = doc.data().url.replace("watch?v=", "embed/");
+                container.innerHTML += `<div class="video-box"><iframe src="${url}" allowfullscreen></iframe></div>`;
             });
         });
         toggleMenu();
     }
 
-    function filtrar(cat) { carregarProdutos(cat); }
-    carregarProdutos();
-
     function addCart(nome, preco) {
         carrinho.push({ nome, preco });
         document.getElementById('cart-count').innerText = carrinho.length;
-        somClick.play().catch(()=>{});
-        alert("Adicionado!");
+        new Audio('click.mpeg').play().catch(()=>{});
     }
 
     function abrirCarrinho() {
-        if(carrinho.length === 0) return alert("Carrinho vazio!");
+        if(carrinho.length === 0) return alert("Vazio!");
         document.getElementById('modal-cart').style.display = 'flex';
         renderizarCarrinho();
     }
 
     function renderizarCarrinho() {
         const lista = document.getElementById('itens-no-carrinho');
-        lista.innerHTML = '';
+        lista.innerHTML = "";
         let total = 0;
         carrinho.forEach((item, index) => {
             total += item.preco;
             lista.innerHTML += `
                 <div class="cart-item">
                     <span>${item.nome}</span>
-                    <div>
-                        <span>R$ ${item.preco.toFixed(2)}</span>
-                        <button class="btn-remove" onclick="removerItem(${index})"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
+                    <button onclick="removerItem(${index})" style="background:none; border:none; color:red">X</button>
                 </div>`;
         });
         document.getElementById('total-carrinho').innerText = `TOTAL: R$ ${total.toFixed(2)}`;
@@ -254,23 +213,23 @@
     function removerItem(index) {
         carrinho.splice(index, 1);
         document.getElementById('cart-count').innerText = carrinho.length;
-        if(carrinho.length === 0) fecharCarrinho();
-        else renderizarCarrinho();
+        if(carrinho.length === 0) fecharCarrinho(); else renderizarCarrinho();
+    }
+
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
     }
 
     function fecharCarrinho() { document.getElementById('modal-cart').style.display = 'none'; }
-
-    function enviarPedidoWhatsApp() {
-        let msg = "*🔥 SALVE, FAMÍLIA! PEDIDO NOVO NA ÁREA! 🔥*\n\n";
-        let total = 0;
-        carrinho.forEach((item, i) => {
-            msg += `*${i+1}.* ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
-            total += item.preco;
-        });
-        msg += `\n*TOTAL:* R$ ${total.toFixed(2)}\n\n*🚀 JÁ SEPARA QUE O DROP É MEU!*`;
-        const meuZap = "5511999999999"; 
-        window.open(`https://wa.me/${meuZap}?text=${encodeURIComponent(msg)}`, '_blank');
+    
+    function enviarWhatsApp() {
+        let msg = "OFICINA SKATE - NOVO PEDIDO:\n";
+        carrinho.forEach(i => msg += `- ${i.nome}\n`);
+        window.open(`https://wa.me/5511999999999?text=${encodeURIComponent(msg)}`);
     }
+
+    mostrarProdutos('TODOS');
 </script>
 </body>
 </html>
