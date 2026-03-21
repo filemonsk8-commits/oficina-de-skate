@@ -3,150 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Oficina de Skate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <title>Painel do Chefe - Oficina de Skate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; text-transform: uppercase; }
-        .container { max-width: 500px; margin: 0 auto; border: 4px solid #ff0000; padding: 20px; background: #111; }
-        h2 { text-align: center; color: #fbff00; margin-bottom: 20px; font-size: 1.1rem; border-bottom: 2px solid #ff0000; padding-bottom: 10px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 0.7rem; color: #ccc; }
-        input, select { width: 100%; padding: 12px; background: #000; border: 2px solid #fff; color: #fff; font-family: 'Archivo Black'; font-size: 0.8rem; }
-        input[type="file"] { background: #222; padding: 10px; }
-        .btn-lancar { width: 100%; padding: 15px; background: #ff0000; color: #fff; border: none; cursor: pointer; font-family: 'Archivo Black'; font-size: 1rem; margin-top: 10px; }
-        .btn-lancar:disabled { background: #555; cursor: not-allowed; }
-        .btn-voltar { width: 100%; padding: 12px; background: #444; color: #fff; border: none; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.8rem; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
-        #status-upload { font-size: 0.7rem; color: #fbff00; text-align: center; margin-top: 10px; font-weight: bold; }
-        .item-lista { border: 2px solid #fff; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #000; }
-        .img-preview { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ff0000; }
-        .info-produto { flex-grow: 1; font-size: 0.65rem; }
-        .btn-delete { background: #ff0000; color: #fff; border: none; padding: 10px; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.7rem; }
+        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; text-transform: uppercase; padding: 20px; }
+        
+        h1 { font-family: 'Bebas Neue'; font-size: 3rem; color: #ff0000; border-bottom: 4px solid #ff0000; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        h2 { font-family: 'Bebas Neue'; font-size: 2rem; color: #fff; margin: 20px 0 10px 0; }
+
+        /* FORMULÁRIOS */
+        .admin-box { background: #111; border: 2px solid #fff; padding: 20px; margin-bottom: 30px; border-radius: 8px; }
+        .config-box { background: #1a1a1a; border: 2px solid #fbff00; padding: 20px; margin-top: 40px; border-radius: 8px; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #fff; 
+            color: #fff; font-family: 'Archivo Black'; font-size: 0.9rem;
+        }
+        textarea { font-family: sans-serif; height: 100px; text-transform: none; }
+
+        label { font-size: 0.75rem; color: #fbff00; display: block; margin-top: 10px; }
+
+        .btn-save { 
+            width: 100%; background: #ff0000; color: #fff; border: none; padding: 15px; 
+            cursor: pointer; font-size: 1rem; font-family: 'Archivo Black'; transition: 0.3s;
+        }
+        .btn-save:hover { background: #cc0000; }
+        .btn-cancel { background: #555; margin-top: 8px; }
+        .btn-config { background: #fbff00; color: #000; margin-top: 15px; }
+
+        /* LISTAGEM DE ESTOQUE */
+        .prod-item { 
+            display: flex; align-items: center; background: #111; border: 1px solid #333; 
+            margin-bottom: 10px; padding: 10px; gap: 15px; border-radius: 5px;
+        }
+        .prod-img { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ff0000; border-radius: 4px; }
+        .prod-info { flex-grow: 1; font-size: 0.7rem; line-height: 1.4; }
+        .actions { display: flex; gap: 10px; }
+        .btn-act { padding: 10px; cursor: pointer; border: none; font-size: 1.1rem; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .btn-edit { background: #fbff00; color: #000; }
+        .btn-del { background: #ff0000; color: #fff; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .prod-item { flex-wrap: wrap; }
+            .actions { width: 100%; justify-content: flex-end; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>LANÇAR PRODUTO (GRÁTIS)</h2>
-    
-    <div class="form-group">
-        <label>NOME DO ITEM</label>
-        <input type="text" id="nome" placeholder="EX: TRUCK INTRUDER 139MM">
-    </div>
-    
-    <div class="form-group">
-        <label>PREÇO (R$)</label>
-        <input type="number" id="preco" step="0.01" placeholder="EX: 145.00">
-    </div>
+    <h1><i class="fa-solid fa-screwdriver-wrench"></i> PAINEL DO CHEFE</h1>
 
-    <div class="form-group">
-        <label>ESCOLHER FOTO (DIRETO DA GALERIA)</label>
-        <input type="file" id="arquivo-foto" accept="image/*">
-        <div id="status-upload"></div>
-    </div>
-    
-    <div class="form-group">
-        <label>CATEGORIA</label>
-        <select id="cat">
+    <div class="admin-box" id="form-area">
+        <h2 id="form-title">ADICIONAR NOVO ITEM</h2>
+        
+        <input type="text" id="prod-nome" placeholder="NOME DO PRODUTO (EX: SHAPE MAPLE)">
+        <input type="number" id="prod-preco" placeholder="PREÇO (EX: 299.90)" step="0.01">
+        <input type="text" id="prod-img" placeholder="LINK DA IMAGEM DO PRODUTO">
+        
+        <label>CATEGORIA PRINCIPAL:</label>
+        <select id="prod-cat">
             <option value="SHAPES">SHAPES</option>
             <option value="RODAS">RODAS</option>
             <option value="TRUCK">TRUCK</option>
-            <option value="ROLAMENTOS">ROLAMENTOS</option>
             <option value="TÊNIS">TÊNIS</option>
+            <option value="HOOKAH THUG">HOOKAH THUG</option>
             <option value="BERMUDAS">BERMUDAS</option>
-            <option value="CALÇAS">CALÇAS</option>
+            <option value="PROMOÇÕES">PROMOÇÕES</option>
             <option value="ACESSÓRIOS">ACESSÓRIOS</option>
         </select>
+
+        <button class="btn-save" id="btn-main" onclick="salvarProduto()">LANÇAR DROP</button>
+        <button class="btn-save btn-cancel" id="btn-cancel" style="display:none;" onclick="resetForm()">CANCELAR ALTERAÇÃO</button>
     </div>
-    
-    <button class="btn-lancar" id="btn-salvar" onclick="subirEFinalizar()">CADASTRAR NO SITE</button>
-    <a href="index.html" class="btn-voltar">VOLTAR PARA A LOJA</a>
 
-    <div style="margin-top: 30px; border-top: 2px solid #333; padding-top: 20px;">
-        <h3 style="font-size: 0.8rem; margin-bottom: 10px;">ITENS NO SITE:</h3>
-        <div id="lista-produtos"></div>
+    <div class="config-box">
+        <h2><i class="fa-solid fa-clapperboard"></i> CONTEÚDO DO MENU LATERAL</h2>
+        
+        <label>NOSSA MISSÃO (TEXTO QUE APARECE NO SITE):</label>
+        <textarea id="conf-missao" placeholder="Escreva a missão ou visão da loja aqui..."></textarea>
+        
+        <label>LINK DO VÍDEO (YOUTUBE):</label>
+        <input type="text" id="conf-video" placeholder="Cole o link do vídeo aqui">
+        
+        <button class="btn-save btn-config" onclick="salvarConfig()">ATUALIZAR MENU LATERAL</button>
     </div>
-</div>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <hr style="margin: 40px 0; border: 1px solid #222;">
 
-<script>
-    // CHAVE API IMGBB CONFIGURADA
-    const API_KEY_IMGBB = "a499de8c197f35e80312d4fa507c3b29"; 
+    <h2><i class="fa-solid fa-boxes-stacked"></i> ESTOQUE EM TEMPO REAL</h2>
+    <div id="lista-estoque">Carregando estoque...</div>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
-        authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
-        projectId: "oficina-de-skate-9c49b",
-        storageBucket: "oficina-de-skate-9c49b.firebasestorage.app",
-        messagingSenderId: "905657745716",
-        appId: "1:905657745716:web:d1f3b3bff6a26bada1e561"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    async function subirEFinalizar() {
-        const nome = document.getElementById('nome').value.toUpperCase();
-        const preco = parseFloat(document.getElementById('preco').value);
-        const fotoInput = document.getElementById('arquivo-foto');
-        const cat = document.getElementById('cat').value;
-        const btn = document.getElementById('btn-salvar');
-        const status = document.getElementById('status-upload');
+    <script>
+        // CONFIGURAÇÃO DO SEU FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
+            authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
+            projectId: "oficina-de-skate-9c49b",
+            storageBucket: "oficina-de-skate-9c49b.firebasestorage.app",
+            messagingSenderId: "905657745716",
+            appId: "1:905657745716:web:d1f3b3bff6a26bada1e561"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        if(!nome || isNaN(preco) || !fotoInput.files[0]) {
-            alert("PREENCHA TUDO E ESCOLHA A FOTO!");
-            return;
+        let editandoId = null;
+
+        // --- FUNÇÕES DE PRODUTOS ---
+
+        function carregarLista() {
+            db.collection("produtos_oficina").onSnapshot(snap => {
+                const lista = document.getElementById('lista-estoque');
+                lista.innerHTML = '';
+                snap.forEach(doc => {
+                    const p = doc.data();
+                    lista.innerHTML += `
+                        <div class="prod-item">
+                            <img src="${p.img}" class="prod-img">
+                            <div class="prod-info">
+                                <strong style="color:#fbff00">${p.nome}</strong><br>
+                                PREÇO: R$ ${p.preco.toFixed(2)} | CAT: ${p.cat}
+                            </div>
+                            <div class="actions">
+                                <button class="btn-act btn-edit" title="Editar" onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="btn-act btn-del" title="Excluir" onclick="deletar('${doc.id}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>`;
+                });
+            });
         }
 
-        btn.disabled = true;
-        status.innerText = "SUBINDO FOTO... AGUARDE";
+        async function salvarProduto() {
+            const nome = document.getElementById('prod-nome').value;
+            const preco = parseFloat(document.getElementById('prod-preco').value);
+            const img = document.getElementById('prod-img').value;
+            const cat = document.getElementById('prod-cat').value;
 
-        // 1. Enviar para ImgBB
-        const formData = new FormData();
-        formData.append("image", fotoInput.files[0]);
+            if(!nome || !preco || !img) return alert("PREENCHA TODOS OS CAMPOS!");
 
-        try {
-            const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY_IMGBB}`, {
-                method: "POST",
-                body: formData
-            });
-            const resData = await res.json();
-            const urlFinal = resData.data.url;
+            const dados = { nome, preco, img, cat };
 
-            // 2. Salvar no Firebase Firestore
-            await db.collection("produtos_oficina").add({
-                nome: nome,
-                preco: preco,
-                img: urlFinal,
-                cat: cat
-            });
-
-            alert("SUCESSO! PRODUTO LANÇADO.");
-            location.reload();
-
-        } catch (error) {
-            console.error(error);
-            alert("ERRO NO UPLOAD! TENTE NOVAMENTE.");
-            btn.disabled = false;
-            status.innerText = "";
+            try {
+                if(editandoId) {
+                    await db.collection("produtos_oficina").doc(editandoId).update(dados);
+                    alert("DADOS ATUALIZADOS!");
+                } else {
+                    await db.collection("produtos_oficina").add(dados);
+                    alert("NOVO DROP CADASTRADO!");
+                }
+                resetForm();
+            } catch (e) {
+                alert("ERRO AO SALVAR: " + e.message);
+            }
         }
-    }
 
-    // LISTAR PRODUTOS DO BANCO
-    db.collection("produtos_oficina").onSnapshot((snap) => {
-        const lista = document.getElementById('lista-produtos');
-        lista.innerHTML = "";
-        snap.forEach((doc) => {
-            const p = doc.data();
-            lista.innerHTML += `
-                <div class="item-lista">
-                    <img src="${p.img}" class="img-preview" onerror="this.src='https://via.placeholder.com/60'">
-                    <div class="info-produto"><strong>${p.nome}</strong><br>R$ ${p.preco.toFixed(2)}</div>
-                    <button class="btn-delete" onclick="db.collection('produtos_oficina').doc('${doc.id}').delete()">X</button>
-                </div>`;
-        });
-    });
-</script>
+        function prepararEdicao(id, nome, preco, img, cat) {
+            editandoId = id;
+            document.getElementById('prod-nome').value = nome;
+            document.getElementById('prod-preco').value = preco;
+            document.getElementById('prod-img').value = img;
+            document.getElementById('prod-cat').value = cat;
+            
+            document.getElementById('form-title').innerText = "ALTERAR PRODUTO";
+            document.getElementById('btn-main').innerText = "SALVAR ALTERAÇÕES";
+            document.getElementById('btn-cancel').style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deletar(id) {
+            if(confirm("Deseja mesmo remover este produto do estoque?")) {
+                db.collection("produtos_oficina").doc(id).delete();
+            }
+        }
+
+        function resetForm() {
+            editandoId = null;
+            document.getElementById('prod-nome').value = '';
+            document.getElementById('prod-preco').value = '';
+            document.getElementById('prod-img').value = '';
+            document.getElementById('form-title').innerText = "ADICIONAR NOVO ITEM";
+            document.getElementById('btn-main').innerText = "LANÇAR DROP";
+            document.getElementById('btn-cancel').style.display = "none";
+        }
+
+        // --- FUNÇÕES DE CONFIGURAÇÃO (MISSÃO E VÍDEO) ---
+
+        async function salvarConfig() {
+            const missao = document.getElementById('conf-missao').value;
+            const video = document.getElementById('conf-video').value;
+
+            await db.collection("configuracoes_loja").doc("oficial").set({
+                missao: missao,
+                video: video
+            });
+            alert("CONTEÚDO DO SITE ATUALIZADO!");
+        }
+
+        function carregarConfig() {
+            db.collection("configuracoes_loja").doc("oficial").get().then((doc) => {
+                if (doc.exists) {
+                    document.getElementById('conf-missao').value = doc.data().missao || "";
+                    document.getElementById('conf-video').value = doc.data().video || "";
+                }
+            });
+        }
+
+        // INICIALIZAÇÃO
+        carregarLista();
+        carregarConfig();
+    </script>
 </body>
 </html>
