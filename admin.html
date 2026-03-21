@@ -3,191 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFICINA DE SKATE</title>
+    <title>PAINEL OFICINA - ADMIN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; overflow-x: hidden; }
-
-        /* HEADER E MENU LATERAL */
-        header { 
-            background: #000; padding: 20px; display: flex; align-items: center; 
-            justify-content: space-between; border-bottom: 4px solid #ff0000; position: sticky; top: 0; z-index: 1000;
-        }
-        .btn-menu { color: #ff0000; font-size: 2rem; cursor: pointer; }
-        .logo-oficina { font-family: 'Bebas Neue'; font-size: 3rem; color: #ff0000; text-shadow: 3px 3px #fbff00; }
-
-        /* SIDEBAR (ABA LATERAL) */
-        .sidebar {
-            position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-            background: #111; z-index: 2000; transition: 0.4s; padding: 20px; border-right: 3px solid #ff0000;
-        }
-        .sidebar.active { left: 0; }
-        .sidebar h2 { font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 20px; border-bottom: 1px solid #333; }
-        .sidebar-link { 
-            display: block; color: #fff; text-decoration: none; padding: 15px 10px; 
-            font-size: 1.2rem; border-bottom: 1px solid #222; font-family: 'Bebas Neue';
-        }
-        .sidebar-link:hover { background: #ff0000; color: #fff; }
-        .overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); z-index: 1500; 
-        }
-        .overlay.active { display: block; }
-
-        /* MISSÃO */
-        .missao-box { background: #111; padding: 15px; text-align: center; border-bottom: 2px solid #333; }
-        #missao-texto { font-size: 0.8rem; color: #fbff00; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* VITRINE EM GRADE */
-        .vitrine { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-        @media (min-width: 768px) { .vitrine { grid-template-columns: repeat(4, 1fr); } }
+        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 20px; }
+        h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 3rem; text-align: center; text-shadow: 2px 2px #fbff00; margin-bottom: 20px; }
         
-        .produto-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align: center; }
-        .produto-card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 8px; }
-        .produto-nome { font-size: 0.7rem; height: 35px; overflow: hidden; margin-bottom: 5px; }
-        .produto-preco { color: #fbff00; font-size: 1.1rem; margin-bottom: 8px; }
-        .btn-add { background: #ff0000; color: #fff; border: none; width: 100%; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .card-admin { background: #111; border: 2px solid #ff0000; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        h2 { font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 15px; border-bottom: 1px solid #333; }
 
-        /* CARRINHO */
-        #carrinho-fixo { position: fixed; bottom: 20px; right: 20px; background: #fbff00; color: #000; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 100; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        label { display: block; margin: 10px 0 5px; font-size: 0.8rem; color: #888; }
+        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; font-family: sans-serif; }
         
-        #modal-cart { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; }
-        .cart-content { background: #111; border: 2px solid #ff0000; padding: 20px; width: 90%; max-width: 400px; border-radius: 10px; }
-        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-salvar { background: #ff0000; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-salvar:hover { background: #fbff00; color: #000; }
+
+        .lista-itens { margin-top: 20px; display: grid; gap: 10px; }
+        .item-gerenciado { background: #222; padding: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; font-size: 0.8rem; }
+        .btn-del { color: #ff0000; cursor: pointer; background: none; border: none; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="btn-menu" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
-    <h1 class="logo-oficina">OFICINA</h1>
-    <div style="width: 32px;"></div> </header>
+    <h1>PAINEL ADMINISTRATIVO</h1>
 
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-<div class="sidebar" id="sidebar">
-    <h2>CATEGORIAS</h2>
-    <a href="#" class="sidebar-link" onclick="filtrar('TODOS')">TODOS OS PRODUTOS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('SHAPES')">SHAPES</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('RODAS')">RODAS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('ROLAMENTOS')">ROLAMENTOS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('TÊNIS')">TÊNIS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('BERMUDAS')">BERMUDAS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('CALÇAS')">CALÇAS</a>
-    <a href="#" class="sidebar-link" onclick="filtrar('HOOKAH THUG')">HOOKAH THUG</a>
-</div>
-
-<div class="missao-box">
-    <p id="missao-texto">CARREGANDO MISSÃO...</p>
-</div>
-
-<div class="vitrine" id="vitrine-produtos"></div>
-
-<div id="carrinho-fixo" onclick="abrirCarrinho()">
-    <i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span>
-</div>
-
-<div id="modal-cart">
-    <div class="cart-content">
-        <h2 style="font-family: 'Bebas Neue'; color: #fbff00;">SEU CARRINHO</h2>
-        <div id="itens-no-carrinho" style="margin: 15px 0;"></div>
-        <h3 id="total-carrinho" style="text-align: right; color: #fbff00;">TOTAL: R$ 0,00</h3>
-        <button class="btn-finalizar" onclick="enviarPedidoWhatsApp()">FINALIZAR NO WHATSAPP</button>
-        <button onclick="fecharCarrinho()" style="background:none; color:#888; border:none; width:100%; margin-top:15px; cursor:pointer;">VOLTAR</button>
+    <div class="card-admin">
+        <h2><i class="fa-solid fa-bullhorn"></i> MISSÃO DA OFICINA</h2>
+        <label>Frase que aparece no topo do site:</label>
+        <textarea id="input-missao" rows="2" placeholder="Ex: O MELHOR DROP DE SKATE DA REGIÃO..."></textarea>
+        <button class="btn-salvar" onclick="salvarMissao()">ATUALIZAR MISSÃO</button>
     </div>
-</div>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <div class="card-admin">
+        <h2><i class="fa-solid fa-box-open"></i> NOVO PRODUTO</h2>
+        <input type="text" id="nome-p" placeholder="Nome do Produto">
+        <input type="number" id="preco-p" placeholder="Preço (ex: 150.00)">
+        <input type="text" id="img-p" placeholder="Link da Imagem (URL)">
+        <select id="cat-p">
+            <option value="SHAPES">SHAPES</option>
+            <option value="TRUCKS">TRUCKS</option>
+            <option value="RODAS">RODAS</option>
+            <option value="ROLAMENTOS">ROLAMENTOS</option>
+            <option value="ACESSÓRIOS">ACESSÓRIOS</option>
+            <option value="TÊNIS">TÊNIS</option>
+            <option value="BERMUDAS">BERMUDAS</option>
+            <option value="CALÇAS">CALÇAS</option>
+            <option value="HOOKAH THUG">HOOKAH THUG</option>
+        </select>
+        <button class="btn-salvar" onclick="addProduto('produtos_oficina')">CADASTRAR NA VITRINE</button>
+        <button class="btn-salvar" style="background:#fbff00; color:#000;" onclick="addProduto('promocoes_oficina')">CADASTRAR COMO PROMOÇÃO 🔥</button>
+    </div>
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
-        authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
-        projectId: "oficina-de-skate-9c49b",
-        storageBucket: "oficina-de-skate-9c49b.firebasestorage.app",
-        messagingSenderId: "905657745716",
-        appId: "1:905657745716:web:d1f3b3bff6a26bada1e561"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    <div class="card-admin">
+        <h2><i class="fa-solid fa-list"></i> GERENCIAR ESTOQUE</h2>
+        <div id="lista-estoque" class="lista-itens"></div>
+    </div>
 
-    let carrinho = [];
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    // TOGGLE MENU LATERAL
-    function toggleMenu() {
-        document.getElementById('sidebar').classList.toggle('active');
-        document.getElementById('overlay').classList.toggle('active');
-    }
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
+            authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
+            projectId: "oficina-de-skate-9c49b",
+            storageBucket: "oficina-de-skate-9c49b.firebasestorage.app",
+            messagingSenderId: "905657745716",
+            appId: "1:905657745716:web:d1f3b3bff6a26bada1e561"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-    // MISSÃO DINÂMICA
-    db.collection("config").doc("site_data").onSnapshot(doc => {
-        if(doc.exists && doc.data().missao) {
-            document.getElementById('missao-texto').innerText = doc.data().missao;
+        // SALVAR MISSÃO
+        function salvarMissao() {
+            const texto = document.getElementById('input-missao').value;
+            db.collection("config").doc("site_data").set({ missao: texto }, { merge: true })
+            .then(() => alert("Missão atualizada!"));
         }
-    });
 
-    // CARREGAR PRODUTOS
-    function carregarProdutos(filtro = 'TODOS') {
-        db.collection("produtos_oficina").onSnapshot(snap => {
-            const vitrine = document.getElementById('vitrine-produtos');
-            vitrine.innerHTML = '';
-            snap.forEach(doc => {
-                const p = doc.data();
-                if(filtro === 'TODOS' || p.cat === filtro) {
-                    vitrine.innerHTML += `
-                        <div class="produto-card">
-                            <img src="${p.img}">
-                            <div class="produto-nome">${p.nome}</div>
-                            <div class="produto-preco">R$ ${p.preco.toFixed(2)}</div>
-                            <button class="btn-add" onclick="addCart('${p.nome}', ${p.preco})">COMPRAR</button>
-                        </div>`;
-                }
+        // ADICIONAR PRODUTO OU PROMOÇÃO
+        function addProduto(colecao) {
+            const nome = document.getElementById('nome-p').value;
+            const preco = parseFloat(document.getElementById('preco-p').value);
+            const img = document.getElementById('img-p').value;
+            const cat = document.getElementById('cat-p').value;
+
+            if(!nome || !preco) return alert("Preencha nome e preço!");
+
+            db.collection(colecao).add({ nome, preco, img, cat })
+            .then(() => {
+                alert("Cadastrado com sucesso!");
+                document.getElementById('nome-p').value = '';
+                document.getElementById('preco-p').value = '';
             });
+        }
+
+        // CARREGAR E DELETAR ITENS
+        function carregarEstoque() {
+            db.collection("produtos_oficina").onSnapshot(snap => {
+                const lista = document.getElementById('lista-estoque');
+                lista.innerHTML = '<h3>Produtos da Vitrine</h3>';
+                snap.forEach(doc => {
+                    const p = doc.data();
+                    lista.innerHTML += `
+                        <div class="item-gerenciado">
+                            <span>${p.nome} (${p.cat})</span>
+                            <button class="btn-del" onclick="deletar('${doc.id}', 'produtos_oficina')"><i class="fa-solid fa-trash"></i></button>
+                        </div>`;
+                });
+            });
+        }
+
+        function deletar(id, colecao) {
+            if(confirm("Deseja apagar este item?")) {
+                db.collection(colecao).doc(id).delete();
+            }
+        }
+
+        // CARREGA A MISSÃO ATUAL AO ABRIR
+        db.collection("config").doc("site_data").get().then(doc => {
+            if(doc.exists) document.getElementById('input-missao').value = doc.data().missao;
         });
-        if(document.getElementById('sidebar').classList.contains('active')) toggleMenu();
-    }
 
-    function filtrar(cat) { carregarProdutos(cat); }
-    carregarProdutos();
-
-    // CARRINHO
-    function addCart(nome, preco) {
-        carrinho.push({ nome, preco });
-        document.getElementById('cart-count').innerText = carrinho.length;
-        alert("Adicionado ao Carrinho!");
-    }
-
-    function abrirCarrinho() {
-        if(carrinho.length === 0) return alert("Carrinho vazio!");
-        document.getElementById('modal-cart').style.display = 'flex';
-        const lista = document.getElementById('itens-no-carrinho');
-        let total = 0;
-        lista.innerHTML = '';
-        carrinho.forEach(item => {
-            total += item.preco;
-            lista.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #222; font-size:0.8rem;">
-                <span>${item.nome}</span><span>R$ ${item.preco.toFixed(2)}</span>
-            </div>`;
-        });
-        document.getElementById('total-carrinho').innerText = `TOTAL: R$ ${total.toFixed(2)}`;
-    }
-
-    function fecharCarrinho() { document.getElementById('modal-cart').style.display = 'none'; }
-
-    // WHATSAPP FINAL
-    function enviarPedidoWhatsApp() {
-        let msg = "*🔥 SALVE, FAMÍLIA! PEDIDO NOVO NA ÁREA! 🔥*\n\n";
-        let total = 0;
-        carrinho.forEach((item, i) => {
-            msg += `*${i+1}.* ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
-            total += item.preco;
-        });
-        msg += `\n*TOTAL:* R$ ${total.toFixed(2)}\n\n*🚀 JÁ SEPARA QUE O DROP É MEU!*`;
-        const meuZap = "5511999999999"; // COLOQUE SEU NÚMERO AQUI
-        window.open(`https://wa.me/${meuZap}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-</script>
+        carregarEstoque();
+    </script>
 </body>
 </html>
