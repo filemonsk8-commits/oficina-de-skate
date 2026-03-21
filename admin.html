@@ -60,7 +60,6 @@
             <input type="hidden" id="img-url"> 
 
             <select id="cat-p">
-                <option value="PROMOÇÕES">🔥 PROMOÇÕES</option>
                 <option value="SHAPES">SHAPES</option>
                 <option value="TRUCKS">TRUCKS</option>
                 <option value="RODAS">RODAS</option>
@@ -69,6 +68,7 @@
                 <option value="TÊNIS">TÊNIS</option>
                 <option value="BERMUDAS">BERMUDAS</option>
                 <option value="CALÇAS">CALÇAS</option>
+                <option value="PROMOÇÕES">🔥 PROMOÇÕES</option>
             </select>
             <button class="btn-acao" id="btn-principal" onclick="salvarProduto()">LANÇAR NA LOJA</button>
         </div>
@@ -145,19 +145,21 @@
             if(!dados.img || !dados.nome) return alert("Faltam dados!");
 
             if(id) {
-                db.collection(colecao).doc(id).update(dados).then(() => { alert("Atualizado!"); location.reload(); });
+                db.collection(colecao).doc(id).update(dados).then(() => { alert("Atualizado!"); limparForm(); });
             } else {
-                db.collection(colecao).add(dados).then(() => { alert("Lançado com sucesso!"); location.reload(); });
+                db.collection(colecao).add(dados).then(() => { alert("Lançado com sucesso!"); limparForm(); });
             }
         }
 
         function salvarVideo() {
             const url = document.getElementById('video-url').value;
             if(!url) return;
-            db.collection("videos_oficina").add({ url, data: new Date() }).then(() => { alert("Vídeo no ar!"); location.reload(); });
+            db.collection("videos_oficina").add({ url, data: new Date() }).then(() => { alert("Vídeo no ar!"); document.getElementById('video-url').value = ''; });
         }
 
         function carregarTudo() {
+            // Limpa a lista antes de carregar
+            document.getElementById('lista-geral').innerHTML = '';
             // Carrega produtos normais
             db.collection("produtos_oficina").onSnapshot(snap => renderLista(snap, "produtos_oficina"));
             // Carrega promoções
@@ -165,21 +167,38 @@
         }
 
         function renderLista(snap, col, isPromo = false) {
-            const lista = document.getElementById('lista-geral');
+            // Não limpa aqui para acumular as duas coleções
             snap.forEach(doc => {
                 const p = doc.data();
-                lista.innerHTML += `
-                    <div class="item-lista">
-                        <span>${isPromo ? '🔥' : ''} ${p.nome} - R$ ${p.preco}</span>
-                        <div>
-                            <button class="btn-mini" onclick="deletar('${doc.id}', '${col}')">❌</button>
-                        </div>
-                    </div>`;
+                const lista = document.getElementById('lista-geral');
+                // Evita duplicar na renderização do onSnapshot
+                if(!document.getElementById(doc.id)){
+                    lista.innerHTML += `
+                        <div class="item-lista" id="${doc.id}">
+                            <span>${isPromo ? '🔥' : ''} ${p.nome} - R$ ${p.preco}</span>
+                            <div>
+                                <button class="btn-mini" onclick="deletar('${doc.id}', '${col}')">❌</button>
+                            </div>
+                        </div>`;
+                }
             });
         }
 
+        function limparForm() {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('nome-p').value = '';
+            document.getElementById('preco-p').value = '';
+            document.getElementById('img-url').value = '';
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('cat-p').value = 'SHAPES'; // Categoria padrão
+        }
+
         function deletar(id, col) {
-            if(confirm("Deseja apagar?")) db.collection(col).doc(id).delete().then(() => location.reload());
+            if(confirm("Deseja apagar?")) {
+                db.collection(col).doc(id).delete().then(() => {
+                    document.getElementById(id).remove(); // Remove da lista na hora
+                });
+            }
         }
     </script>
 </body>
