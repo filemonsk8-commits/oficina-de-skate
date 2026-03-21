@@ -10,71 +10,73 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; }
         
-        /* TELA DE LOGIN */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-        #login-screen input { width:200px; text-align:center; margin-bottom:15px; font-size:1.5rem; letter-spacing:5px; background:#111; border:2px solid #ff0000; color:#fff; padding:10px; border-radius:5px; }
+        #login-screen input { width:200px; text-align:center; margin-bottom:15px; font-size:1.5rem; background:#111; border:2px solid #ff0000; color:#fff; padding:10px; border-radius:5px; }
         
-        /* LAYOUT ADMIN */
         #admin-content { display:none; }
         .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
-        h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 2.2rem; }
-        .btn-sair { background: #ff0000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
+        h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 2rem; }
+        
         .card-admin { background: #111; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        h2 { font-family: 'Bebas Neue'; color: #fbff00; font-size: 1.5rem; margin-bottom: 10px; }
+        h2 { font-family: 'Bebas Neue'; color: #fbff00; font-size: 1.4rem; margin-bottom: 10px; }
 
-        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px; font-family: sans-serif; }
+        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px; }
         .btn-acao { background: #ff0000; color: #fff; border: none; width: 100%; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 5px; }
-        .btn-edit { background: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px; }
-        .btn-del { background: #dc3545; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        
+        /* ESTILO UPLOAD */
+        .upload-area { border: 2px dashed #444; padding: 15px; text-align: center; margin-bottom: 10px; border-radius: 5px; cursor: pointer; }
+        .upload-area:hover { border-color: #fbff00; }
+        #preview-img { max-width: 100px; display: none; margin: 10px auto; border-radius: 5px; }
 
         .item-lista { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; margin-bottom: 5px; border-radius: 5px; font-size: 0.8rem; }
-        .thumb-admin { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; margin-right: 10px; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <h1 style="margin-bottom: 20px;">ACESSO RESTRITO</h1>
+        <h1 style="margin-bottom: 20px;">OFICINA LOGIN</h1>
         <input type="password" id="pass-input" placeholder="SENHA">
         <button class="btn-acao" style="width:200px;" onclick="checkPass()">ENTRAR</button>
     </div>
 
     <div id="admin-content">
         <div class="header-admin">
-            <h1>OFICINA ADMIN</h1>
-            <button class="btn-sair" onclick="sair()">SAIR <i class="fa-solid fa-right-from-bracket"></i></button>
+            <h1>PAINEL DE CONTROLE</h1>
+            <button onclick="location.reload()" style="background:#444; color:#fff; border:none; padding:5px 10px; border-radius:5px;">SAIR</button>
         </div>
 
         <div class="card-admin">
-            <h2>MISSÃO DO TOPO</h2>
-            <textarea id="missao-text" rows="2"></textarea>
-            <button class="btn-acao" onclick="updateMissao()">SALVAR MISSÃO</button>
-        </div>
-
-        <div class="card-admin" id="form-container">
-            <h2 id="form-title">LANÇAR NOVO PRODUTO</h2>
+            <h2 id="form-title">LANÇAR PRODUTO / PROMOÇÃO</h2>
             <input type="hidden" id="edit-id">
             <input type="text" id="nome-p" placeholder="Nome do Produto">
             <input type="number" id="preco-p" placeholder="Preço (R$)">
-            <input type="text" id="img-p" placeholder="Link Direto ImgBB (ex: https://i.ibb.co/...)">
-            <select id="cat-p">
+            
+            <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> SELECIONAR IMAGEM
+                <input type="file" id="file-input" style="display:none" onchange="uploadImagem(this)">
+            </div>
+            <img id="preview-img">
+            <input type="hidden" id="img-url"> <select id="cat-p">
                 <option value="SHAPES">SHAPES</option>
                 <option value="TRUCKS">TRUCKS</option>
                 <option value="RODAS">RODAS</option>
                 <option value="ROLAMENTOS">ROLAMENTOS</option>
                 <option value="ACESSÓRIOS">ACESSÓRIOS</option>
                 <option value="TÊNIS">TÊNIS</option>
-                <option value="BERMUDAS">BERMUDAS</option>
-                <option value="CALÇAS">CALÇAS</option>
                 <option value="PROMOÇÕES">PROMOÇÕES</option>
             </select>
-            <button class="btn-acao" id="btn-principal" onclick="salvarProduto()">CADASTRAR</button>
-            <button class="btn-acao" id="btn-cancelar" style="display:none; background:#555;" onclick="limparForm()">CANCELAR EDIÇÃO</button>
+            <button class="btn-acao" id="btn-principal" onclick="salvarProduto()">SALVAR NO ESTOQUE</button>
         </div>
 
         <div class="card-admin">
-            <h2>ESTOQUE LANÇADO</h2>
+            <h2>LANÇAR VÍDEOS (YouTube)</h2>
+            <input type="text" id="video-url" placeholder="Link do Vídeo (ex: https://youtube.com/...)">
+            <button class="btn-acao" style="background:#fbff00; color:#000;" onclick="salvarVideo()">PUBLICAR VÍDEO</button>
+            <div id="lista-videos" style="margin-top:10px"></div>
+        </div>
+
+        <div class="card-admin">
+            <h2>ESTOQUE ATUAL</h2>
             <div id="lista-estoque"></div>
         </div>
     </div>
@@ -83,7 +85,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // CONFIG FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
             authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
@@ -95,84 +96,91 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // SEGURANÇA
+        const IMGBB_API_KEY = "a499de8c197f35e80312d4fa507c3b29";
+
         function checkPass() {
-            const pass = document.getElementById('pass-input').value;
-            if(pass === "2203") {
+            if(document.getElementById('pass-input').value === "2203") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('admin-content').style.display = 'block';
                 carregarEstoque();
+                carregarVideos();
+            } else { alert("Senha Errada!"); }
+        }
+
+        // FUNÇÃO DE UPLOAD DIRETO PARA IMGBB
+        async function uploadImagem(input) {
+            const file = input.files[0];
+            if(!file) return;
+            
+            const formData = new FormData();
+            formData.append("image", file);
+
+            alert("Subindo imagem para o ImgBB... aguarde.");
+            
+            const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            if(data.success) {
+                document.getElementById('img-url').value = data.data.url;
+                const preview = document.getElementById('preview-img');
+                preview.src = data.data.url;
+                preview.style.display = "block";
+                alert("Imagem pronta!");
             } else {
-                alert("SENHA INCORRETA!");
+                alert("Erro no upload!");
             }
         }
 
-        function sair() { location.reload(); }
-
-        // MISSÃO
-        function updateMissao() {
-            const txt = document.getElementById('missao-text').value;
-            db.collection("config").doc("site_data").set({ missao: txt }, { merge: true })
-            .then(() => alert("Missão atualizada!"));
-        }
-
-        // CARREGA MISSÃO AO ENTRAR
-        db.collection("config").doc("site_data").get().then(doc => {
-            if(doc.exists) document.getElementById('missao-text').value = doc.data().missao;
-        });
-
-        // SALVAR (CADASTRO OU EDIÇÃO)
         function salvarProduto() {
             const id = document.getElementById('edit-id').value;
             const dados = {
                 nome: document.getElementById('nome-p').value,
                 preco: parseFloat(document.getElementById('preco-p').value),
-                img: document.getElementById('img-p').value,
+                img: document.getElementById('img-url').value,
                 cat: document.getElementById('cat-p').value
             };
 
-            if(!dados.nome || !dados.preco) return alert("Preencha Nome e Preço!");
+            if(!dados.img) return alert("Selecione uma imagem primeiro!");
 
             if(id) {
-                // Editar
-                db.collection("produtos_oficina").doc(id).update(dados)
-                .then(() => { alert("Produto Editado!"); limparForm(); });
+                db.collection("produtos_oficina").doc(id).update(dados).then(() => { alert("Editado!"); location.reload(); });
             } else {
-                // Novo
-                db.collection("produtos_oficina").add(dados)
-                .then(() => { alert("Produto Lançado!"); limparForm(); });
+                db.collection("produtos_oficina").add(dados).then(() => { alert("Lançado!"); location.reload(); });
             }
         }
 
-        function limparForm() {
-            document.getElementById('edit-id').value = "";
-            document.getElementById('nome-p').value = "";
-            document.getElementById('preco-p').value = "";
-            document.getElementById('img-p').value = "";
-            document.getElementById('form-title').innerText = "LANÇAR NOVO PRODUTO";
-            document.getElementById('btn-principal').innerText = "CADASTRAR";
-            document.getElementById('btn-cancelar').style.display = "none";
+        function salvarVideo() {
+            const url = document.getElementById('video-url').value;
+            if(!url) return alert("Cole o link do vídeo!");
+            db.collection("videos_oficina").add({ url, data: new Date() })
+            .then(() => { alert("Vídeo Lançado!"); location.reload(); });
         }
 
-        // CARREGAR LISTA
+        function carregarVideos() {
+            db.collection("videos_oficina").onSnapshot(snap => {
+                const lista = document.getElementById('lista-videos');
+                lista.innerHTML = "";
+                snap.forEach(doc => {
+                    lista.innerHTML += `<div class="item-lista"><span>${doc.data().url}</span><button onclick="deletar('${doc.id}', 'videos_oficina')">❌</button></div>`;
+                });
+            });
+        }
+
         function carregarEstoque() {
-            db.collection("produtos_oficina").orderBy("cat").onSnapshot(snap => {
+            db.collection("produtos_oficina").onSnapshot(snap => {
                 const lista = document.getElementById('lista-estoque');
                 lista.innerHTML = "";
                 snap.forEach(doc => {
                     const p = doc.data();
                     lista.innerHTML += `
                         <div class="item-lista">
-                            <div style="display:flex; align-items:center;">
-                                <img src="${p.img}" class="thumb-admin" onerror="this.src='https://via.placeholder.com/40'">
-                                <div>
-                                    <b>${p.nome}</b><br>
-                                    <small>${p.cat} - R$ ${p.preco.toFixed(2)}</small>
-                                </div>
-                            </div>
+                            <span>${p.nome} - R$ ${p.preco}</span>
                             <div>
-                                <button class="btn-edit" onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn-del" onclick="deletar('${doc.id}')"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')">✏️</button>
+                                <button onclick="deletar('${doc.id}', 'produtos_oficina')">❌</button>
                             </div>
                         </div>`;
                 });
@@ -183,19 +191,15 @@
             document.getElementById('edit-id').value = id;
             document.getElementById('nome-p').value = nome;
             document.getElementById('preco-p').value = preco;
-            document.getElementById('img-p').value = img;
+            document.getElementById('img-url').value = img;
             document.getElementById('cat-p').value = cat;
-            
-            document.getElementById('form-title').innerText = "EDITANDO PRODUTO";
-            document.getElementById('btn-principal').innerText = "SALVAR ALTERAÇÕES";
-            document.getElementById('btn-cancelar').style.display = "block";
+            document.getElementById('preview-img').src = img;
+            document.getElementById('preview-img').style.display = "block";
             window.scrollTo(0,0);
         }
 
-        function deletar(id) {
-            if(confirm("Apagar este produto permanentemente?")) {
-                db.collection("produtos_oficina").doc(id).delete();
-            }
+        function deletar(id, col) {
+            if(confirm("Apagar?")) db.collection(col).doc(id).delete();
         }
     </script>
 </body>
