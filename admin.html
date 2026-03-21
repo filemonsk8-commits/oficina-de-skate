@@ -8,63 +8,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 20px; }
-        h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 3rem; text-align: center; text-shadow: 2px 2px #fbff00; margin-bottom: 20px; }
+        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; }
         
-        .card-admin { background: #111; border: 2px solid #ff0000; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        h2 { font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 15px; border-bottom: 1px solid #333; }
-
-        label { display: block; margin: 10px 0 5px; font-size: 0.8rem; color: #888; }
-        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; font-family: sans-serif; }
+        /* TELA DE LOGIN */
+        #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+        #login-screen input { width:200px; text-align:center; margin-bottom:15px; font-size:1.5rem; letter-spacing:5px; background:#111; border:2px solid #ff0000; color:#fff; padding:10px; border-radius:5px; }
         
-        .btn-salvar { background: #ff0000; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .btn-salvar:hover { background: #fbff00; color: #000; }
+        /* LAYOUT ADMIN */
+        #admin-content { display:none; }
+        .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
+        h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 2.2rem; }
+        .btn-sair { background: #ff0000; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-        .lista-itens { margin-top: 20px; display: grid; gap: 10px; }
-        .item-gerenciado { background: #222; padding: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; font-size: 0.8rem; }
-        .btn-del { color: #ff0000; cursor: pointer; background: none; border: none; font-size: 1.2rem; }
+        .card-admin { background: #111; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        h2 { font-family: 'Bebas Neue'; color: #fbff00; font-size: 1.5rem; margin-bottom: 10px; }
+
+        input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px; font-family: sans-serif; }
+        .btn-acao { background: #ff0000; color: #fff; border: none; width: 100%; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 5px; }
+        .btn-edit { background: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px; }
+        .btn-del { background: #dc3545; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+
+        .item-lista { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; margin-bottom: 5px; border-radius: 5px; font-size: 0.8rem; }
+        .thumb-admin { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; margin-right: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>PAINEL ADMINISTRATIVO</h1>
-
-    <div class="card-admin">
-        <h2><i class="fa-solid fa-bullhorn"></i> MISSÃO DA OFICINA</h2>
-        <label>Frase que aparece no topo do site:</label>
-        <textarea id="input-missao" rows="2" placeholder="Ex: O MELHOR DROP DE SKATE DA REGIÃO..."></textarea>
-        <button class="btn-salvar" onclick="salvarMissao()">ATUALIZAR MISSÃO</button>
+    <div id="login-screen">
+        <h1 style="margin-bottom: 20px;">ACESSO RESTRITO</h1>
+        <input type="password" id="pass-input" placeholder="SENHA">
+        <button class="btn-acao" style="width:200px;" onclick="checkPass()">ENTRAR</button>
     </div>
 
-    <div class="card-admin">
-        <h2><i class="fa-solid fa-box-open"></i> NOVO PRODUTO</h2>
-        <input type="text" id="nome-p" placeholder="Nome do Produto">
-        <input type="number" id="preco-p" placeholder="Preço (ex: 150.00)">
-        <input type="text" id="img-p" placeholder="Link da Imagem (URL)">
-        <select id="cat-p">
-            <option value="SHAPES">SHAPES</option>
-            <option value="TRUCKS">TRUCKS</option>
-            <option value="RODAS">RODAS</option>
-            <option value="ROLAMENTOS">ROLAMENTOS</option>
-            <option value="ACESSÓRIOS">ACESSÓRIOS</option>
-            <option value="TÊNIS">TÊNIS</option>
-            <option value="BERMUDAS">BERMUDAS</option>
-            <option value="CALÇAS">CALÇAS</option>
-            <option value="HOOKAH THUG">HOOKAH THUG</option>
-        </select>
-        <button class="btn-salvar" onclick="addProduto('produtos_oficina')">CADASTRAR NA VITRINE</button>
-        <button class="btn-salvar" style="background:#fbff00; color:#000;" onclick="addProduto('promocoes_oficina')">CADASTRAR COMO PROMOÇÃO 🔥</button>
-    </div>
+    <div id="admin-content">
+        <div class="header-admin">
+            <h1>OFICINA ADMIN</h1>
+            <button class="btn-sair" onclick="sair()">SAIR <i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
 
-    <div class="card-admin">
-        <h2><i class="fa-solid fa-list"></i> GERENCIAR ESTOQUE</h2>
-        <div id="lista-estoque" class="lista-itens"></div>
+        <div class="card-admin">
+            <h2>MISSÃO DO TOPO</h2>
+            <textarea id="missao-text" rows="2"></textarea>
+            <button class="btn-acao" onclick="updateMissao()">SALVAR MISSÃO</button>
+        </div>
+
+        <div class="card-admin" id="form-container">
+            <h2 id="form-title">LANÇAR NOVO PRODUTO</h2>
+            <input type="hidden" id="edit-id">
+            <input type="text" id="nome-p" placeholder="Nome do Produto">
+            <input type="number" id="preco-p" placeholder="Preço (R$)">
+            <input type="text" id="img-p" placeholder="Link Direto ImgBB (ex: https://i.ibb.co/...)">
+            <select id="cat-p">
+                <option value="SHAPES">SHAPES</option>
+                <option value="TRUCKS">TRUCKS</option>
+                <option value="RODAS">RODAS</option>
+                <option value="ROLAMENTOS">ROLAMENTOS</option>
+                <option value="ACESSÓRIOS">ACESSÓRIOS</option>
+                <option value="TÊNIS">TÊNIS</option>
+                <option value="BERMUDAS">BERMUDAS</option>
+                <option value="CALÇAS">CALÇAS</option>
+                <option value="PROMOÇÕES">PROMOÇÕES</option>
+            </select>
+            <button class="btn-acao" id="btn-principal" onclick="salvarProduto()">CADASTRAR</button>
+            <button class="btn-acao" id="btn-cancelar" style="display:none; background:#555;" onclick="limparForm()">CANCELAR EDIÇÃO</button>
+        </div>
+
+        <div class="card-admin">
+            <h2>ESTOQUE LANÇADO</h2>
+            <div id="lista-estoque"></div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
+        // CONFIG FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBglWuR5mY-JRlJdFoEwGl5jkpMznGCls4",
             authDomain: "oficina-de-skate-9c49b.firebaseapp.com",
@@ -76,58 +95,108 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // SALVAR MISSÃO
-        function salvarMissao() {
-            const texto = document.getElementById('input-missao').value;
-            db.collection("config").doc("site_data").set({ missao: texto }, { merge: true })
+        // SEGURANÇA
+        function checkPass() {
+            const pass = document.getElementById('pass-input').value;
+            if(pass === "2203") {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                carregarEstoque();
+            } else {
+                alert("SENHA INCORRETA!");
+            }
+        }
+
+        function sair() { location.reload(); }
+
+        // MISSÃO
+        function updateMissao() {
+            const txt = document.getElementById('missao-text').value;
+            db.collection("config").doc("site_data").set({ missao: txt }, { merge: true })
             .then(() => alert("Missão atualizada!"));
         }
 
-        // ADICIONAR PRODUTO OU PROMOÇÃO
-        function addProduto(colecao) {
-            const nome = document.getElementById('nome-p').value;
-            const preco = parseFloat(document.getElementById('preco-p').value);
-            const img = document.getElementById('img-p').value;
-            const cat = document.getElementById('cat-p').value;
+        // CARREGA MISSÃO AO ENTRAR
+        db.collection("config").doc("site_data").get().then(doc => {
+            if(doc.exists) document.getElementById('missao-text').value = doc.data().missao;
+        });
 
-            if(!nome || !preco) return alert("Preencha nome e preço!");
+        // SALVAR (CADASTRO OU EDIÇÃO)
+        function salvarProduto() {
+            const id = document.getElementById('edit-id').value;
+            const dados = {
+                nome: document.getElementById('nome-p').value,
+                preco: parseFloat(document.getElementById('preco-p').value),
+                img: document.getElementById('img-p').value,
+                cat: document.getElementById('cat-p').value
+            };
 
-            db.collection(colecao).add({ nome, preco, img, cat })
-            .then(() => {
-                alert("Cadastrado com sucesso!");
-                document.getElementById('nome-p').value = '';
-                document.getElementById('preco-p').value = '';
-            });
+            if(!dados.nome || !dados.preco) return alert("Preencha Nome e Preço!");
+
+            if(id) {
+                // Editar
+                db.collection("produtos_oficina").doc(id).update(dados)
+                .then(() => { alert("Produto Editado!"); limparForm(); });
+            } else {
+                // Novo
+                db.collection("produtos_oficina").add(dados)
+                .then(() => { alert("Produto Lançado!"); limparForm(); });
+            }
         }
 
-        // CARREGAR E DELETAR ITENS
+        function limparForm() {
+            document.getElementById('edit-id').value = "";
+            document.getElementById('nome-p').value = "";
+            document.getElementById('preco-p').value = "";
+            document.getElementById('img-p').value = "";
+            document.getElementById('form-title').innerText = "LANÇAR NOVO PRODUTO";
+            document.getElementById('btn-principal').innerText = "CADASTRAR";
+            document.getElementById('btn-cancelar').style.display = "none";
+        }
+
+        // CARREGAR LISTA
         function carregarEstoque() {
-            db.collection("produtos_oficina").onSnapshot(snap => {
+            db.collection("produtos_oficina").orderBy("cat").onSnapshot(snap => {
                 const lista = document.getElementById('lista-estoque');
-                lista.innerHTML = '<h3>Produtos da Vitrine</h3>';
+                lista.innerHTML = "";
                 snap.forEach(doc => {
                     const p = doc.data();
                     lista.innerHTML += `
-                        <div class="item-gerenciado">
-                            <span>${p.nome} (${p.cat})</span>
-                            <button class="btn-del" onclick="deletar('${doc.id}', 'produtos_oficina')"><i class="fa-solid fa-trash"></i></button>
+                        <div class="item-lista">
+                            <div style="display:flex; align-items:center;">
+                                <img src="${p.img}" class="thumb-admin" onerror="this.src='https://via.placeholder.com/40'">
+                                <div>
+                                    <b>${p.nome}</b><br>
+                                    <small>${p.cat} - R$ ${p.preco.toFixed(2)}</small>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-edit" onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-del" onclick="deletar('${doc.id}')"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>`;
                 });
             });
         }
 
-        function deletar(id, colecao) {
-            if(confirm("Deseja apagar este item?")) {
-                db.collection(colecao).doc(id).delete();
-            }
+        function prepararEdicao(id, nome, preco, img, cat) {
+            document.getElementById('edit-id').value = id;
+            document.getElementById('nome-p').value = nome;
+            document.getElementById('preco-p').value = preco;
+            document.getElementById('img-p').value = img;
+            document.getElementById('cat-p').value = cat;
+            
+            document.getElementById('form-title').innerText = "EDITANDO PRODUTO";
+            document.getElementById('btn-principal').innerText = "SALVAR ALTERAÇÕES";
+            document.getElementById('btn-cancelar').style.display = "block";
+            window.scrollTo(0,0);
         }
 
-        // CARREGA A MISSÃO ATUAL AO ABRIR
-        db.collection("config").doc("site_data").get().then(doc => {
-            if(doc.exists) document.getElementById('input-missao').value = doc.data().missao;
-        });
-
-        carregarEstoque();
+        function deletar(id) {
+            if(confirm("Apagar este produto permanentemente?")) {
+                db.collection("produtos_oficina").doc(id).delete();
+            }
+        }
     </script>
 </body>
 </html>
