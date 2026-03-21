@@ -18,7 +18,7 @@
         .btn-menu { color: #ff0000; font-size: 2.2rem; cursor: pointer; }
         .logo-container { display: flex; align-items: center; gap: 10px; }
         .logo-texto { font-family: 'Bebas Neue'; font-size: 2.8rem; color: #ff0000; text-shadow: 2px 2px #fbff00; }
-        .logo-img-centro { height: 65px; width: auto; } /* Logo maior no centro */
+        .logo-img-centro { height: 70px; width: auto; filter: drop-shadow(0 0 5px #fbff00); }
 
         /* SIDEBAR (MENU LATERAL) */
         .sidebar {
@@ -38,16 +38,25 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2500; }
         .overlay.active { display: block; }
 
+        /* SEÇÃO DE PROMOÇÕES (DESTAQUE NO TOPO) */
+        #section-promo { display: none; background: #fbff00; color: #000; padding: 15px 0; }
+        .promo-title { font-family: 'Bebas Neue'; text-align: center; font-size: 1.8rem; margin-bottom: 10px; color: #ff0000; }
+        .promo-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 0 15px; }
+        .card-promo { min-width: 140px; background: #000; padding: 10px; border-radius: 8px; border: 2px solid #ff0000; text-align: center; }
+        .card-promo img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
+        .card-promo span { display: block; color: #fff; font-size: 0.6rem; margin: 5px 0; }
+        .card-promo b { color: #fbff00; font-size: 0.9rem; }
+
         /* MISSÃO */
         .missao-box { background: #111; padding: 15px; text-align: center; border-bottom: 2px solid #333; }
-        #missao-texto { font-size: 0.8rem; color: #fbff00; text-transform: uppercase; line-height: 1.4; }
+        #missao-texto { font-size: 0.8rem; color: #fbff00; text-transform: uppercase; }
 
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
         @media (min-width: 768px) { .vitrine { grid-template-columns: repeat(4, 1fr); } }
         .produto-card { background: #111; border: 1px solid #333; padding: 12px; border-radius: 10px; text-align: center; }
         .produto-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .produto-nome { font-size: 0.7rem; height: 35px; overflow: hidden; margin-bottom: 5px; color: #fff; }
+        .produto-nome { font-size: 0.7rem; height: 35px; overflow: hidden; margin-bottom: 5px; }
         .produto-preco { color: #fbff00; font-size: 1.2rem; margin-bottom: 10px; }
         .btn-add { background: #ff0000; color: #fff; border: none; width: 100%; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 5px; }
 
@@ -59,7 +68,7 @@
         .cart-content { background: #111; border: 3px solid #ff0000; padding: 25px; width: 92%; max-width: 450px; border-radius: 15px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
         .btn-remove { color: #ff0000; background: none; border: none; cursor: pointer; font-size: 1.2rem; }
-        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 18px; margin-top: 20px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
+        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 18px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -77,6 +86,7 @@
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 <div class="sidebar" id="sidebar">
     <h2>OFICINA MENU</h2>
+    <span class="sidebar-link" onclick="carregarPromoNoGeral()"><i class="fa-solid fa-fire"></i> PROMOÇÕES</span>
     <span class="sidebar-link" onclick="filtrar('TODOS')">TODOS OS PRODUTOS</span>
     <span class="sidebar-link" onclick="filtrar('SHAPES')">SHAPES</span>
     <span class="sidebar-link" onclick="filtrar('TRUCKS')">TRUCKS</span>
@@ -92,6 +102,11 @@
         <a href="https://wa.me/5511999999999" class="sidebar-link"><i class="fa-solid fa-phone"></i> CONTATO</a>
         <a href="admin.html" class="sidebar-link" style="color:#fbff00;"><i class="fa-solid fa-key"></i> ADMINISTRADOR</a>
     </div>
+</div>
+
+<div id="section-promo">
+    <h2 class="promo-title">DROPS EM OFERTA 🔥</h2>
+    <div class="promo-scroll" id="lista-promo"></div>
 </div>
 
 <div class="missao-box">
@@ -110,7 +125,7 @@
         <div id="itens-no-carrinho" style="max-height: 350px; overflow-y: auto;"></div>
         <h3 id="total-carrinho" style="text-align: right; color: #fbff00; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">TOTAL: R$ 0,00</h3>
         <button class="btn-finalizar" onclick="enviarPedidoWhatsApp()">FECHAR PEDIDO NO ZAP</button>
-        <button onclick="fecharCarrinho()" style="background:none; color:#777; border:none; width:100%; margin-top:20px; cursor:pointer; font-weight:bold;">VOLTAR À VITRINE</button>
+        <button onclick="fecharCarrinho()" style="background:none; color:#777; border:none; width:100%; margin-top:20px; cursor:pointer;">VOLTAR</button>
     </div>
 </div>
 
@@ -137,12 +152,32 @@
         document.getElementById('overlay').classList.toggle('active');
     }
 
+    // CARREGA MISSÃO
     db.collection("config").doc("site_data").onSnapshot(doc => {
         if(doc.exists && doc.data().missao) {
             document.getElementById('missao-texto').innerText = doc.data().missao;
         }
     });
 
+    // CARREGA PROMOÇÕES NO TOPO
+    db.collection("promocoes_oficina").onSnapshot(snap => {
+        const lista = document.getElementById('lista-promo');
+        const section = document.getElementById('section-promo');
+        lista.innerHTML = '';
+        if(snap.empty) { section.style.display = 'none'; return; }
+        section.style.display = 'block';
+        snap.forEach(doc => {
+            const p = doc.data();
+            lista.innerHTML += `
+                <div class="card-promo" onclick="addCart('${p.nome}', ${p.preco})">
+                    <img src="${p.img}">
+                    <span>${p.nome}</span>
+                    <b>R$ ${p.preco.toFixed(2)}</b>
+                </div>`;
+        });
+    });
+
+    // CARREGA PRODUTOS NA VITRINE
     function carregarProdutos(filtro = 'TODOS') {
         db.collection("produtos_oficina").onSnapshot(snap => {
             const vitrine = document.getElementById('vitrine-produtos');
@@ -163,6 +198,25 @@
         if(document.getElementById('sidebar').classList.contains('active')) toggleMenu();
     }
 
+    // VER PROMOÇÕES COMO CATEGORIA
+    function carregarPromoNoGeral() {
+        db.collection("promocoes_oficina").onSnapshot(snap => {
+            const vitrine = document.getElementById('vitrine-produtos');
+            vitrine.innerHTML = '';
+            snap.forEach(doc => {
+                const p = doc.data();
+                vitrine.innerHTML += `
+                    <div class="produto-card" style="border-color:#fbff00">
+                        <img src="${p.img}">
+                        <div class="produto-nome">${p.nome} (PROMO)</div>
+                        <div class="produto-preco">R$ ${p.preco.toFixed(2)}</div>
+                        <button class="btn-add" onclick="addCart('${p.nome}', ${p.preco})">COMPRAR</button>
+                    </div>`;
+            });
+        });
+        toggleMenu();
+    }
+
     function filtrar(cat) { carregarProdutos(cat); }
     carregarProdutos();
 
@@ -170,7 +224,7 @@
         carrinho.push({ nome, preco });
         document.getElementById('cart-count').innerText = carrinho.length;
         somClick.play().catch(()=>{});
-        alert("Item no Carrinho!");
+        alert("Adicionado!");
     }
 
     function abrirCarrinho() {
