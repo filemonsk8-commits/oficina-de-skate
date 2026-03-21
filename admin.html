@@ -12,24 +12,32 @@
         
         /* HEADER */
         .header-admin { display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #ff0000; margin-bottom: 20px; padding-bottom: 10px; }
-        h1 { font-family: 'Bebas Neue'; font-size: 2.5rem; color: #ff0000; }
+        h1 { font-family: 'Bebas Neue'; font-size: 2.5rem; color: #ff0000; letter-spacing: 2px; }
         .btn-sair { background: #ff0000; color: #fff; border: none; padding: 10px 20px; font-family: 'Archivo Black'; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 0.8rem; }
 
         /* FORMULÁRIO TURBO */
         .admin-box { background: #111; border: 2px solid #fff; padding: 20px; margin-bottom: 30px; border-radius: 8px; }
         input, select { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #fff; color: #fff; font-family: 'Archivo Black'; }
         
-        .upload-drop-area { border: 2px dashed #fbff00; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; margin: 10px 0; }
+        .upload-drop-area { border: 2px dashed #fbff00; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; margin: 10px 0; overflow: hidden; }
         .upload-drop-area:hover { background: #222; }
-        #preview-img { max-width: 120px; display: none; margin: 10px auto; border: 2px solid #fff; }
+        
+        /* ZOOM NO PREVIEW */
+        #preview-img { 
+            max-width: 120px; display: none; margin: 10px auto; border: 2px solid #fff; 
+            transition: transform 0.3s ease; cursor: zoom-in; 
+        }
+        #preview-img:hover { transform: scale(1.8); }
         #status-upload { font-size: 0.7rem; font-weight: bold; margin-top: 5px; }
 
         .btn-save { width: 100%; background: #ff0000; color: #fff; border: none; padding: 15px; cursor: pointer; font-size: 1rem; font-family: 'Archivo Black'; margin-top: 10px; }
         .btn-cancel { background: #555; margin-top: 5px; }
 
-        /* LISTAGEM */
+        /* LISTAGEM DE ESTOQUE */
         .prod-item { display: flex; align-items: center; background: #111; border: 1px solid #333; margin-bottom: 10px; padding: 10px; gap: 15px; border-radius: 5px; }
-        .prod-img-lista { width: 50px; height: 50px; object-fit: cover; border: 1px solid #ff0000; }
+        .prod-img-lista { width: 50px; height: 50px; object-fit: cover; border: 1px solid #ff0000; transition: 0.2s; cursor: pointer; }
+        .prod-img-lista:hover { transform: scale(2.5); z-index: 10; position: relative; } /* ZOOM NA LISTA */
+        
         .prod-info { flex-grow: 1; font-size: 0.7rem; }
         .actions { display: flex; gap: 8px; }
         .btn-action { border: none; padding: 10px; cursor: pointer; border-radius: 4px; font-size: 1rem; color: #fff; }
@@ -43,22 +51,22 @@
 
     <div class="header-admin">
         <h1>OFICINA ADMIN</h1>
-        <a href="index.html" class="btn-sair">SAIR</a>
+        <a href="index.html" class="btn-sair">VER SITE</a>
     </div>
 
     <div class="admin-box">
-        <h2 id="form-title" style="font-family:'Bebas Neue';">NOVO PRODUTO</h2>
+        <h2 id="form-title" style="font-family:'Bebas Neue';">GERENCIAR PRODUTO</h2>
         
         <input type="text" id="prod-nome" placeholder="NOME DO PRODUTO">
         <input type="number" id="prod-preco" placeholder="PREÇO (EX: 150.00)" step="0.01">
         
-        <label>FOTO DO PRODUTO (UPLOAD AUTOMÁTICO):</label>
+        <label>FOTO (UPLOAD AUTOMÁTICO IMGBB):</label>
         <div class="upload-drop-area" onclick="document.getElementById('img-file').click()">
-            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem;"></i><br>
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: #fbff00;"></i><br>
             CLIQUE PARA SUBIR A FOTO
             <input type="file" id="img-file" style="display:none" accept="image/*" onchange="uploadTurbo(this)">
             <p id="status-upload"></p>
-            <img id="preview-img" src="">
+            <img id="preview-img" title="Zoom Ativo">
         </div>
         
         <input type="hidden" id="prod-img-url">
@@ -67,7 +75,7 @@
         <select id="prod-cat">
             <option value="SHAPES">SHAPES</option>
             <option value="RODAS">RODAS</option>
-            <option value="TRUCK">TRUCK</option>
+            <option value="ROLAMENTOS">ROLAMENTOS</option> <option value="TRUCK">TRUCK</option>
             <option value="TÊNIS">TÊNIS</option>
             <option value="HOOKAH THUG">HOOKAH THUG</option>
             <option value="BERMUDAS">BERMUDAS</option>
@@ -78,14 +86,13 @@
         <button class="btn-save btn-cancel" id="btn-cancel" style="display:none;" onclick="resetForm()">CANCELAR EDIÇÃO</button>
     </div>
 
-    <h2 style="font-family:'Bebas Neue'; color:#fbff00; margin-bottom:10px;">ESTOQUE</h2>
+    <h2 style="font-family:'Bebas Neue'; color:#fbff00; margin-bottom:10px;">LISTA DE ESTOQUE</h2>
     <div id="lista-estoque">Carregando estoque...</div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // CONFIGURAÇÕES
         const IMGBB_API_KEY = "a499de8c197f35e80312d4fa507c3b29"; 
 
         const firebaseConfig = {
@@ -101,7 +108,6 @@
 
         let editandoId = null;
 
-        // FUNÇÃO DE UPLOAD TURBO (IMGBB)
         function uploadTurbo(input) {
             const file = input.files[0];
             if(!file) return;
@@ -130,14 +136,10 @@
                     status.innerText = "FOTO CARREGADA! ✅";
                     status.style.color = "#00ff00";
                 } else {
-                    alert("Erro no upload!");
-                    status.innerText = "ERRO! ❌";
+                    alert("Erro no upload do ImgBB!");
                 }
             })
-            .catch(err => {
-                alert("Erro de conexão!");
-                console.error(err);
-            });
+            .catch(err => alert("Erro de conexão!"));
         }
 
         async function salvarProduto() {
@@ -146,17 +148,17 @@
             const img = document.getElementById('prod-img-url').value;
             const cat = document.getElementById('prod-cat').value;
 
-            if(!nome || !preco || !img) return alert("Aguarde a foto carregar e preencha tudo!");
+            if(!nome || !preco || !img) return alert("Aguarde a foto carregar ou preencha tudo!");
 
             const dados = { nome, preco, img, cat };
 
             try {
                 if(editandoId) {
                     await db.collection("produtos_oficina").doc(editandoId).update(dados);
-                    alert("Produto atualizado!");
+                    alert("Atualizado com sucesso!");
                 } else {
                     await db.collection("produtos_oficina").add(dados);
-                    alert("Produto cadastrado com sucesso!");
+                    alert("Lançado no estoque!");
                 }
                 resetForm();
             } catch (e) {
@@ -172,7 +174,7 @@
                     const p = doc.data();
                     lista.innerHTML += `
                         <div class="prod-item">
-                            <img src="${p.img}" class="prod-img-lista">
+                            <img src="${p.img}" class="prod-img-lista" title="Zoom Rápido">
                             <div class="prod-info"><strong>${p.nome}</strong><br>R$ ${p.preco.toFixed(2)} | ${p.cat}</div>
                             <div class="actions">
                                 <button class="btn-action btn-edit" onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')"><i class="fa-solid fa-pen"></i></button>
@@ -189,21 +191,16 @@
             document.getElementById('prod-preco').value = preco;
             document.getElementById('prod-img-url').value = img;
             document.getElementById('prod-cat').value = cat;
-            
-            const preview = document.getElementById('preview-img');
-            preview.src = img;
-            preview.style.display = "block";
-
-            document.getElementById('form-title').innerText = "EDITANDO PRODUTO";
-            document.getElementById('btn-main').innerText = "ATUALIZAR ITEM";
+            document.getElementById('preview-img').src = img;
+            document.getElementById('preview-img').style.display = "block";
+            document.getElementById('form-title').innerText = "EDITANDO ITEM";
+            document.getElementById('btn-main').innerText = "ATUALIZAR";
             document.getElementById('btn-cancel').style.display = "block";
             window.scrollTo(0,0);
         }
 
         function deletar(id) {
-            if(confirm("Deseja apagar esse produto do estoque?")) {
-                db.collection("produtos_oficina").doc(id).delete();
-            }
+            if(confirm("Remover esse item do estoque?")) db.collection("produtos_oficina").doc(id).delete();
         }
 
         function resetForm() {
@@ -212,8 +209,8 @@
             document.getElementById('prod-preco').value = '';
             document.getElementById('prod-img-url').value = '';
             document.getElementById('preview-img').style.display = "none";
-            document.getElementById('status-upload').style.display = "none";
-            document.getElementById('form-title').innerText = "NOVO PRODUTO";
+            document.getElementById('status-upload').innerText = "";
+            document.getElementById('form-title').innerText = "GERENCIAR PRODUTO";
             document.getElementById('btn-main').innerText = "LANÇAR NO ESTOQUE";
             document.getElementById('btn-cancel').style.display = "none";
         }
