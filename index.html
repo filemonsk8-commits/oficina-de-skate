@@ -10,40 +10,57 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; overflow-x: hidden; }
         
-        /* HEADER - LOGO RESTAURADA */
+        /* HEADER PERSONALIZADO: OFICINA [LOGO] SKATE */
         header { 
-            background: #000; padding: 20px 15px; border-bottom: 5px solid #ff0000; 
+            background: #000; padding: 10px 15px; border-bottom: 5px solid #ff0000; 
             position: sticky; top: 0; z-index: 900; display: flex; justify-content: space-between; align-items: center; 
+            height: 90px;
         }
-        .logo-container { flex-grow: 1; text-align: center; }
-        .logo-txt { font-family: 'Bebas Neue'; font-size: 2.8rem; color: #ff0000; letter-spacing: 3px; text-shadow: 2px 2px #000; }
+        .header-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .header-txt {
+            font-family: 'Bebas Neue';
+            font-size: 2.2rem;
+            color: #ff0000;
+            letter-spacing: 2px;
+        }
+        .logo-img { 
+            max-height: 60px; 
+            max-width: 100px;
+            object-fit: contain;
+        }
         
-        .icon-top { font-size: 1.6rem; cursor: pointer; color: #fff; position: relative; width: 40px; }
-        .cart-badge { 
-            position: absolute; top: -5px; right: -5px; background: #fbff00; color: #000; 
-            font-size: 0.75rem; padding: 2px 6px; border-radius: 50%; font-weight: bold; border: 2px solid #000;
-        }
+        .icon-top { font-size: 1.6rem; cursor: pointer; color: #fff; position: relative; width: 40px; text-align: center; }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: #fbff00; color: #000; font-size: 0.75rem; padding: 2px 6px; border-radius: 50%; font-weight: bold; border: 1px solid #000; }
 
         /* MENU LATERAL */
-        #side-menu { position: fixed; left: -300px; top: 0; width: 300px; height: 100%; background: #111; transition: 0.4s; z-index: 1001; border-right: 4px solid #ff0000; padding: 20px; overflow-y: auto; }
+        #side-menu { 
+            position: fixed; left: -320px; top: 0; width: 320px; height: 100%; 
+            background: #111; transition: 0.4s; z-index: 1001; border-right: 5px solid #ff0000; 
+            padding: 25px; overflow-y: auto; 
+        }
         #side-menu.active { left: 0; }
-        .video-box { width: 100%; border: 2px solid #fbff00; margin: 20px 0; border-radius: 5px; overflow: hidden; background: #000; box-shadow: 0 0 10px #fbff00; }
+        .menu-section-title { font-family: 'Bebas Neue'; color: #ff0000; font-size: 1.8rem; margin-bottom: 10px; border-left: 4px solid #fbff00; padding-left: 10px; }
+        .missao-box { font-size: 0.75rem; color: #bbb; line-height: 1.5; margin-bottom: 30px; text-transform: none; }
+        .video-box { width: 100%; border: 2px solid #fbff00; margin-bottom: 30px; border-radius: 5px; overflow: hidden; background: #000; }
+        .btn-contato { display: flex; align-items: center; gap: 10px; background: #25d366; color: #fff; padding: 15px; border-radius: 5px; text-decoration: none; font-family: 'Bebas Neue'; font-size: 1.2rem; margin-bottom: 10px; justify-content: center; }
+
+        /* FILTROS E VITRINE */
+        .filtros { display: flex; overflow-x: auto; padding: 15px; gap: 10px; background: #111; border-bottom: 1px solid #333; scrollbar-width: none; }
+        .btn-filter { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px 15px; cursor: pointer; font-family: 'Bebas Neue'; white-space: nowrap; font-size: 1.1rem; }
+        .btn-filter.active { background: #ff0000; }
         
-        /* FILTROS COM TUDO (INCLUSIVE HOOKAH THUG) */
-        .filtros { display: flex; overflow-x: auto; padding: 15px; gap: 12px; background: #111; border-bottom: 1px solid #333; }
-        .filtros::-webkit-scrollbar { display: none; }
-        .btn-filter { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px 20px; cursor: pointer; font-family: 'Bebas Neue'; white-space: nowrap; font-size: 1.1rem; }
-        .btn-filter.active { background: #ff0000; color: #fff; }
-        
-        /* VITRINE E CARDS */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; }
-        .card { background: #111; border: 1px solid #333; padding: 10px; text-align: center; border-radius: 10px; transition: 0.3s; }
-        .card:hover { border-color: #ff0000; transform: translateY(-5px); }
-        .img-container { height: 150px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
-        .card img { max-width: 90%; max-height: 90%; transition: 0.5s; cursor: zoom-in; }
-        .card img:hover { transform: scale(1.6); }
+        .card { background: #111; border: 1px solid #333; padding: 10px; text-align: center; border-radius: 10px; }
+        .img-container { height: 145px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+        .card img { max-width: 90%; max-height: 90%; }
         .price { color: #fbff00; font-size: 1.5rem; margin: 10px 0; font-family: 'Bebas Neue'; }
-        .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.65rem; border-radius: 5px; text-transform: uppercase; }
+        .btn-add { width: 100%; background: #ff0000; color: #fff; border: none; padding: 12px; cursor: pointer; font-family: 'Archivo Black'; font-size: 0.6rem; border-radius: 5px; }
 
         #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; z-index: 950; }
     </style>
@@ -51,14 +68,17 @@
 <body>
 
     <div id="overlay" onclick="fecharMenus()"></div>
-
-    <audio id="click-sound" src="click.mp3"></audio>
+    <audio id="click-sound" src="click.mpeg"></audio>
 
     <header>
         <div class="icon-top" onclick="toggleMenu()"><i class="fa-solid fa-bars-staggered"></i></div>
-        <div class="logo-container">
-            <h1 class="logo-txt">OFICINA</h1>
+        
+        <div class="header-center">
+            <span class="header-txt">OFICINA</span>
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <span class="header-txt">SKATE</span>
         </div>
+
         <div class="icon-top" onclick="abrirCarrinho()">
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="cart-badge" id="cart-count">0</span>
@@ -66,11 +86,18 @@
     </header>
 
     <nav id="side-menu">
-        <h2 style="font-family:'Bebas Neue'; color:#ff0000; font-size: 2rem;">VIBE DA OFICINA</h2>
+        <h2 class="menu-section-title">NOSSA MISSÃO</h2>
+        <p class="missao-box">Fortalecendo a cena do skate de Goiânia com material de alta performance e estilo de rua real.</p>
+
+        <h2 class="menu-section-title">DROPS / VÍDEOS</h2>
         <div class="video-box" id="area-video-drop"></div>
-        <p style="font-size:0.7rem; color:#888; text-transform: none;">Confira os drops e sessões direto da nossa curadoria.</p>
-        <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-        <a href="admin.html" style="color:#333; text-decoration:none; font-size:0.7rem;"><i class="fa-solid fa-lock"></i> PAINEL ADMIN</a>
+
+        <h2 class="menu-section-title">CONTATO</h2>
+        <a href="https://wa.me/5562997021174" target="_blank" class="btn-contato">
+            <i class="fa-brands fa-whatsapp"></i> WHATSAPP LOJA
+        </a>
+        <hr style="border:0; border-top:1px solid #333; margin:25px 0;">
+        <a href="admin.html" style="color:#444; text-decoration:none; font-size:0.8rem; font-family:'Bebas Neue';"><i class="fa-solid fa-lock"></i> ADM</a>
     </nav>
 
     <div class="filtros">
@@ -81,8 +108,9 @@
         <button class="btn-filter" onclick="filtrar('TRUCK', this)">TRUCKS</button>
         <button class="btn-filter" onclick="filtrar('TÊNIS', this)">TÊNIS</button>
         <button class="btn-filter" onclick="filtrar('CALÇAS', this)">CALÇAS</button>
+        <button class="btn-filter" onclick="filtrar('BERMUDAS', this)">BERMUDAS</button>
         <button class="btn-filter" onclick="filtrar('HOOKAH THUG', this)">HOOKAH THUG</button>
-        <button class="btn-filter" onclick="filtrar('PROMOÇÕES', this)" style="color:#fbff00; border-color:#fbff00;">PROMOÇÕES 🔥</button>
+        <button class="btn-filter" onclick="filtrar('PROMOÇÕES', this)" style="color:#fbff00;">PROMOÇÕES 🔥</button>
     </div>
 
     <div class="vitrine" id="vitrine"></div>
@@ -107,7 +135,7 @@
         function playClick() {
             const sfx = document.getElementById('click-sound');
             sfx.currentTime = 0;
-            sfx.play().catch(e => console.log("Som bloqueado pelo navegador"));
+            sfx.play().catch(e => {}); 
         }
 
         function toggleMenu() {
@@ -125,33 +153,20 @@
             playClick();
             carrinho.push({ nome, preco });
             document.getElementById('cart-count').innerText = carrinho.length;
-            
-            // Feedback visual no botão
-            event.target.innerText = "ADICIONADO!";
-            event.target.style.background = "#fbff00";
-            event.target.style.color = "#000";
-            setTimeout(() => {
-                event.target.innerText = "ADD CARRINHO";
-                event.target.style.background = "#ff0000";
-                event.target.style.color = "#fff";
-            }, 800);
         }
 
         function abrirCarrinho() {
             playClick();
-            if (carrinho.length === 0) return alert("Carrinho vazio, escolhe as peças!");
-
-            const nome = prompt("Qual seu nome para o atendimento?");
+            if (carrinho.length === 0) return alert("Carrinho vazio!");
+            const nome = prompt("Qual seu nome?");
             if (!nome) return;
-
-            let msg = `Salve Oficina! Sou o *${nome}*. Curti essas peças:%0A%0A`;
+            let msg = `Salve Oficina! Sou o *${nome}*. Tenho interesse nessas peças:%0A%0A`;
             let total = 0;
             carrinho.forEach(p => {
                 msg += `- ${p.nome} (R$ ${p.preco.toFixed(2)})%0A`;
                 total += p.preco;
             });
-            msg += `%0A*TOTAL: R$ ${total.toFixed(2)}* %0A%0AComo combinamos a entrega?`;
-
+            msg += `%0A*TOTAL: R$ ${total.toFixed(2)}*`;
             window.open(`https://wa.me/5562997021174?text=${msg}`, '_blank');
         }
 
@@ -171,20 +186,19 @@
         function carregarVitrine(cat = 'TODOS') {
             const v = document.getElementById('vitrine');
             v.innerHTML = '...';
-            let ref = db.collection("produtos_oficina");
-            if(cat !== 'TODOS') ref = ref.where("cat", "==", cat);
-
-            ref.onSnapshot(snap => {
+            db.collection("produtos_oficina").onSnapshot(snap => {
                 v.innerHTML = '';
                 snap.forEach(doc => {
                     const p = doc.data();
-                    v.innerHTML += `
-                        <div class="card">
-                            <div class="img-container"><img src="${p.img}"></div>
-                            <h3 style="font-size:0.75rem; margin:10px 0; height:35px;">${p.nome}</h3>
-                            <p class="price">R$ ${p.preco.toFixed(2)}</p>
-                            <button class="btn-add" onclick="adicionarAoCarrinho('${p.nome}', ${p.preco})">ADD CARRINHO</button>
-                        </div>`;
+                    if(cat === 'TODOS' || p.cat === cat) {
+                        v.innerHTML += `
+                            <div class="card">
+                                <div class="img-container"><img src="${p.img}"></div>
+                                <h3 style="font-size:0.75rem; margin:10px 0; height:35px;">${p.nome}</h3>
+                                <p class="price">R$ ${p.preco.toFixed(2)}</p>
+                                <button class="btn-add" onclick="adicionarAoCarrinho('${p.nome}', ${p.preco})">ADD CARRINHO</button>
+                            </div>`;
+                    }
                 });
             });
         }
