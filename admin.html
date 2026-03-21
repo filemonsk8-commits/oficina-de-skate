@@ -3,33 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAINEL OFICINA - ADMIN</title>
+    <title>OFICINA ADMIN - EDUARDO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
-        /* MANTENDO SEU DESIGN BLACK & RED */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; }
-        
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
         #login-screen input { width:200px; text-align:center; margin-bottom:15px; font-size:1.5rem; background:#111; border:2px solid #ff0000; color:#fff; padding:10px; border-radius:5px; }
-        
         #admin-content { display:none; }
         .header-admin { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
         h1 { font-family: 'Bebas Neue'; color: #ff0000; font-size: 2rem; }
-        
         .card-admin { background: #111; border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
         h2 { font-family: 'Bebas Neue'; color: #fbff00; font-size: 1.4rem; margin-bottom: 10px; }
-
         input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px; font-family: sans-serif; }
         .btn-acao { background: #ff0000; color: #fff; border: none; width: 100%; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 5px; }
-        
         .upload-area { border: 2px dashed #444; padding: 15px; text-align: center; margin-bottom: 10px; border-radius: 5px; cursor: pointer; color: #888; }
-        .upload-area:hover { border-color: #fbff00; color: #fbff00; }
-        #preview-img { max-width: 100px; display: none; margin: 10px auto; border-radius: 5px; border: 2px solid #ff0000; }
-
-        .item-lista { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; margin-bottom: 5px; border-radius: 5px; font-size: 0.8rem; border-left: 4px solid #ff0000; }
-        .btn-mini { background: none; border: none; color: #fff; cursor: pointer; font-size: 1.1rem; margin-left: 10px; }
+        #preview-img { max-width: 80px; display: none; margin: 10px auto; border-radius: 5px; border: 1px solid #ff0000; }
+        
+        .item-lista { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 12px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid #ff0000; }
+        .btn-edit { color: #007bff; background: none; border: none; font-size: 1.2rem; cursor: pointer; margin-right: 15px; }
+        .btn-del { color: #ff0000; background: none; border: none; font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -42,45 +36,39 @@
 
     <div id="admin-content">
         <div class="header-admin">
-            <h1>PAINEL OFICINA</h1>
-            <button onclick="location.reload()" style="background:#444; color:#fff; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">SAIR</button>
+            <h1>PAINEL DE CONTROLE</h1>
+            <button onclick="location.reload()" style="background:#444; color:#fff; border:none; padding:8px 15px; border-radius:5px;">SAIR</button>
         </div>
 
         <div class="card-admin">
-            <h2 id="form-title">LANÇAR PRODUTO</h2>
-            <input type="hidden" id="edit-id">
-            <input type="text" id="nome-p" placeholder="Nome do Produto">
-            <input type="number" id="preco-p" placeholder="Preço (R$)">
-            
-            <div class="upload-area" onclick="document.getElementById('file-input').click()">
-                <i class="fa-solid fa-camera"></i> SELECIONAR FOTO
+            <h2 id="form-title">LANÇAR NOVO ITEM</h2>
+            <form id="form-produto" onsubmit="event.preventDefault(); salvarProduto();">
+                <input type="hidden" id="edit-id">
+                <input type="text" id="nome-p" placeholder="Nome do Produto">
+                <input type="number" id="preco-p" placeholder="Preço (R$)" step="0.01">
+                
+                <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                    <i class="fa-solid fa-camera"></i> SELECIONAR FOTO (ImgBB)
+                </div>
                 <input type="file" id="file-input" style="display:none" onchange="uploadImagem(this)">
-            </div>
-            <img id="preview-img">
-            <input type="hidden" id="img-url"> 
+                <center><img id="preview-img"></center>
+                <input type="hidden" id="img-url"> 
 
-            <select id="cat-p">
-                <option value="SHAPES">SHAPES</option>
-                <option value="TRUCKS">TRUCKS</option>
-                <option value="RODAS">RODAS</option>
-                <option value="ROLAMENTOS">ROLAMENTOS</option>
-                <option value="ACESSÓRIOS">ACESSÓRIOS</option>
-                <option value="TÊNIS">TÊNIS</option>
-                <option value="BERMUDAS">BERMUDAS</option>
-                <option value="CALÇAS">CALÇAS</option>
-                <option value="PROMOÇÕES">🔥 PROMOÇÕES</option>
-            </select>
-            <button class="btn-acao" id="btn-principal" onclick="salvarProduto()">LANÇAR NA LOJA</button>
+                <select id="cat-p">
+                    <option value="SHAPES">SHAPES</option>
+                    <option value="TRUCKS">TRUCKS</option>
+                    <option value="RODAS">RODAS</option>
+                    <option value="ROLAMENTOS">ROLAMENTOS</option>
+                    <option value="ACESSÓRIOS">ACESSÓRIOS</option>
+                    <option value="TÊNIS">TÊNIS</option>
+                    <option value="PROMOÇÕES">🔥 PROMOÇÕES</option>
+                </select>
+                <button type="submit" class="btn-acao" id="btn-principal">SALVAR NO SITE</button>
+            </form>
         </div>
 
         <div class="card-admin">
-            <h2>LANÇAR VÍDEOS (YouTube)</h2>
-            <input type="text" id="video-url" placeholder="Cole o link do vídeo aqui">
-            <button class="btn-acao" style="background:#fbff00; color:#000;" onclick="salvarVideo()">PUBLICAR VÍDEO</button>
-        </div>
-
-        <div class="card-admin">
-            <h2>ITENS NO AR</h2>
+            <h2>ITENS LANÇADOS</h2>
             <div id="lista-geral"></div>
         </div>
     </div>
@@ -99,15 +87,14 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-
         const IMGBB_KEY = "a499de8c197f35e80312d4fa507c3b29";
 
         function checkPass() {
             if(document.getElementById('pass-input').value === "2203") {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('admin-content').style.display = 'block';
-                carregarTudo();
-            } else { alert("Acesso Negado!"); }
+                carregarEstoque();
+            } else { alert("Senha incorreta!"); }
         }
 
         async function uploadImagem(input) {
@@ -115,26 +102,24 @@
             if(!file) return;
             const formData = new FormData();
             formData.append("image", file);
-            
             alert("Enviando foto...");
-            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
-            const data = await res.json();
-            
-            if(data.success) {
-                document.getElementById('img-url').value = data.data.url;
-                document.getElementById('preview-img').src = data.data.url;
-                document.getElementById('preview-img').style.display = "block";
-                alert("Foto carregada!");
-            }
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+                const data = await res.json();
+                if(data.success) {
+                    document.getElementById('img-url').value = data.data.url;
+                    document.getElementById('preview-img').src = data.data.url;
+                    document.getElementById('preview-img').style.display = "block";
+                    alert("Foto carregada com sucesso!");
+                }
+            } catch(e) { alert("Erro no upload!"); }
         }
 
         function salvarProduto() {
             const id = document.getElementById('edit-id').value;
             const cat = document.getElementById('cat-p').value;
-            
-            // Lógica: Se for Promoção, vai para a pasta de promoções
             const colecao = (cat === "PROMOÇÕES") ? "promocoes_oficina" : "produtos_oficina";
-
+            
             const dados = {
                 nome: document.getElementById('nome-p').value,
                 preco: parseFloat(document.getElementById('preco-p').value),
@@ -142,63 +127,85 @@
                 cat: cat
             };
 
-            if(!dados.img || !dados.nome) return alert("Faltam dados!");
+            if(!dados.nome || !dados.img) return alert("Preencha o nome e carregue a foto!");
 
             if(id) {
-                db.collection(colecao).doc(id).update(dados).then(() => { alert("Atualizado!"); limparForm(); });
+                db.collection(colecao).doc(id).update(dados).then(() => {
+                    alert("Produto Atualizado!");
+                    limparForm();
+                });
             } else {
-                db.collection(colecao).add(dados).then(() => { alert("Lançado com sucesso!"); limparForm(); });
+                db.collection(colecao).add(dados).then(() => {
+                    alert("Lançado com Sucesso!");
+                    limparForm();
+                });
             }
         }
 
-        function salvarVideo() {
-            const url = document.getElementById('video-url').value;
-            if(!url) return;
-            db.collection("videos_oficina").add({ url, data: new Date() }).then(() => { alert("Vídeo no ar!"); document.getElementById('video-url').value = ''; });
+        function carregarEstoque() {
+            // Produtos Normais
+            db.collection("produtos_oficina").onSnapshot(snap => {
+                atualizarLista(snap, "produtos_oficina");
+            });
+            // Promoções
+            db.collection("promocoes_oficina").onSnapshot(snap => {
+                atualizarLista(snap, "promocoes_oficina", true);
+            });
         }
 
-        function carregarTudo() {
-            // Limpa a lista antes de carregar
-            document.getElementById('lista-geral').innerHTML = '';
-            // Carrega produtos normais
-            db.collection("produtos_oficina").onSnapshot(snap => renderLista(snap, "produtos_oficina"));
-            // Carrega promoções
-            db.collection("promocoes_oficina").onSnapshot(snap => renderLista(snap, "promocoes_oficina", true));
-        }
-
-        function renderLista(snap, col, isPromo = false) {
-            // Não limpa aqui para acumular as duas coleções
-            snap.forEach(doc => {
-                const p = doc.data();
+        function atualizarLista(snap, col, isPromo = false) {
+            snap.docChanges().forEach(change => {
+                const p = change.doc.data();
                 const lista = document.getElementById('lista-geral');
-                // Evita duplicar na renderização do onSnapshot
-                if(!document.getElementById(doc.id)){
-                    lista.innerHTML += `
-                        <div class="item-lista" id="${doc.id}">
-                            <span>${isPromo ? '🔥' : ''} ${p.nome} - R$ ${p.preco}</span>
-                            <div>
-                                <button class="btn-mini" onclick="deletar('${doc.id}', '${col}')">❌</button>
-                            </div>
+                
+                if (change.type === "added") {
+                    const div = document.createElement('div');
+                    div.className = 'item-lista';
+                    div.id = change.doc.id;
+                    div.innerHTML = `
+                        <span>${isPromo ? '🔥' : ''} ${p.nome}</span>
+                        <div>
+                            <button class="btn-edit" onclick="editar('${change.doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-del" onclick="deletar('${change.doc.id}', '${col}')"><i class="fa-solid fa-trash"></i></button>
                         </div>`;
+                    lista.appendChild(div);
+                }
+                if (change.type === "modified") {
+                    const el = document.getElementById(change.doc.id);
+                    if(el) el.querySelector('span').innerText = (isPromo ? '🔥 ' : '') + p.nome;
+                }
+                if (change.type === "removed") {
+                    const el = document.getElementById(change.doc.id);
+                    if(el) el.remove();
                 }
             });
         }
 
-        function limparForm() {
-            document.getElementById('edit-id').value = '';
-            document.getElementById('nome-p').value = '';
-            document.getElementById('preco-p').value = '';
-            document.getElementById('img-url').value = '';
-            document.getElementById('preview-img').style.display = 'none';
-            document.getElementById('cat-p').value = 'SHAPES'; // Categoria padrão
+        function editar(id, nome, preco, img, cat) {
+            document.getElementById('edit-id').value = id;
+            document.getElementById('nome-p').value = nome;
+            document.getElementById('preco-p').value = preco;
+            document.getElementById('img-url').value = img;
+            document.getElementById('preview-img').src = img;
+            document.getElementById('preview-img').style.display = "block";
+            document.getElementById('cat-p').value = cat;
+            document.getElementById('form-title').innerText = "EDITANDO ITEM";
+            window.scrollTo(0,0);
         }
 
         function deletar(id, col) {
-            if(confirm("Deseja apagar?")) {
-                db.collection(col).doc(id).delete().then(() => {
-                    document.getElementById(id).remove(); // Remove da lista na hora
-                });
+            if(confirm("Deseja apagar este item?")) {
+                db.collection(col).doc(id).delete();
             }
+        }
+
+        function limparForm() {
+            document.getElementById('edit-id').value = "";
+            document.getElementById('nome-p').value = "";
+            document.getElementById('preco-p').value = "";
+            document.getElementById('img-url').value = "";
+            document.getElementById('preview-img').style.display = "none";
+            document.getElementById('form-title').innerText = "LANÇAR NOVO ITEM";
         }
     </script>
 </body>
