@@ -9,7 +9,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; padding: 15px; }
-        
         header { 
             background: #111; padding: 15px; border-bottom: 3px solid #ff0000; 
             display: flex; justify-content: space-between; align-items: center; 
@@ -17,47 +16,37 @@
         }
         .adm-title { font-family: 'Bebas Neue'; font-size: 1.8rem; color: #ff0000; }
         .btn-logout { background: #ff0000; color: #fff; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; text-decoration: none; font-size: 0.8rem; }
-
         .box { background: #111; padding: 20px; border-radius: 10px; border: 1px solid #333; margin-bottom: 20px; }
         h2 { font-family: 'Bebas Neue'; color: #fbff00; font-size: 1.5rem; margin-bottom: 15px; text-transform: uppercase; }
-        
         input, select, textarea, button.btn-lancar { width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px; border: none; font-size: 0.9rem; }
         input, select, textarea { background: #222; color: #fff; border: 1px solid #444; }
-        
-        .upload-box { 
-            border: 2px dashed #fbff00; padding: 15px; text-align: center; 
-            cursor: pointer; color: #fbff00; font-weight: bold; margin: 10px 0; border-radius: 5px;
-        }
+        .upload-box { border: 2px dashed #fbff00; padding: 15px; text-align: center; cursor: pointer; color: #fbff00; font-weight: bold; margin: 10px 0; border-radius: 5px; }
         #img-preview { max-width: 100px; max-height: 100px; object-fit: cover; display: none; margin: 10px auto; border-radius: 5px; border: 1px solid #fff; }
-        
-        button.btn-lancar { background: #ff0000; color: #fff; font-weight: bold; cursor: pointer; text-transform: uppercase; border: 2px solid #000; }
-        button.btn-lancar:disabled { background: #444; color: #888; cursor: not-allowed; }
-        .status-upload { display: none; color: #fbff00; font-size: 0.8rem; text-align: center; margin-bottom: 10px; font-weight: bold; }
-
-        /* LISTA DE ITENS */
+        button.btn-lancar { background: #ff0000; color: #fff; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .status-upload { display: none; color: #fbff00; font-size: 0.8rem; text-align: center; margin-bottom: 10px; }
         .item-admin { display: flex; align-items: center; background: #1a1a1a; padding: 10px; margin-bottom: 5px; border-radius: 5px; border-left: 3px solid #ff0000; }
         .item-admin img { width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border-radius: 3px; }
-        .btn-edit { color: #fbff00; cursor: pointer; background: none; border: none; margin-left: 10px; font-size: 1.2rem; }
-        .btn-del { color: #ff4444; cursor: pointer; background: none; border: none; margin-left: 10px; font-size: 1.2rem; }
+        .btn-edit { color: #fbff00; cursor: pointer; background: none; border: none; margin-left: 10px; font-size: 1.1rem; }
+        .btn-del { color: #ff4444; cursor: pointer; background: none; border: none; margin-left: 10px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <header>
     <h1 class="adm-title">OFICINA GESTOR</h1>
-    <a href="index.html" class="btn-logout">SAIR / VITRINE</a>
+    <a href="index.html" class="btn-logout">SAIR</a>
 </header>
 
 <div class="container">
     <div class="box" style="border-color: #fbff00;">
-        <h2><i class="fa-solid fa-gear"></i> VÍDEO E MISSÃO</h2>
+        <h2>VÍDEO E MISSÃO</h2>
         <input type="text" id="cfg-video" placeholder="Link do vídeo (.mp4)">
         <textarea id="cfg-missao" rows="2" placeholder="Missão da Loja"></textarea>
         <button class="btn-lancar" style="background: #fbff00; color: #000;" onclick="atualizarConfigs()">ATUALIZAR SITE</button>
     </div>
 
     <div class="box" style="border-color: #ff0000;">
-        <h2><i class="fa-solid fa-box-open"></i> Lançar Peça</h2>
+        <h2>Lançar Peça</h2>
         <input type="hidden" id="prod-id">
         <input type="text" id="prod-nome" placeholder="Nome da Peça">
         <input type="number" id="prod-preco" placeholder="Preço (R$)">
@@ -66,8 +55,8 @@
             <i class="fa-solid fa-cloud-arrow-up"></i> SUBIR FOTO (IMGBB)
             <input type="file" id="file-input" style="display:none" accept="image/*" onchange="uploadParaImgBB(this)">
             <img id="img-preview">
+            <div id="status-upload" class="status-upload">SUBINDO IMAGEM...</div>
         </div>
-        <div id="status-upload" class="status-upload">SUBINDO IMAGEM...</div>
         <input type="hidden" id="prod-img">
 
         <select id="prod-cat">
@@ -80,11 +69,10 @@
         </select>
 
         <button class="btn-lancar" id="btn-final" onclick="salvarProduto()">CONCLUIR LANÇAMENTO</button>
-        <button id="btn-cancel" onclick="limparForm()" style="display:none; background:#444; color:#fff; width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: none;">CANCELAR EDIÇÃO</button>
     </div>
 
     <div class="box">
-        <h2><i class="fa-solid fa-list"></i> Itens Lançados</h2>
+        <h2>Itens Cadastrados</h2>
         <div id="lista-admin"></div>
     </div>
 </div>
@@ -104,32 +92,36 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // UPLOAD IMGBB
+    // UPLOAD COM A SUA CHAVE CORRETA
     async function uploadParaImgBB(input) {
         const file = input.files[0];
         if(!file) return;
         const status = document.getElementById('status-upload');
         const preview = document.getElementById('img-preview');
         const btn = document.getElementById('btn-final');
+        const imgInput = document.getElementById('prod-img');
+        
         status.style.display = 'block';
         btn.disabled = true;
 
         const formData = new FormData();
         formData.append('image', file);
+        
         try {
-            const res = await fetch('https://api.imgbb.com/1/upload?key=666e632b7e6157143615951666e92c22', {
+            // USANDO A SUA CHAVE: a499de8c197f35e80312d4fa507c3b29
+            const res = await fetch('https://api.imgbb.com/1/upload?key=a499de8c197f35e80312d4fa507c3b29', {
                 method: 'POST', body: formData
             });
             const data = await res.json();
             if(data.success) {
-                document.getElementById('prod-img').value = data.data.url;
+                imgInput.value = data.data.url;
                 preview.src = data.data.url;
                 preview.style.display = 'block';
                 status.style.display = 'none';
                 btn.disabled = false;
-            } else { throw new Error(); }
+            } else { throw new Error(data.error.message); }
         } catch(e) { 
-            alert("Erro no upload do ImgBB!"); 
+            alert("Erro no ImgBB: " + e.message); 
             status.style.display = 'none'; 
             btn.disabled = false; 
         }
@@ -143,11 +135,11 @@
             img: document.getElementById('prod-img').value,
             cat: document.getElementById('prod-cat').value
         };
-        if(!dados.img) return alert("Aguarde a foto carregar!");
+        if(!dados.img) return alert("Suba a foto primeiro!");
         if(id) {
-            db.collection("produtos_oficina").doc(id).update(dados).then(() => { alert("Peça Atualizada!"); limparForm(); });
+            db.collection("produtos_oficina").doc(id).update(dados).then(() => { alert("Atualizado!"); location.reload(); });
         } else {
-            db.collection("produtos_oficina").add(dados).then(() => { alert("Peça Lançada!"); limparForm(); });
+            db.collection("produtos_oficina").add(dados).then(() => { alert("Lançado!"); location.reload(); });
         }
     }
 
@@ -155,10 +147,9 @@
         db.collection("config").doc("site_data").set({
             video_url: document.getElementById('cfg-video').value,
             missao: document.getElementById('cfg-missao').value
-        }).then(() => alert("Configs Atualizadas!"));
+        }).then(() => alert("Atualizado!"));
     }
 
-    // LISTAR ITENS NO ADMIN
     db.collection("produtos_oficina").onSnapshot(snap => {
         const lista = document.getElementById('lista-admin');
         lista.innerHTML = '';
@@ -167,8 +158,8 @@
             lista.innerHTML += `<div class="item-admin">
                 <img src="${p.img}">
                 <div style="flex-grow:1; font-size:0.7rem;">${p.nome}</div>
-                <button class="btn-edit" onclick="prepararEdicao('${doc.id}','${p.nome}',${p.preco},'${p.img}','${p.cat}')"><i class="fa-pen fa-solid"></i></button>
-                <button class="btn-del" onclick="excluir('${doc.id}')"><i class="fa-trash fa-solid"></i></button>
+                <button class="btn-edit" onclick="prepararEdicao('${doc.id}','${p.nome}',${p.preco},'${p.img}','${p.cat}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-del" onclick="excluir('${doc.id}')"><i class="fa-solid fa-trash"></i></button>
             </div>`;
         });
     });
@@ -181,22 +172,10 @@
         document.getElementById('prod-cat').value = cat;
         document.getElementById('img-preview').src = img;
         document.getElementById('img-preview').style.display = 'block';
-        document.getElementById('btn-final').innerText = "SALVAR ALTERAÇÕES";
-        document.getElementById('btn-cancel').style.display = "block";
         window.scrollTo(0,0);
     }
 
-    function excluir(id) { if(confirm("Apagar peça?")) db.collection("produtos_oficina").doc(id).delete(); }
-    
-    function limparForm() {
-        document.getElementById('prod-id').value = '';
-        document.getElementById('prod-nome').value = '';
-        document.getElementById('prod-preco').value = '';
-        document.getElementById('prod-img').value = '';
-        document.getElementById('img-preview').style.display = 'none';
-        document.getElementById('btn-final').innerText = "CONCLUIR LANÇAMENTO";
-        document.getElementById('btn-cancel').style.display = "none";
-    }
+    function excluir(id) { if(confirm("Apagar?")) db.collection("produtos_oficina").doc(id).delete(); }
 </script>
 </body>
 </html>
