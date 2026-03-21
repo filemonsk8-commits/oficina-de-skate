@@ -10,54 +10,52 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; text-transform: uppercase; padding: 20px; }
         
-        /* HEADER ADMIN */
         .header-admin { display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #ff0000; margin-bottom: 20px; padding-bottom: 10px; }
         h1 { font-family: 'Bebas Neue'; font-size: 2.5rem; color: #ff0000; }
-        .btn-sair { background: #ff0000; color: #fff; border: none; padding: 10px 20px; font-family: 'Archivo Black'; cursor: pointer; border-radius: 5px; font-size: 0.8rem; transition: 0.3s; }
-        .btn-sair:hover { background: #fff; color: #ff0000; }
+        .btn-sair { background: #ff0000; color: #fff; border: none; padding: 10px 20px; font-family: 'Archivo Black'; cursor: pointer; border-radius: 5px; }
 
-        /* FORMULÁRIO */
         .admin-box { background: #111; border: 2px solid #fff; padding: 20px; margin-bottom: 30px; border-radius: 8px; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #fff; color: #fff; font-family: 'Archivo Black'; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #fff; color: #fff; font-family: 'Archivo Black'; }
         
-        /* ÁREA DE UPLOAD */
-        .upload-area { border: 2px dashed #fbff00; padding: 25px; text-align: center; margin: 10px 0; cursor: pointer; transition: 0.3s; }
-        .upload-area:hover { background: #222; border-style: solid; }
-        #progresso-txt { font-size: 0.8rem; color: #fbff00; margin-top: 10px; font-weight: bold; }
+        /* UPLOAD E PREVIEW */
+        .upload-area { border: 2px dashed #fbff00; padding: 20px; text-align: center; margin: 10px 0; cursor: pointer; position: relative; }
+        #preview-img { max-width: 100px; max-height: 100px; display: none; margin: 10px auto; border: 2px solid #fff; }
+        #progresso-txt { font-size: 0.8rem; color: #fbff00; font-weight: bold; margin-top: 5px; }
 
         .btn-save { width: 100%; background: #ff0000; color: #fff; border: none; padding: 15px; cursor: pointer; font-size: 1rem; font-family: 'Archivo Black'; margin-top: 10px; }
         .btn-cancel { background: #555; margin-top: 5px; }
 
-        /* LISTA DE PRODUTOS */
+        /* LISTAGEM COM BOTÃO EDITAR REATIVADO */
         .prod-item { display: flex; align-items: center; background: #111; border: 1px solid #333; margin-bottom: 10px; padding: 10px; gap: 15px; border-radius: 5px; }
-        .prod-img { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ff0000; border-radius: 4px; }
+        .prod-img-lista { width: 50px; height: 50px; object-fit: cover; border: 1px solid #ff0000; }
         .prod-info { flex-grow: 1; font-size: 0.7rem; }
-        .btn-del { background: #ff0000; color: #fff; border: none; padding: 10px; cursor: pointer; border-radius: 4px; }
+        .actions { display: flex; gap: 8px; }
+        .btn-action { border: none; padding: 10px; cursor: pointer; border-radius: 4px; font-size: 1rem; color: #fff; }
+        .btn-edit { background: #fbff00; color: #000; }
+        .btn-del { background: #ff0000; }
 
-        label { font-size: 0.75rem; color: #fbff00; margin-top: 10px; display: block; }
+        label { font-size: 0.7rem; color: #fbff00; display: block; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header-admin">
-        <h1><i class="fa-solid fa-screwdriver-wrench"></i> PAINEL DO CHEFE</h1>
-        <button class="btn-sair" onclick="window.location.href='index.html'"><i class="fa-solid fa-right-from-bracket"></i> SAIR</button>
+        <h1>OFICINA ADMIN</h1>
+        <button class="btn-sair" onclick="window.location.href='index.html'">SAIR</button>
     </div>
 
     <div class="admin-box">
-        <h2 id="form-title" style="font-family:'Bebas Neue'; margin-bottom:10px;">ADICIONAR NOVO ITEM</h2>
+        <h2 id="form-title" style="font-family:'Bebas Neue';">NOVO PRODUTO</h2>
         
         <input type="text" id="prod-nome" placeholder="NOME DO PRODUTO">
-        <input type="number" id="prod-preco" placeholder="PREÇO (EX: 150.00)" step="0.01">
+        <input type="number" id="prod-preco" placeholder="PREÇO" step="0.01">
         
-        <label>FOTO DO PRODUTO (UPLOAD DIRETO):</label>
         <div class="upload-area" onclick="document.getElementById('file-input').click()">
-            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 10px;"></i><br>
-            CLIQUE PARA SELECIONAR A IMAGEM
+            <i class="fa-solid fa-camera"></i> SELECIONAR FOTO
+            <img id="preview-img">
+            <p id="progresso-txt"></p>
             <input type="file" id="file-input" style="display:none" accept="image/*" onchange="uploadImagem(this)">
-            <p id="progresso-txt" style="display:none;">AGUARDANDO ARQUIVO...</p>
         </div>
-        
         <input type="hidden" id="prod-img-url">
 
         <label>CATEGORIA:</label>
@@ -71,12 +69,12 @@
             <option value="PROMOÇÕES">PROMOÇÕES</option>
         </select>
 
-        <button class="btn-save" id="btn-main" onclick="salvarProduto()">LANÇAR NO ESTOQUE</button>
+        <button class="btn-save" id="btn-main" onclick="salvarProduto()">SALVAR NO ESTOQUE</button>
         <button class="btn-save btn-cancel" id="btn-cancel" style="display:none;" onclick="resetForm()">CANCELAR</button>
     </div>
 
-    <h2 style="font-family:'Bebas Neue'; margin-bottom:15px; color:#fbff00;">ESTOQUE ATUAL</h2>
-    <div id="lista-estoque">Carregando estoque...</div>
+    <h2 style="font-family:'Bebas Neue'; color:#fbff00; margin-bottom:10px;">ESTOQUE</h2>
+    <div id="lista-estoque"></div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -97,36 +95,30 @@
 
         let editandoId = null;
 
-        // --- FUNÇÃO DE UPLOAD CORRIGIDA ---
         function uploadImagem(input) {
             const file = input.files[0];
             if(!file) return;
 
             const txt = document.getElementById('progresso-txt');
-            txt.style.display = "block";
-            txt.innerText = "SUBINDO IMAGEM... ⏳";
-            txt.style.color = "#fbff00";
+            const preview = document.getElementById('preview-img');
             
-            // Usamos o timestamp para garantir que o nome da imagem seja único
-            const nomeArquivo = Date.now() + "_" + file.name;
-            const storageRef = storage.ref('produtos/' + nomeArquivo);
+            txt.innerText = "SUBINDO... ⏳";
+            
+            const storageRef = storage.ref('produtos/' + Date.now() + "_" + file.name);
             const task = storageRef.put(file);
 
             task.on('state_changed', 
-                (snapshot) => {
-                    let pct = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    txt.innerText = "CARREGANDO: " + Math.round(pct) + "%";
+                (snap) => {
+                    let p = (snap.bytesTransferred / snap.totalBytes) * 100;
+                    txt.innerText = Math.round(p) + "%";
                 }, 
-                (err) => { 
-                    console.error(err);
-                    txt.innerText = "ERRO NO UPLOAD! ❌ (Verifique as Regras do Storage)";
-                    txt.style.color = "#ff0000";
-                }, 
+                (err) => { alert("Erro: Verifique as REGRAS no console do Firebase!"); }, 
                 () => {
                     task.snapshot.ref.getDownloadURL().then((url) => {
                         document.getElementById('prod-img-url').value = url;
-                        txt.innerText = "IMAGEM PRONTA! ✅";
-                        txt.style.color = "#00ff00";
+                        preview.src = url;
+                        preview.style.display = "block";
+                        txt.innerText = "PRONTO! ✅";
                     });
                 }
             );
@@ -138,22 +130,16 @@
             const img = document.getElementById('prod-img-url').value;
             const cat = document.getElementById('prod-cat').value;
 
-            if(!nome || !preco || !img) return alert("DADOS INCOMPLETOS: Certifique-se de que o upload da imagem terminou!");
+            if(!nome || !preco || !img) return alert("Preencha tudo!");
 
             const dados = { nome, preco, img, cat };
 
-            try {
-                if(editandoId) {
-                    await db.collection("produtos_oficina").doc(editandoId).update(dados);
-                    alert("ALTERAÇÃO SALVA!");
-                } else {
-                    await db.collection("produtos_oficina").add(dados);
-                    alert("NOVO PRODUTO CADASTRADO!");
-                }
-                resetForm();
-            } catch (e) {
-                alert("Erro ao salvar no banco: " + e.message);
+            if(editandoId) {
+                await db.collection("produtos_oficina").doc(editandoId).update(dados);
+            } else {
+                await db.collection("produtos_oficina").add(dados);
             }
+            resetForm();
         }
 
         function carregarLista() {
@@ -164,23 +150,33 @@
                     const p = doc.data();
                     lista.innerHTML += `
                         <div class="prod-item">
-                            <img src="${p.img}" class="prod-img">
-                            <div class="prod-info">
-                                <strong>${p.nome}</strong><br>
-                                R$ ${p.preco.toFixed(2)} | ${p.cat}
+                            <img src="${p.img}" class="prod-img-lista">
+                            <div class="prod-info"><strong>${p.nome}</strong><br>R$ ${p.preco.toFixed(2)}</div>
+                            <div class="actions">
+                                <button class="btn-action btn-edit" onclick="prepararEdicao('${doc.id}', '${p.nome}', ${p.preco}, '${p.img}', '${p.cat}')"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action btn-del" onclick="deletar('${doc.id}')"><i class="fa-solid fa-trash"></i></button>
                             </div>
-                            <button class="btn-del" onclick="deletar('${doc.id}')">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
                         </div>`;
                 });
             });
         }
 
+        function prepararEdicao(id, nome, preco, img, cat) {
+            editandoId = id;
+            document.getElementById('prod-nome').value = nome;
+            document.getElementById('prod-preco').value = preco;
+            document.getElementById('prod-img-url').value = img;
+            document.getElementById('prod-cat').value = cat;
+            document.getElementById('preview-img').src = img;
+            document.getElementById('preview-img').style.display = "block";
+            document.getElementById('form-title').innerText = "EDITANDO PRODUTO";
+            document.getElementById('btn-main').innerText = "ATUALIZAR";
+            document.getElementById('btn-cancel').style.display = "block";
+            window.scrollTo(0,0);
+        }
+
         function deletar(id) {
-            if(confirm("Tem certeza que deseja apagar?")) {
-                db.collection("produtos_oficina").doc(id).delete();
-            }
+            if(confirm("Apagar?")) db.collection("produtos_oficina").doc(id).delete();
         }
 
         function resetForm() {
@@ -188,9 +184,10 @@
             document.getElementById('prod-nome').value = '';
             document.getElementById('prod-preco').value = '';
             document.getElementById('prod-img-url').value = '';
-            document.getElementById('progresso-txt').style.display = "none";
-            document.getElementById('form-title').innerText = "ADICIONAR NOVO ITEM";
-            document.getElementById('btn-main').innerText = "LANÇAR NO ESTOQUE";
+            document.getElementById('preview-img').style.display = "none";
+            document.getElementById('form-title').innerText = "NOVO PRODUTO";
+            document.getElementById('btn-main').innerText = "SALVAR NO ESTOQUE";
+            document.getElementById('btn-cancel').style.display = "none";
         }
 
         carregarLista();
