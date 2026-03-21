@@ -7,44 +7,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: 'Archivo Black', sans-serif; }
         
-        /* HEADER E ESTILO GERAL */
-        header { background: #111; padding: 20px; text-align: center; border-bottom: 4px solid #ff0000; }
-        .logo-oficina { font-family: 'Bebas Neue'; font-size: 3.5rem; color: #ff0000; text-shadow: 3px 3px #fbff00; }
+        /* RESTAURANDO LOGO E HEADER */
+        header { background: #000; padding: 30px 10px; text-align: center; border-bottom: 5px solid #ff0000; }
+        .logo-oficina { font-family: 'Bebas Neue'; font-size: 5rem; color: #ff0000; text-shadow: 4px 4px #fbff00; line-height: 1; }
         
-        .missao-box { background: #111; padding: 20px; text-align: center; border-bottom: 2px solid #333; }
-        #missao-texto { font-size: 0.9rem; color: #fbff00; letter-spacing: 1px; }
+        /* MISSÃO DINÂMICA */
+        .missao-box { background: #111; padding: 15px; text-align: center; border-bottom: 2px solid #333; }
+        #missao-texto { font-size: 0.85rem; color: #fbff00; text-transform: uppercase; }
 
-        /* SEÇÃO DE PROMOÇÕES (DESTAQUE) */
-        .promo-container { background: #fbff00; color: #000; padding: 15px; text-align: center; }
-        .promo-title { font-family: 'Bebas Neue'; font-size: 2rem; margin-bottom: 10px; }
-        .promo-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 10px; }
-        .card-promo { min-width: 150px; background: #000; color: #fff; padding: 10px; border-radius: 8px; border: 2px solid #ff0000; }
+        /* NAVEGAÇÃO DE CATEGORIAS (RESTAURADA) */
+        .cat-nav { display: flex; overflow-x: auto; background: #111; padding: 15px 10px; gap: 12px; border-bottom: 2px solid #222; }
+        .cat-btn { 
+            background: #ff0000; color: #fff; border: none; padding: 12px 25px; 
+            border-radius: 5px; font-family: 'Bebas Neue'; font-size: 1.2rem; 
+            cursor: pointer; white-space: nowrap; transition: 0.3s;
+        }
+        .cat-btn:hover { background: #fbff00; color: #000; }
 
-        /* CATEGORIAS */
-        .cat-nav { display: flex; overflow-x: auto; background: #222; padding: 10px; gap: 10px; }
-        .cat-btn { background: #ff0000; color: #fff; border: none; padding: 8px 15px; border-radius: 20px; font-family: 'Bebas Neue'; cursor: pointer; white-space: nowrap; }
-
-        /* VITRINE DE PRODUTOS */
-        .vitrine { display: grid; grid-template-columns: 1-1fr 1fr; gap: 15px; padding: 15px; }
-        @media (min-width: 600px) { .vitrine { grid-template-columns: repeat(4, 1fr); } }
+        /* VITRINE (ESTILO GRADE DO EDUARDO) */
+        .vitrine { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        @media (min-width: 768px) { .vitrine { grid-template-columns: repeat(4, 1fr); } }
         
-        .produto-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 10px; text-align: center; position: relative; }
-        .produto-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; height: 150px; object-fit: cover; }
-        .produto-nome { font-size: 0.8rem; margin-bottom: 5px; height: 35px; overflow: hidden; }
-        .produto-preco { color: #fbff00; font-size: 1.2rem; margin-bottom: 10px; }
-        .btn-add { background: #ff0000; color: #fff; border: none; width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .produto-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; text-align: center; }
+        .produto-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 5px; margin-bottom: 8px; }
+        .produto-nome { font-size: 0.75rem; height: 32px; overflow: hidden; margin-bottom: 5px; text-transform: uppercase; }
+        .produto-preco { color: #fbff00; font-size: 1.1rem; margin-bottom: 8px; }
+        .btn-add { background: #ff0000; color: #fff; border: none; width: 100%; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 4px; }
 
-        /* CARRINHO */
-        #carrinho-fixo { position: fixed; bottom: 20px; right: 20px; background: #fbff00; color: #000; padding: 15px; border-radius: 50px; cursor: pointer; box-shadow: 0 0 15px rgba(251, 255, 0, 0.5); z-index: 100; font-weight: bold; }
+        /* CARRINHO FIXO */
+        #carrinho-fixo { position: fixed; bottom: 20px; right: 20px; background: #fbff00; color: #000; padding: 15px 25px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         
-        /* MODAL DO CARRINHO */
-        #modal-cart { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; }
-        .cart-content { background: #111; border: 2px solid #ff0000; padding: 20px; border-radius: 15px; max-width: 500px; margin: auto; max-height: 80vh; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; }
-        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        /* MODAL CARRINHO */
+        #modal-cart { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 200; align-items: center; justify-content: center; }
+        .cart-content { background: #111; border: 2px solid #ff0000; padding: 20px; width: 90%; max-width: 400px; border-radius: 10px; }
+        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.8rem; }
+        .btn-finalizar { background: #25d366; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -54,14 +54,7 @@
 </header>
 
 <div class="missao-box">
-    <p id="missao-texto">Carregando missão da Oficina...</p>
-</div>
-
-<div id="section-promo" style="display:none;">
-    <div class="promo-container">
-        <h2 class="promo-title">🔥 PROMOÇÕES DO DIA 🔥</h2>
-        <div class="promo-scroll" id="lista-promo"></div>
-    </div>
+    <p id="missao-texto">CARREGANDO MISSÃO...</p>
 </div>
 
 <nav class="cat-nav">
@@ -82,11 +75,11 @@
 
 <div id="modal-cart">
     <div class="cart-content">
-        <h2 style="font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 15px;">SEU DROP</h2>
-        <div id="itens-no-carrinho"></div>
+        <h2 style="font-family: 'Bebas Neue'; color: #fbff00; margin-bottom: 15px;">SEU PEDIDO</h2>
+        <div id="itens-no-carrinho" style="max-height: 250px; overflow-y: auto;"></div>
         <h3 id="total-carrinho" style="margin-top: 15px; text-align: right; color: #fbff00;">TOTAL: R$ 0,00</h3>
         <button class="btn-finalizar" onclick="enviarPedidoWhatsApp()">FINALIZAR NO WHATSAPP</button>
-        <button onclick="fecharCarrinho()" style="background:none; color:#888; border:none; width:100%; margin-top:10px; cursor:pointer;">Continuar Comprando</button>
+        <button onclick="fecharCarrinho()" style="background:none; color:#888; border:none; width:100%; margin-top:15px; cursor:pointer;">VOLTAR</button>
     </div>
 </div>
 
@@ -107,34 +100,14 @@
 
     let carrinho = [];
 
-    // --- SINCRONIZAÇÃO DA MISSÃO ---
+    // MISSÃO DINÂMICA
     db.collection("config").doc("site_data").onSnapshot(doc => {
         if(doc.exists && doc.data().missao) {
             document.getElementById('missao-texto').innerText = doc.data().missao;
         }
     });
 
-    // --- CARREGAR PROMOÇÕES ---
-    db.collection("promocoes_oficina").onSnapshot(snap => {
-        const lista = document.getElementById('lista-promo');
-        const section = document.getElementById('section-promo');
-        lista.innerHTML = '';
-        if(snap.empty) return section.style.display = 'none';
-        
-        section.style.display = 'block';
-        snap.forEach(doc => {
-            const p = doc.data();
-            lista.innerHTML += `
-                <div class="card-promo">
-                    <img src="${p.img}" style="width:100%; border-radius:5px;">
-                    <div style="font-size:0.7rem; margin:5px 0;">${p.nome}</div>
-                    <div style="color:#fbff00;">R$ ${p.preco.toFixed(2)}</div>
-                    <button class="btn-add" style="font-size:0.6rem; padding:5px;" onclick="addCart('${p.nome}', ${p.preco})">ADD</button>
-                </div>`;
-        });
-    });
-
-    // --- CARREGAR PRODUTOS ---
+    // CARREGAR VITRINE
     function carregarProdutos(filtro = 'TODOS') {
         db.collection("produtos_oficina").onSnapshot(snap => {
             const vitrine = document.getElementById('vitrine-produtos');
@@ -157,51 +130,39 @@
     function filtrar(cat) { carregarProdutos(cat); }
     carregarProdutos();
 
-    // --- LÓGICA DO CARRINHO ---
+    // CARRINHO
     function addCart(nome, preco) {
         carrinho.push({ nome, preco });
         document.getElementById('cart-count').innerText = carrinho.length;
-        // SFX DE CLICK (Se você tiver o arquivo click.mpeg no Git)
-        new Audio('click.mpeg').play().catch(()=>{});
+        alert("Adicionado!");
     }
 
     function abrirCarrinho() {
+        if(carrinho.length === 0) return alert("O carrinho está vazio!");
         const modal = document.getElementById('modal-cart');
         const lista = document.getElementById('itens-no-carrinho');
         const totalTxt = document.getElementById('total-carrinho');
         modal.style.display = 'flex';
         lista.innerHTML = '';
         let total = 0;
-
-        carrinho.forEach((item, index) => {
+        carrinho.forEach(item => {
             total += item.preco;
-            lista.innerHTML += `
-                <div class="cart-item">
-                    <span>${item.nome}</span>
-                    <span>R$ ${item.preco.toFixed(2)}</span>
-                </div>`;
+            lista.innerHTML += `<div class="cart-item"><span>${item.nome}</span><span>R$ ${item.preco.toFixed(2)}</span></div>`;
         });
         totalTxt.innerText = `TOTAL: R$ ${total.toFixed(2)}`;
     }
 
     function fecharCarrinho() { document.getElementById('modal-cart').style.display = 'none'; }
 
-    // --- FINALIZAÇÃO WHATSAPP ---
+    // WHATSAPP
     function enviarPedidoWhatsApp() {
-        if(carrinho.length === 0) return alert("Escolha algo primeiro!");
-
         let msg = "*🔥 SALVE, FAMÍLIA! PEDIDO NOVO NA ÁREA! 🔥*\n\n";
-        msg += "Estou na vitrine e quero garantir essas peças:\n\n";
-        
         let total = 0;
         carrinho.forEach((item, i) => {
             msg += `*${i+1}.* ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
             total += item.preco;
         });
-
-        msg += `\n*TOTAL:* R$ ${total.toFixed(2)}\n`;
-        msg += "\n*🚀 JÁ SEPARA QUE O DROP É MEU!*";
-
+        msg += `\n*TOTAL:* R$ ${total.toFixed(2)}\n\n*🚀 JÁ SEPARA QUE O DROP É MEU!*`;
         const meuZap = "5511999999999"; // COLOQUE SEU NÚMERO AQUI
         window.open(`https://wa.me/${meuZap}?text=${encodeURIComponent(msg)}`, '_blank');
     }
